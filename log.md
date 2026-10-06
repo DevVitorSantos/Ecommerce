@@ -23,3 +23,6 @@
 **Testes/print:** nenhuma execução de código de aplicação nesta fase (apenas escrita de documentos e git). Prints dos testes da Fase 1 serão salvos em `tests/`.
 
 **Pendências:** ver seção "Fase 1" do `Linha do tempo.md`.
+
+**Commits desta sessão:**
+- `90592ab` — docs(brainstorm): planejamento inicial do Dopamina Ecommerce

@@ -8,7 +8,7 @@
 
 | # | Hash | Mensagem | Resumo |
 |---|------|----------|--------|
-| 1 | `__C1__` | `docs(brainstorm): planejamento inicial do Dopamina Ecommerce` | Cria `BRAINSTORM.md` (conceito, arquitetura de dados, engenharia de dados, plano de medição GA4, estratégia multi-touch, custos, riscos, stack), `Linha do tempo.md` (5 fases + marcos), `log.md` (primeira entrada) e `.gitignore`. Pesquisa de referências prévia. |
+| 1 | `90592ab` | `docs(brainstorm): planejamento inicial do Dopamina Ecommerce` | Cria `BRAINSTORM.md` (conceito, arquitetura de dados, engenharia de dados, plano de medição GA4, estratégia multi-touch, custos, riscos, stack), `Linha do tempo.md` (5 fases + marcos), `log.md` (primeira entrada) e `.gitignore`. Pesquisa de referências prévia. |
 
 ---
 
