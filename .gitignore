@@ -1,0 +1,33 @@
+# deps
+node_modules/
+.pnp
+.pnp.js
+
+# next
+.next/
+out/
+next-env.d.ts
+
+# build
+dist/
+build/
+
+# env
+.env
+.env.local
+.env*.local
+
+# logs
+*.log
+npm-debug.log*
+
+# os
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+
+# vercel
+.vercel/
