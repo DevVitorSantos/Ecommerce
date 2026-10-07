@@ -17,6 +17,7 @@
 | 7 | `e10887f` | `feat(web): ecommerce V1 em JavaScript` | Constrói o app sem TypeScript: `data/products.csv` (40 produtos) + validador, `web/` (lib, store Zustand, 9 rotas + `/api/orders`), lint 0 erros, build com 58 páginas estáticas. Evidência em `tests/build-v1-js.txt`. |
 | 8 | `b927cc8` | `docs: registra V1 JavaScript no historygit` | Adiciona a linha do commit 7 na tabela. |
 | 9 | `3888f02` | `feat(web): restyle no layout Nexus Store do Stitch` | Refaz o visual no tema claro Nexus (Jakarta, índigo, pills por departamento), novas rotas `/busca` e `/pedidos`, cupom funcional, PDP com combo cross-sell. Build OK + screenshots reais em `tests/`. |
+| 10 | `19c01aa` | `feat(web): produtos com fotos do Unsplash + ProductImage com fallback` | 40 fotos verificadas (200 OK) no `image_url`, componente com fallback emoji, fotos em cards/PDP/carrinho. Evidências em `tests/`. |
 
 ---
 
