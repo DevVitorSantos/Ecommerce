@@ -71,3 +71,17 @@
 **Testes/print:** nenhuma execução de código (escrita de documentos; commit a seguir).
 
 **Pendências:** Fase 1 — scaffold do Next.js + `data/products.csv`.
+
+---
+
+## 2026-10-07 — V1 construída em JavaScript (sem TypeScript)
+
+**O que foi feito:**
+1. Decisão: app **100% JavaScript** (sem TypeScript) — scaffold `create-next-app` com `--js`, `cacheComponents: false` no `next.config.mjs` (ISR clássico com `export const revalidate = 3600`).
+2. `data/products.csv` — 40 produtos fictícios recriado com correções (coluna `active`, SKU DOP-017, descrições com vírgula entre aspas); validado por `scripts/validate_products.mjs` → OK (40 linhas, 14 colunas).
+3. App `web/` (JS): `lib/catalog.js` (Supabase REST com fallback CSV), `lib/events.js` (dataLayer ecommerce), `store/cart.js` (Zustand + persist), páginas home, categoria, produto, carrinho, checkout 4 passos, confirmação, rastreio falso, `/lanca/[campaign]` (redirect com UTM), `/stats`, `POST /api/orders` (grava no Supabase se configurado, senão modo simulado).
+4. `npm run lint` → 0 erros; `npm run build` → 58 páginas estáticas (9 categorias + 40 produtos SSG, ISR 1h).
+
+**Testes/print:** saída do build salva em `tests/build-v1-js.txt`.
+
+**Pendências:** GA4_ID (instrumentação real), projeto Supabase + seed, deploy Vercel.

@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0b0517;
+  --foreground: #f5f0ff;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.dopamine-card {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #ff5ec4, #a78bfa, #22d3ee);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.badge-flash {
+  background: linear-gradient(90deg, #ff2d95, #ff7a00);
+}
