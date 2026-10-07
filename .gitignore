@@ -31,3 +31,21 @@ Thumbs.db
 
 # vercel
 .vercel/
+
+# offline-only: planejamento e evidências ficam só nesta máquina (não vão p/ o GitHub)
+BRAINSTORM.md
+Linha do tempo.md
+log.md
+historygit.md
+config.txt.rtf
+prompt.txt.rtf
+docs/
+tests/
+exports/
+sql/
+scripts/check_images.mjs
+scripts/set_images.mjs
+scripts/decode_stitch.mjs
+scripts/inspect_stitch.mjs
+scripts/inspect_stitch2.mjs
+scripts/validate_products.mjs
