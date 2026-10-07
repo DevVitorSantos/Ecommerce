@@ -22,6 +22,7 @@ export const useCart = create()(
                   name: product.name,
                   price: product.price,
                   emoji: product.emoji,
+                  image_url: product.image_url || null,
                   category: product.category,
                   qty,
                 },

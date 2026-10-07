@@ -6,6 +6,7 @@ import { brl, discount } from "@/lib/format";
 import { deptStyle } from "@/lib/departments";
 import { trackAddToCart, trackViewItem, toGaItem } from "@/lib/events";
 import { useCart } from "@/store/cart";
+import ProductImage from "@/components/ProductImage";
 
 export default function ProductDetail({ product, combo }) {
   const add = useCart((s) => s.add);
@@ -35,11 +36,10 @@ export default function ProductDetail({ product, combo }) {
       <div className="mt-4 grid gap-8 md:grid-cols-2">
         {/* galeria */}
         <div>
-          <div className="nx-card flex h-80 items-center justify-center bg-slate-50 text-[10rem] md:h-96">
-            {product.emoji}
-          </div>
+          <ProductImage product={product} className="nx-card h-80 text-[10rem] md:h-96" />
           <div className="mt-3 grid grid-cols-4 gap-2">
-            {[product.emoji, "📦", "✨", "🏷️"].map((e, i) => (
+            <ProductImage product={product} className="nx-card h-16 text-2xl" />
+            {["📦", "✨", "🏷️"].map((e, i) => (
               <div key={i} className="nx-card flex h-16 items-center justify-center bg-slate-50 text-2xl">
                 {e}
               </div>
@@ -137,7 +137,7 @@ export default function ProductDetail({ product, combo }) {
           <div className="mt-3 grid gap-3 sm:grid-cols-2">
             {combo.map((c) => (
               <div key={c.sku} className="flex items-center gap-3 rounded-xl border border-slate-100 p-3">
-                <span className="text-3xl">{c.emoji}</span>
+                <ProductImage product={c} className="h-12 w-12 shrink-0 rounded-lg text-xl" />
                 <div className="flex-1">
                   <div className="line-clamp-1 text-sm font-bold text-slate-900">{c.name}</div>
                   <div className="text-sm font-extrabold text-indigo-600">{brl(c.price)}</div>

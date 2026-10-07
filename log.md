@@ -99,3 +99,20 @@
 **Testes/print:** `tests/build-v2-nexus.txt`, `tests/home-hero-nexus.png`, `tests/home-grid-nexus.png`. Console do navegador limpo.
 
 **Pendências:** GA4_ID, Supabase + seed, deploy Vercel.
+
+---
+
+## 2026-10-07 — Base de produtos com fotos (Unsplash, licença livre)
+
+**O que foi feito:**
+1. Mapeada 1 foto do Unsplash (CDN `images.unsplash.com`, uso gratuito) para cada um dos 40 produtos — `scripts/set_images.mjs`.
+2. Todas as 40 URLs verificadas com HTTP 200 + `content-type: image/*` (`scripts/check_images.mjs` → "TODAS OK"; 1 troca necessária: almofada DOP-018).
+3. `data/products.csv` com `image_url` preenchido (40/40) + novo componente `ProductImage.jsx` (foto real com fallback para emoji).
+4. Cards, PDP (galeria + combo), carrinho e pedidos passaram a exibir fotos; `store` do carrinho guarda `image_url`.
+5. `npm run lint` → 0 erros (1 warning sobre `<img>` vs `next/image`, aceito); `npm run build` OK. Verificação visual em servidor `next start` com screenshots reais.
+
+**Testes/print:** `tests/build-v3-fotos.txt`, `tests/pdp-foto.png`, `tests/grid-fotos.png`.
+
+**Atenção:** o servidor dev da porta 3000 estava com cache antigo do CSV (mostrava emojis) — **reinicie o `npm run dev`** para ver as fotos.
+
+**Pendências:** GA4_ID, Supabase + seed (agora com `image_url`), deploy Vercel.

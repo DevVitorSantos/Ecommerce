@@ -5,6 +5,7 @@ import { brl, discount } from "@/lib/format";
 import { deptStyle } from "@/lib/departments";
 import { trackAddToCart, trackSelectItem, toGaItem } from "@/lib/events";
 import { useCart } from "@/store/cart";
+import ProductImage from "@/components/ProductImage";
 
 export default function ProductCard({ product }) {
   const add = useCart((s) => s.add);
@@ -14,12 +15,14 @@ export default function ProductCard({ product }) {
   return (
     <div className="nx-card nx-card-hover group flex flex-col overflow-hidden">
       <Link href={`/produto/${product.slug}`} onClick={() => trackSelectItem(toGaItem({ ...product, qty: 1 }))}>
-        <div className={`relative flex h-48 items-center justify-center bg-slate-50 text-7xl`}>
-          {off > 0 && (
-            <span className="nx-chip absolute left-3 top-3 bg-sky-600 text-white">-{off}% OFF</span>
-          )}
-          <span className="transition-transform duration-300 group-hover:scale-110">{product.emoji}</span>
-        </div>
+        <ProductImage
+          product={product}
+          className="relative h-48 text-7xl"
+          imgClassName="transition-transform duration-300 group-hover:scale-105"
+        />
+        {off > 0 && (
+          <span className="nx-chip absolute left-3 top-3 bg-sky-600 text-white">-{off}% OFF</span>
+        )}
         <div className="flex flex-1 flex-col p-4">
           <span className={`nx-chip w-fit ${dept.badge}`}>{product.category}</span>
           <h3 className="mt-2 line-clamp-2 text-sm font-bold text-slate-900">{product.name}</h3>

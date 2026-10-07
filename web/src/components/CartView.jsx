@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCart, cartTotal } from "@/store/cart";
 import { brl } from "@/lib/format";
 import { trackRemoveFromCart, trackViewCart, toGaItem } from "@/lib/events";
+import ProductImage from "@/components/ProductImage";
 
 const FREE_SHIPPING = 150;
 const SHIPPING = 19.9;
@@ -47,9 +48,7 @@ export default function CartView() {
       <div className="space-y-3">
         {items.map((item) => (
           <div key={item.sku} className="nx-card flex items-center gap-4 p-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-slate-50 text-3xl">
-              {item.emoji}
-            </div>
+            <ProductImage product={item} className="h-16 w-16 shrink-0 rounded-xl text-3xl" />
             <div className="flex-1">
               <div className="text-sm font-bold text-slate-900">{item.name}</div>
               <div className="text-xs text-slate-400">{brl(item.price)} · {item.category}</div>
