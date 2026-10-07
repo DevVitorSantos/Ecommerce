@@ -26,6 +26,8 @@
 | 16 | `bd4e302` | `feat(web): instala Google Tag Manager GTM-5RLXF4BF` | Snippet GTM no layout raiz (todas as páginas) + noscript, ID via env com fallback, verificado no HTML servido. |
 | 17 | `040f26f` | `docs: registra GTM no historygit` | Adiciona as linhas dos commits 15–16 na tabela. |
 | 18 | `db0fba4` | `refactor(web): remove gtag direto — GA4 via GTM` | Remove `gtag.js`/`gtag config` do layout (GA4 dispara pela tag no GTM, sem duplicar `page_view`); mantém `consent default denied` via shim `beforeInteractive`. Verificado no HTML. |
+| 19 | `9806da2` | `docs: registra remocao do gtag direto no historygit` | Adiciona as linhas dos commits 17–18 na tabela. |
+| 20 | `6f2196b` | `feat(web): Departamentos linka home; evento apply_coupon` | "☰ Departamentos" vira link `/`; novo evento custom `apply_coupon` (+ `coupon` real em begin_checkout/purchase em vez de hardcoded); cupom gravado no pedido. Verificado no dataLayer. |
 
 ---
 
