@@ -18,6 +18,8 @@
 | 8 | `b927cc8` | `docs: registra V1 JavaScript no historygit` | Adiciona a linha do commit 7 na tabela. |
 | 9 | `3888f02` | `feat(web): restyle no layout Nexus Store do Stitch` | Refaz o visual no tema claro Nexus (Jakarta, índigo, pills por departamento), novas rotas `/busca` e `/pedidos`, cupom funcional, PDP com combo cross-sell. Build OK + screenshots reais em `tests/`. |
 | 10 | `19c01aa` | `feat(web): produtos com fotos do Unsplash + ProductImage com fallback` | 40 fotos verificadas (200 OK) no `image_url`, componente com fallback emoji, fotos em cards/PDP/carrinho. Evidências em `tests/`. |
+| 11 | `949a997` | `docs: registra fotos dos produtos no historygit` | Adiciona a linha do commit 10 na tabela. |
+| 12 | `da44587` | `feat(web): banner de consentimento LGPD com Consent Mode v2` | `CookieConsent.jsx` (aceitar/recusar + `consent update`), `CookieReset.jsx` no rodapé, verificado no navegador. Print em `tests/banner-consent.png`. |
 
 ---
 
