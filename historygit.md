@@ -11,6 +11,8 @@
 | 1 | `90592ab` | `docs(brainstorm): planejamento inicial do Dopamina Ecommerce` | Cria `BRAINSTORM.md` (conceito, arquitetura de dados, engenharia de dados, plano de medição GA4, estratégia multi-touch, custos, riscos, stack), `Linha do tempo.md` (5 fases + marcos), `log.md` (primeira entrada) e `.gitignore`. Pesquisa de referências prévia. |
 | 2 | `b163168` | `docs: registra commit 90592ab no historygit e no log` | Cria `historygit.md` com a linha do commit 1 e atualiza `log.md` com a seção de commits da sessão. |
 | 3 | `6439e6d` | `docs(brainstorm): analitica unificada no BigQuery (substitui DuckDB)` | Atualiza `BRAINSTORM.md` (diagrama, §3.2 export com load job, §3.3 camada analítica só BigQuery, §5.2 modelos em SQL, §9 stack), `Linha do tempo.md` (Fases 2 e 3) e `log.md`. DuckDB vira plano B opcional. |
+| 4 | `1229496` | `docs: registra commit 6439e6d no historygit` | Adiciona a linha do commit 3 na tabela. |
+| 5 | `c7b7837` | `docs(brainstorm): medallion hibrido bronze BigQuery + silver/gold Databricks Free` | Reestrutura a camada 3 em Medallion (bronze raw no BigQuery, silver/gold no Databricks Free Edition), define dataviz (Databricks SQL/Genie + Looker Studio), atualiza custos, stack, próximos passos, Fases 2/3 e marco M2.5. |
 
 ---
 
