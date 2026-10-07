@@ -7,7 +7,7 @@
 
 ---
 
-## Fase 0 — Brainstorm e documentação (ATUAL) ✅
+## Fase 0 — Brainstorm e documentação ✅
 - [x] Pesquisar referências de mercado (Google, GitHub, Reddit, YouTube, docs oficiais GA4).
 - [x] Analisar concorrência: dopaminashop.com.br, dopamineshop.co, dopamine-shop.com, foodnevercomes, lojafalsa, compreinada, dopaminesite.app.
 - [x] Definir conceito, diferencial (store + data platform) e stack.
@@ -18,12 +18,13 @@
 
 **Saída desta fase:** documentos de planejamento versionados no git.
 
-## Fase 1 — MVP do site (próxima)
-- [ ] Scaffold Next.js + TypeScript + Tailwind.
-- [ ] `data/products.csv` (catálogo inicial ~40 produtos) + geração build-time.
-- [ ] Home, categoria, PDP, carrinho (localStorage/Zustand), checkout simulado em 4 passos, confirmação e rastreio falso.
-- [ ] Instrumentação GA4 (tabela de eventos da seção 4 do brainstorm).
-- [ ] Deploy na Vercel Hobby + validação em DebugView (prints em `tests/`).
+## Fase 1 — MVP do site (EM ANDAMENTO)
+- [x] Scaffold Next.js + Tailwind + Zustand (**JavaScript**, sem TypeScript — decisão 2026-10-07; `cacheComponents: false` + ISR 1h).
+- [x] `data/products.csv` (40 produtos) + fotos do Unsplash (`image_url`, 40/40 verificadas) + validador `scripts/validate_products.mjs`.
+- [x] Home, categoria, PDP, carrinho (localStorage/Zustand), checkout simulado em 4 passos, confirmação e rastreio falso + busca, pedidos, `/stats`, cupom DOPAMINA10.
+- [x] Instrumentação de eventos (14 pushes no dataLayer, `docs/MEASUREMENT.md`, anti-duplicidade) + GTM instalado (GTM-5RLXF4BF) + banner LGPD/Consent Mode v2.
+- [ ] Criar propriedade GA4 + tag GA4 dentro do GTM + `NEXT_PUBLIC_GA4_ID` (se necessário).
+- [ ] Deploy na Vercel Hobby + validação em Preview (GTM) e DebugView (GA4) com prints em `tests/`.
 
 ## Fase 2 — Engenharia de dados (bronze + Medallion)
 - [ ] Conta GCP (com fatura, dentro do free tier) + link de export GA4 → BigQuery (dataset **bronze**, raw web+app).
