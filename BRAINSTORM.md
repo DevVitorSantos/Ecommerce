@@ -44,15 +44,15 @@
    │ CAMADA 1: GA4      │   │ CAMADA 2: BASE DE PEDIDOS PRÓPRIA    │
    │ gtag ecommerce      │   │ POST /api/orders (serverless)       │
    │ + UTM simulados     │   │ → Supabase free (Postgres)          │
-   │ → BigQuery export   │   │ → exportação diária p/ CSV/Parquet  │
-   │   diário (grátis)   │   │ (pedidos + itens)                   │
+   │ → BigQuery export   │   │ → load job diário p/ BigQuery       │
+   │   diário (grátis)   │   │   + CSV backup no git               │
    └────┬───────────────┘   └──────┬───────────────────────────────┘
         │                          │
         └────────────┬─────────────┘
                      ▼
         ┌────────────────────────────────┐
         │ CAMADA 3: Marts analíticos     │
-        │ BigQuery SQL  +  DuckDB local   │
+        │ BigQuery SQL (motor único)     │
         │ mart_attribution_paths         │
         │ mart_funnel / mart_products    │
         └───────┬───────────────┬────────┘
@@ -103,18 +103,21 @@ order_items (
 
 **Escrita:** `POST /api/orders` (Route Handler da Vercel) — valida payload, grava no Supabase. Fallback: se o Supabase cair, o evento `purchase` do GA4 ainda registra. Rate-limit por `order_id` para deduplicar.
 
-**Export:** script `scripts/export_orders.mjs` (cron Vercel ou GitHub Action gratuita) → `exports/orders_YYYY-MM-DD.csv` versionado no git (git-as-data-lake) → ingerido por DuckDB/Looker.
+**Export:** script `scripts/export_orders.mjs` (cron Vercel ou GitHub Action gratuita) → duas saídas:
+1. **Load job para o BigQuery** (`orders` + `order_items`) — fonte analítica oficial, junto do export de eventos do GA4 que já cai lá.
+2. `exports/orders_YYYY-MM-DD.csv` versionado no git — **backup human-readable** (git-as-data-lake), não é mais usado para análise.
 
-### 3.3 Camada analítica (Camada 3)
+### 3.3 Camada analítica (Camada 3) — BigQuery como motor único
 | Camada | Ferramenta | Custo |
 |---|---|---|
-| RAW | GA4 BigQuery `events_*` (export **diário**, ≤1M eventos/dia) + tabela `orders` | $0 |
+| RAW | GA4 BigQuery `events_*` (export **diário**, ≤1M eventos/dia) + tabelas `orders`/`order_items` (load job diário) | $0 |
 | Staging | Views SQL: `UNNEST(items)`, stitch por `user_pseudo_id`, normalização de UTMs | $0 |
 | Marts | `mart_funnel`, `mart_attribution_paths`, `mart_products`, `mart_retention` | $0 |
-| Local | **DuckDB** lendo CSVs/Parquet (atribuição offline, notebooks) | $0 |
-| BI | **Looker Studio** (GA4 + BigQuery + Google Sheets) | $0 |
+| BI | **Looker Studio** conectado ao BigQuery | $0 |
 
-> ⚠️ **BigQuery sandbox** não tem conta de fatura e **expira tabelas em ~60 dias**. Recomendação: criar conta de fatura e ficar **dentro do free tier** (10 GiB de storage + 1 TiB de query/mês) → custo real $0 com retenção permanente.
+> **Decisão:** analítica **100% no BigQuery** — ele substitui o DuckDB: os eventos do GA4 já nascem lá, o Looker Studio conecta nativamente e os modelos de atribuição (§5) rodam em SQL no mesmo projeto. Menos peças, uma só fonte de verdade. **DuckDB fica como plano B opcional** (análise local sem internet/só CSVs), não faz parte do caminho crítico.
+
+> ⚠️ **BigQuery sandbox** não tem conta de fatura e **expira tabelas em ~60 dias**. Recomendação: criar conta de fatura e ficar **dentro do free tier** (10 GiB de storage + 1 TiB de query/mês) → custo real $0 com retenção permanente. Nossa escala (milhares de eventos) fica ordens de longe do limite.
 
 ### 3.4 Gerador de dados sintéticos (para desenvolver dashboard antes de ter tráfego)
 - `scripts/simulate_journeys.py` gera jornadas sintéticas em **CSV local** (nunca dentro do GA4 — inflar dado de propriedade GA4 viola os termos).
@@ -166,6 +169,7 @@ Criamos nós mesmos as "campanhas". Em `data/campaigns.csv`:
 | `ig_reel_01` | instagram | social | Reels | `/?utm_source=instagram&utm_medium=social&utm_campaign=ig_reel_01` |
 | `tiktok_01` | tiktok | social | TikTok | ... |
 | `google_brand` | google | cpc | Search (simulado) | ... |
+| `ig_brand` | instagram | cpc | ads ( simulado ) | ... |
 | `email_news` | newsletter | email | E-mail | ... |
 | `wa_group` | whatsapp | referral | Grupo | ... |
 | `yt_shorts` | youtube | video | Shorts | ... |
@@ -175,7 +179,7 @@ Cada link é um **cartão de visita** gerado em `/lanca/[campaign_id]` (página 
 
 ### 5.2 Stitching e modelos
 - Caminho = sequência de `session_source/medium/campaign` ordenada por `event_timestamp` agrupada por `user_pseudo_id`.
-- **Modelos calculados por nós** (SQL/DuckDB): first-click, last-click (non-direct), linear, time-decay, position-based (40/20/40), e assistências.
+- **Modelos calculados por nós** (SQL no BigQuery): first-click, last-click (non-direct), linear, time-decay, position-based (40/20/40), e assistências.
 - GA4 nativo: `Advertising > Attribution > Conversion Paths` + `Explorations > Path exploration`.
 - ⚠️ **DDA do GA4 exige ~400 conversões/mês** para funcionar; abaixo disso cai em *threshold*. Por isso calculamos os modelos rule-based nós mesmos — é o principal "truque" do projeto.
 - Cross-device: usar `user_id` pseudo-anônimo (hash do `client_id` salvo em localStorage) → GA4 costura web+app.
@@ -233,14 +237,14 @@ Funil (view → cart → checkout → purchase), drop-off por passo, tamanho mé
 
 | Camada | Decisão | Alternativa descartada |
 |---|---|---|
-| Frontend | **Next.js (App Router) + TS + Tailwind + Zustand** | Astro (menos ecosistema de API), Vite SPA (SSR/SEO) |
+| Frontend | **Next.js (App Router) + Tailwind + Zustand** | Astro (menos ecosistema de API), Vite SPA (SSR/SEO) |
 | Catálogo | **CSV no repo → gerado no build** | API/DB (custo e complexidade) |
 | Carrinho | localStorage | backend de carrinho (desnecessário) |
 | Pedidos | **Supabase (Postgres free)** via `/api/orders` | Google Sheets (rate limit), D1 (mais um vendor) |
 | Analytics | **GA4 + BigQuery export** | só GA4 (sem dado bruto) |
-| BI | **Looker Studio + DuckDB local** | Metabase self-host (mais infra) |
+| Motor analítico | **BigQuery SQL único** (eventos + pedidos + marts + Looker) | DuckDB (plano B local), Metabase self-host (mais infra) |
 | Deploy | **Vercel Hobby** | Netlify (empate; Vercel = Next nativo) |
-| App | **TWA/Bubblewrap** | Capacitor (app maior, mais rejeição) |
+| App | **Android nativo** | Aplicativo postado na playstore |
 
 ---
 

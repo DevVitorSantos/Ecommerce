@@ -26,3 +26,19 @@
 
 **Commits desta sessão:**
 - `90592ab` — docs(brainstorm): planejamento inicial do Dopamina Ecommerce
+
+---
+
+## 2026-10-06 — Decisão analítica: BigQuery substitui o DuckDB
+
+**O que foi feito:**
+1. Discussão sobre o papel do DuckDB na arquitetura; decisão de usar o **BigQuery como motor analítico único**.
+2. Motivos: o export de eventos do GA4 já cai no BigQuery, o Looker Studio conecta nativamente, uma só fonte de verdade, menos peças e custo $0 dentro do free tier (1 TiB query + 10 GiB storage/mês — nossa escala fica ordens de longe do limite).
+3. DuckDB rebaixado a **plano B opcional** (análise local offline só com CSVs), fora do caminho crítico.
+4. Alterações:
+   - `BRAINSTORM.md` — diagrama da arquitetura (camada 3 100% BigQuery), §3.2 (export = load job BigQuery + CSV backup no git), §3.3 (tabela da camada analítica sem linha local; nota de decisão), §5.2 (modelos em SQL no BigQuery), §9 (nova linha "Motor analítico").
+   - `Linha do tempo.md` — Fase 2 (Conta GCP com fatura, load job, `sql/` no BigQuery) e Fase 3 (SQL dos modelos e dashboard Looker no BigQuery; notebook DuckDB substituído por consultas versionadas em `sql/`).
+
+**Testes/print:** nenhuma execução de código (escrita de documentos e git).
+
+**Pendências:** Fase 1 — scaffold do Next.js + `data/products.csv`.

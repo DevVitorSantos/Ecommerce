@@ -26,17 +26,17 @@
 - [ ] Deploy na Vercel Hobby + validação em DebugView (prints em `tests/`).
 
 ## Fase 2 — Engenharia de dados
-- [ ] Conta GCP + link de export GA4 → BigQuery (diário, free tier).
+- [ ] Conta GCP (com fatura, dentro do free tier) + link de export GA4 → BigQuery (diário).
 - [ ] Tabelas `orders`/`order_items` no Supabase + `POST /api/orders`.
-- [ ] Script de export diário → `exports/*.csv` (GitHub Action).
-- [ ] Views de staging e primeiros marts em SQL (`sql/`).
+- [ ] Script de export diário → **load job no BigQuery** + `exports/*.csv` no git (backup human-readable).
+- [ ] Views de staging e primeiros marts em SQL (`sql/`, rodam no BigQuery).
 
 ## Fase 3 — Análise multi-touch
 - [ ] `data/campaigns.csv` + página `/lanca/[campaign_id]` de geração de links UTM.
-- [ ] SQL de caminhos + modelos: first/last/linear/time-decay/position-based + assistências.
-- [ ] Dashboard Looker Studio (GA4 + BigQuery + Sheets).
-- [ ] Página pública `/stats` ("dinheiro não gasto", top produtos, funil).
-- [ ] Notebook DuckDB reproduzível (`analysis/`).
+- [ ] SQL de caminhos + modelos: first/last/linear/time-decay/position-based + assistências (no BigQuery).
+- [ ] Dashboard Looker Studio conectado ao BigQuery.
+- [ ] Página pública `/stats` ("dinheiro não gasto", top produtos, funil) alimentada pelo BigQuery.
+- [ ] Consultas reproduzíveis versionadas em `sql/` (camadas staging → marts → dashboards).
 
 ## Fase 4 — App Play Store
 - [ ] PWA (manifest, service worker, ícones, Lighthouse ≥ 80).
