@@ -157,3 +157,16 @@
 **Atenção:** o gtag direto do GA4 continua ativo; quando criar a tag do GA4 **dentro do GTM**, remova o bloco gtag do layout para não duplicar `page_view`.
 
 **Pendências:** criar a tag GA4 dentro do container GTM + DebugView (Tag Assistant).
+
+---
+
+## 2026-10-07 — gtag direto removido (GA4 passa a ser via GTM)
+
+**O que foi feito:**
+1. Removido o bloco `gtag.js` + `gtag('config')` do `layout.js` — GA4 agora dispara só pela tag dentro do GTM (sem `page_view` duplicado).
+2. Mantido o `consent default denied` (padrão oficial do Google para GTM): shim `dataLayer` + `gtag()` com `beforeInteractive` acima do snippet do container. O banner continua fazendo `consent update` pelo mesmo caminho.
+3. Verificado no HTML servido: `consent default` presente, `gtag/js?id=G-` ausente.
+
+**Testes/print:** `npm run lint` 0 erros; `npm run build` OK; inspeção do HTML.
+
+**Pendências:** validar no Preview do GTM + DebugView do GA4.
