@@ -24,6 +24,9 @@ export default function CheckoutFlow() {
   const value = cartTotal(items);
   const [step, setStep] = useState(0);
   const startedRef = useRef(false);
+  const firedStepsRef = useRef(new Set()); // add_shipping/add_payment disparam 1x (voltar+continuar não repete)
+  const [placing, setPlacing] = useState(false); // anti-duplo-clique no finalizar
+  const placingRef = useRef(false); // guarda síncrona (state atrasa 1 tick)
   const [error, setError] = useState(null);
   const [form, setForm] = useState({
     name: "",
@@ -62,12 +65,21 @@ export default function CheckoutFlow() {
       return;
     }
     setError(null);
-    if (step === 1) trackAddShippingInfo(items.map(toGaItem), subtotal);
-    if (step === 2) trackAddPaymentInfo(items.map(toGaItem), subtotal);
+    if (step === 1 && !firedStepsRef.current.has("shipping")) {
+      firedStepsRef.current.add("shipping");
+      trackAddShippingInfo(items.map(toGaItem), subtotal);
+    }
+    if (step === 2 && !firedStepsRef.current.has("payment")) {
+      firedStepsRef.current.add("payment");
+      trackAddPaymentInfo(items.map(toGaItem), subtotal);
+    }
     setStep((s) => Math.min(STEPS.length - 1, s + 1));
   };
 
   const finish = async () => {
+    if (placingRef.current) return; // ignora cliques duplos → 1 purchase por pedido
+    placingRef.current = true;
+    setPlacing(true);
     const [userPseudoId, sessionId] = await Promise.all([getGaClientId(), getGaSessionId()]);
     const order = {
       code: makeOrderCode(),
@@ -200,11 +212,12 @@ export default function CheckoutFlow() {
           ) : (
             <button
               type="button"
-              className="flex-1 rounded-lg bg-emerald-600 py-2.5 font-bold text-white hover:bg-emerald-700"
+              className="flex-1 rounded-lg bg-emerald-600 py-2.5 font-bold text-white hover:bg-emerald-700 disabled:opacity-60"
               onClick={finish}
+              disabled={placing}
               data-testid="checkout-finish"
             >
-              Confirmar pedido
+              {placing ? "Processando…" : "Confirmar pedido"}
             </button>
           )}
         </div>

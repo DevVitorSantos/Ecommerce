@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { brl, discount } from "@/lib/format";
 import { deptStyle } from "@/lib/departments";
 import { trackAddToCart, trackViewItem, toGaItem } from "@/lib/events";
@@ -12,11 +12,14 @@ export default function ProductDetail({ product, combo }) {
   const add = useCart((s) => s.add);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
+  const viewedRef = useRef(null);
   const off = discount(product.price, product.price_list);
   const dept = deptStyle(product.category);
   const installment = product.price / 10;
 
   useEffect(() => {
+    if (viewedRef.current === product.slug) return; // evita view_item duplicado (remount/HMR)
+    viewedRef.current = product.slug;
     trackViewItem(toGaItem({ ...product, qty: 1 }));
   }, [product]);
 

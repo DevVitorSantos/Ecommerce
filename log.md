@@ -183,3 +183,19 @@
 **Testes/print:** carrinho com item via navegador → aplicar DOPAMINA10 → `apply_coupon` presente no dataLayer + "Cupom aplicado" visível; `npm run lint` 0 erros; build OK.
 
 **Pendências:** Preview GTM + DebugView.
+
+---
+
+## 2026-10-07 — Auditoria anti-duplicidade de eventos + docs/MEASUREMENT.md
+
+**O que foi feito:**
+1. Auditoria dos 14 pushes do dataLayer: sem StrictMode/gtag duplo; 4 fontes reais de repetição corrigidas com guardas síncronos (refs — state atrasa 1 tick e não segura clique duplo):
+   - `view_item` 1x por produto (`viewedRef` na PDP);
+   - `add_shipping_info`/`add_payment_info` 1x (voltar+continuar não repete);
+   - `purchase` 1x (trava `placingRef` + botão "Processando…");
+   - `apply_coupon` 1x por cupom (o teste com 3 cliques no mesmo tick pegou a 1ª versão com state — corrigido com ref).
+2. Criado `docs/MEASUREMENT.md`: mapa evento→quando→parâmetros, regras anti-duplicidade e roteiro de validação (Preview + DebugView).
+
+**Testes/print:** PDP → `view_item: 1`; 3 cliques em Aplicar → `apply_coupon: 1`; lint 0 erros; build OK.
+
+**Pendências:** Preview GTM + DebugView.

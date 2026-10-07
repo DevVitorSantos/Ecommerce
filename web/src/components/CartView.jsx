@@ -18,6 +18,7 @@ export default function CartView() {
   const router = useRouter();
   const [couponInput, setCouponInput] = useState(coupon || "");
   const couponOk = coupon === "DOPAMINA10";
+  const firedCouponRef = useRef(false); // guarda síncrona: cliques no mesmo tick não duplicam
 
   useEffect(() => {
     if (items.length > 0 && !tracked.current) {
@@ -86,6 +87,7 @@ export default function CartView() {
             onChange={(e) => {
               setCouponInput(e.target.value);
               setCoupon(null);
+              firedCouponRef.current = false;
             }}
           />
           <button
@@ -93,8 +95,11 @@ export default function CartView() {
             className="nx-btn-ghost whitespace-nowrap px-3 text-sm"
             onClick={() => {
               const ok = couponInput.trim().toUpperCase() === "DOPAMINA10";
+              if (ok && !firedCouponRef.current) {
+                firedCouponRef.current = true;
+                trackApplyCoupon("DOPAMINA10", value * 0.1, value);
+              }
               setCoupon(ok ? "DOPAMINA10" : null);
-              if (ok) trackApplyCoupon("DOPAMINA10", value * 0.1, value);
             }}
           >
             Aplicar
