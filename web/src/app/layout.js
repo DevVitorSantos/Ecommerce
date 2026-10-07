@@ -145,7 +145,15 @@ export default async function RootLayout({ children }) {
             </div>
           </div>
           <div className="border-t border-slate-100 py-4 text-center text-xs text-slate-400">
-            dopamina. © 2026 — feita para gerar dados, não boletos.
+            dopamina. © 2026 — feita para gerar dados, não boletos.{" "}
+            <a
+              href="https://wa.me/5521965076858?text=Ol%C3%A1%2C%20acabei%20de%20vir%20do%20seu%20site%3A%20http%3A%2F%2Fdopaminaloja.com.br%2F%0A"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-slate-500 hover:text-indigo-600"
+            >
+              Desenvolvido por Vitor Santos
+            </a>
           </div>
         </footer>
       </body>
