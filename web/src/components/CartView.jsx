@@ -1,17 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart, cartTotal } from "@/store/cart";
 import { brl } from "@/lib/format";
 import { trackRemoveFromCart, trackViewCart, toGaItem } from "@/lib/events";
 
+const FREE_SHIPPING = 150;
+const SHIPPING = 19.9;
+
 export default function CartView() {
-  const { items, remove, setQty, clear } = useCart();
+  const { items, remove, setQty, clear, coupon, setCoupon } = useCart();
   const value = cartTotal(items);
   const tracked = useRef(false);
   const router = useRouter();
+  const [couponInput, setCouponInput] = useState(coupon || "");
+  const couponOk = coupon === "DOPAMINA10";
 
   useEffect(() => {
     if (items.length > 0 && !tracked.current) {
@@ -22,68 +27,111 @@ export default function CartView() {
 
   if (items.length === 0) {
     return (
-      <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-10 text-center">
+      <div className="nx-card mt-8 p-10 text-center">
         <div className="text-5xl">🛒</div>
-        <p className="mt-3 text-white/70">seu vazio está bem organizado.</p>
-        <Link href="/" className="mt-4 inline-block rounded-xl bg-gradient-to-r from-fuchsia-500 to-violet-500 px-5 py-2.5 text-sm font-bold">
-          ver produtos
+        <p className="mt-3 font-semibold text-slate-700">Seu carrinho está vazio.</p>
+        <p className="text-sm text-slate-400">Um vazio bem organizado, pelo menos.</p>
+        <Link href="/" className="nx-btn-primary mt-4 inline-block px-5 py-2.5 text-sm">
+          Ver produtos
         </Link>
       </div>
     );
   }
 
+  const discountCoupon = couponOk ? value * 0.1 : 0;
+  const shipping = value - discountCoupon >= FREE_SHIPPING ? 0 : SHIPPING;
+  const total = value - discountCoupon + shipping;
+
   return (
-    <div className="mt-6 space-y-4">
-      {items.map((item) => (
-        <div key={item.sku} className="dopamine-card flex items-center gap-4 rounded-2xl p-4">
-          <div className="text-3xl">{item.emoji}</div>
-          <div className="flex-1">
-            <div className="text-sm font-semibold">{item.name}</div>
-            <div className="text-xs text-white/50">{brl(item.price)} · {item.category}</div>
+    <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
+      <div className="space-y-3">
+        {items.map((item) => (
+          <div key={item.sku} className="nx-card flex items-center gap-4 p-4">
+            <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-slate-50 text-3xl">
+              {item.emoji}
+            </div>
+            <div className="flex-1">
+              <div className="text-sm font-bold text-slate-900">{item.name}</div>
+              <div className="text-xs text-slate-400">{brl(item.price)} · {item.category}</div>
+            </div>
+            <div className="flex items-center rounded-lg border border-slate-200 text-sm">
+              <button type="button" className="px-2.5 py-1 text-slate-500" onClick={() => setQty(item.sku, item.qty - 1)}>−</button>
+              <span className="w-6 text-center font-bold">{item.qty}</span>
+              <button type="button" className="px-2.5 py-1 text-slate-500" onClick={() => setQty(item.sku, item.qty + 1)}>+</button>
+            </div>
+            <div className="w-24 text-right text-sm font-extrabold text-slate-900">{brl(item.price * item.qty)}</div>
+            <button
+              type="button"
+              className="text-xs text-slate-400 hover:text-red-500"
+              onClick={() => {
+                remove(item.sku);
+                trackRemoveFromCart(toGaItem(item));
+              }}
+            >
+              remover
+            </button>
           </div>
-          <div className="flex items-center rounded-lg border border-white/15 text-sm">
-            <button type="button" className="px-2.5 py-1" onClick={() => setQty(item.sku, item.qty - 1)}>−</button>
-            <span className="w-6 text-center">{item.qty}</span>
-            <button type="button" className="px-2.5 py-1" onClick={() => setQty(item.sku, item.qty + 1)}>+</button>
-          </div>
-          <div className="w-24 text-right text-sm font-bold">{brl(item.price * item.qty)}</div>
+        ))}
+        <button type="button" className="text-xs text-slate-400 hover:text-slate-600" onClick={clear}>
+          esvaziar carrinho
+        </button>
+      </div>
+
+      <div className="nx-card h-fit p-5">
+        <h2 className="font-extrabold text-slate-900">Resumo do pedido</h2>
+        <div className="mt-3 flex gap-2">
+          <input
+            className="nx-input"
+            placeholder="Cupom (tente DOPAMINA10)"
+            value={couponInput}
+            onChange={(e) => {
+              setCouponInput(e.target.value);
+              setCoupon(null);
+            }}
+          />
           <button
             type="button"
-            className="text-xs text-white/40 hover:text-red-400"
-            onClick={() => {
-              remove(item.sku);
-              trackRemoveFromCart(toGaItem(item));
-            }}
+            className="nx-btn-ghost whitespace-nowrap px-3 text-sm"
+            onClick={() => setCoupon(couponInput.trim().toUpperCase() === "DOPAMINA10" ? "DOPAMINA10" : null)}
           >
-            remover
+            Aplicar
           </button>
         </div>
-      ))}
-
-      <div className="dopamine-card rounded-2xl p-4">
-        <div className="flex justify-between text-sm text-white/60">
-          <span>subtotal</span>
-          <span>{brl(value)}</span>
-        </div>
-        <div className="mt-1 flex justify-between text-sm text-white/60">
-          <span>frete de ilusão</span>
-          <span>grátis (é mentira)</span>
-        </div>
-        <div className="mt-2 flex justify-between text-lg font-black">
-          <span>total simulado</span>
-          <span>{brl(value)}</span>
+        {couponOk && <p className="mt-1 text-xs font-semibold text-emerald-600">✓ Cupom aplicado: -10% de mentira</p>}
+        <div className="mt-4 space-y-1.5 text-sm">
+          <div className="flex justify-between text-slate-500">
+            <span>Subtotal</span>
+            <span>{brl(value)}</span>
+          </div>
+          {discountCoupon > 0 && (
+            <div className="flex justify-between text-emerald-600">
+              <span>Cupom DOPAMINA10</span>
+              <span>-{brl(discountCoupon)}</span>
+            </div>
+          )}
+          <div className="flex justify-between text-slate-500">
+            <span>Frete</span>
+            <span>{shipping === 0 ? "Grátis" : brl(shipping)}</span>
+          </div>
+          {shipping > 0 && (
+            <p className="text-xs text-slate-400">
+              Faltam {brl(FREE_SHIPPING - (value - discountCoupon))} para o frete grátis
+            </p>
+          )}
+          <div className="flex justify-between border-t border-slate-100 pt-2 text-lg font-extrabold text-slate-900">
+            <span>Total</span>
+            <span>{brl(total)}</span>
+          </div>
         </div>
         <button
           type="button"
-          className="mt-4 w-full rounded-xl bg-gradient-to-r from-fuchsia-500 to-violet-500 py-3 font-bold hover:opacity-90"
+          className="nx-btn-primary mt-4 w-full py-3 font-bold"
           onClick={() => router.push("/checkout")}
           data-testid="go-checkout"
         >
-          finalizar compra simulada
+          Finalizar compra
         </button>
-        <button type="button" className="mt-2 w-full text-xs text-white/40 hover:text-white" onClick={clear}>
-          esvaziar carrinho
-        </button>
+        <p className="mt-2 text-center text-xs text-slate-400">nada será cobrado. é tudo cenário.</p>
       </div>
     </div>
   );

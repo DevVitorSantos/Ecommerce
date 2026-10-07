@@ -1,77 +1,162 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { brl, discount } from "@/lib/format";
+import { deptStyle } from "@/lib/departments";
 import { trackAddToCart, trackViewItem, toGaItem } from "@/lib/events";
 import { useCart } from "@/store/cart";
 
-export default function ProductDetail({ product }) {
+export default function ProductDetail({ product, combo }) {
   const add = useCart((s) => s.add);
   const [qty, setQty] = useState(1);
   const [added, setAdded] = useState(false);
   const off = discount(product.price, product.price_list);
+  const dept = deptStyle(product.category);
+  const installment = product.price / 10;
 
   useEffect(() => {
     trackViewItem(toGaItem({ ...product, qty: 1 }));
   }, [product]);
 
   return (
-    <div className="mx-auto grid max-w-5xl gap-8 px-4 py-10 md:grid-cols-2">
-      <div className="flex h-72 items-center justify-center rounded-3xl bg-gradient-to-br from-fuchsia-500/25 via-violet-500/10 to-cyan-400/10 text-9xl md:h-96">
-        {product.emoji}
-      </div>
-      <div>
-        <div className="text-xs uppercase tracking-wide text-white/50">{product.category}</div>
-        <h1 className="mt-1 text-3xl font-black">{product.name}</h1>
-        <p className="mt-3 text-white/70">{product.description}</p>
-        <div className="mt-4 text-sm text-white/50">
-          ★ {product.rating.toFixed(1)} · {product.sold_fake.toLocaleString("pt-BR")} vendidos ·{" "}
-          {product.tags.join(" · ")}
-        </div>
-        <div className="mt-6 flex items-end gap-3">
-          <span className="text-4xl font-black">{brl(product.price)}</span>
-          {off > 0 && (
-            <>
-              <span className="text-sm text-white/40 line-through">{brl(product.price_list)}</span>
-              <span className="badge-flash rounded px-2 py-1 text-xs font-bold text-black">-{off}%</span>
-            </>
-          )}
-        </div>
-        <div className="mt-4 rounded-xl border border-white/10 bg-white/5 p-3 text-xs text-white/60">
-          oferta relâmpago termina em <strong className="text-white">04:59</strong> (é teatro, calma)
-        </div>
-        <div className="mt-6 flex items-center gap-3">
-          <div className="flex items-center rounded-xl border border-white/15">
-            <button type="button" className="px-3 py-2 text-lg" onClick={() => setQty((q) => Math.max(1, q - 1))}>
-              −
-            </button>
-            <span className="w-8 text-center text-sm">{qty}</span>
-            <button type="button" className="px-3 py-2 text-lg" onClick={() => setQty((q) => q + 1)}>
-              +
-            </button>
+    <div className="mx-auto max-w-6xl px-4 py-6">
+      {/* migalhas */}
+      <nav className="text-xs text-slate-400">
+        <Link href="/" className="hover:text-indigo-600">Início</Link>
+        {" / "}
+        <Link href={`/categoria/${encodeURIComponent(product.category)}`} className="hover:text-indigo-600">
+          {product.category}
+        </Link>
+        {" / "}
+        <span className="text-slate-600">{product.name}</span>
+      </nav>
+
+      <div className="mt-4 grid gap-8 md:grid-cols-2">
+        {/* galeria */}
+        <div>
+          <div className="nx-card flex h-80 items-center justify-center bg-slate-50 text-[10rem] md:h-96">
+            {product.emoji}
           </div>
-          <button
-            type="button"
-            className="flex-1 rounded-xl bg-gradient-to-r from-fuchsia-500 to-violet-500 py-3 font-bold hover:opacity-90"
-            onClick={() => {
-              add(product, qty);
-              trackAddToCart(toGaItem({ ...product, qty }));
-              setAdded(true);
-              setTimeout(() => setAdded(false), 2000);
-            }}
-            data-testid="add-to-cart"
-          >
-            {added ? "adicionado ✓" : "adicionar ao carrinho"}
-          </button>
+          <div className="mt-3 grid grid-cols-4 gap-2">
+            {[product.emoji, "📦", "✨", "🏷️"].map((e, i) => (
+              <div key={i} className="nx-card flex h-16 items-center justify-center bg-slate-50 text-2xl">
+                {e}
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs text-white/60">
-          {["entrega em 5s", "frete de ilusão", "troca imaginária"].map((t) => (
-            <div key={t} className="rounded-lg bg-white/5 py-2">
-              {t}
+
+        {/* infos */}
+        <div>
+          <span className={`nx-chip ${dept.badge}`}>{product.category}</span>
+          <h1 className="mt-2 text-2xl font-extrabold text-slate-900 md:text-3xl">{product.name}</h1>
+          <div className="mt-2 flex items-center gap-2 text-sm">
+            <span className="text-amber-400">★★★★★</span>
+            <strong className="text-slate-900">{product.rating.toFixed(1)}</strong>
+            <span className="text-slate-400">({product.sold_fake.toLocaleString("pt-BR")} vendidos)</span>
+          </div>
+          <p className="mt-3 text-slate-600">{product.description}</p>
+
+          <div className="nx-card mt-5 p-5">
+            {off > 0 && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-slate-400 line-through">{brl(product.price_list)}</span>
+                <span className="nx-chip bg-sky-600 text-white">-{off}% OFF</span>
+              </div>
+            )}
+            <div className="mt-1 text-4xl font-extrabold text-slate-900">{brl(product.price)}</div>
+            <div className="mt-1 text-sm text-slate-500">
+              em até 10x de {brl(installment)} sem juros (de mentira)
+            </div>
+
+            <div className="mt-4 flex items-center gap-3">
+              <div className="flex items-center rounded-lg border border-slate-200">
+                <button type="button" className="px-3 py-2 text-lg text-slate-600" onClick={() => setQty((q) => Math.max(1, q - 1))}>
+                  −
+                </button>
+                <span className="w-8 text-center text-sm font-bold">{qty}</span>
+                <button type="button" className="px-3 py-2 text-lg text-slate-600" onClick={() => setQty((q) => q + 1)}>
+                  +
+                </button>
+              </div>
+              <button
+                type="button"
+                className="nx-btn-primary flex-1 py-3 font-bold"
+                onClick={() => {
+                  add(product, qty);
+                  trackAddToCart(toGaItem({ ...product, qty }));
+                  setAdded(true);
+                  setTimeout(() => setAdded(false), 2000);
+                }}
+                data-testid="add-to-cart"
+              >
+                {added ? "✓ Adicionado!" : "Comprar agora"}
+              </button>
+            </div>
+
+            <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs text-slate-500">
+              {["⚡ Entrega em 5s", "🚚 Frete de ilusão", "🔄 Troca imaginária"].map((t) => (
+                <div key={t} className="rounded-lg bg-slate-50 py-2">
+                  {t}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
+            ⏰ Oferta relâmpago termina em <strong>04:59</strong> (é teatro, calma)
+          </div>
+        </div>
+      </div>
+
+      {/* especificações */}
+      <div className="nx-card mt-8 p-6">
+        <h2 className="text-lg font-extrabold text-slate-900">Especificações técnicas (fictícias)</h2>
+        <dl className="mt-3 grid gap-x-8 gap-y-2 text-sm md:grid-cols-2">
+          {[
+            ["SKU", product.sku],
+            ["Departamento", product.category],
+            ["Avaliação", `★ ${product.rating.toFixed(1)} / 5`],
+            ["Vendidos", product.sold_fake.toLocaleString("pt-BR")],
+            ["Tags", product.tags.join(", ")],
+            ["Garantia", "eterna (o produto não existe)"],
+          ].map(([k, v]) => (
+            <div key={k} className="flex justify-between border-b border-slate-100 py-2">
+              <dt className="text-slate-400">{k}</dt>
+              <dd className="font-semibold text-slate-700">{v}</dd>
             </div>
           ))}
-        </div>
+        </dl>
       </div>
+
+      {/* combo */}
+      {combo && combo.length > 0 && (
+        <div className="nx-card mt-6 p-6">
+          <h2 className="text-lg font-extrabold text-slate-900">💡 Compre junto e economize ilusão</h2>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {combo.map((c) => (
+              <div key={c.sku} className="flex items-center gap-3 rounded-xl border border-slate-100 p-3">
+                <span className="text-3xl">{c.emoji}</span>
+                <div className="flex-1">
+                  <div className="line-clamp-1 text-sm font-bold text-slate-900">{c.name}</div>
+                  <div className="text-sm font-extrabold text-indigo-600">{brl(c.price)}</div>
+                </div>
+                <button
+                  type="button"
+                  className="nx-btn-ghost px-3 py-1.5 text-xs"
+                  onClick={() => {
+                    add(c);
+                    trackAddToCart(toGaItem({ ...c, qty: 1 }));
+                  }}
+                >
+                  + Adicionar
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

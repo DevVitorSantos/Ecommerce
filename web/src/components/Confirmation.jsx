@@ -9,43 +9,48 @@ export default function Confirmation() {
 
   if (!order) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center">
-        <p className="text-white/70">nenhum pedido encontrado — compra uma coisinha antes?</p>
+      <div className="nx-card p-8 text-center">
+        <p className="text-slate-500">Nenhum pedido encontrado — que tal comprar uma coisinha?</p>
+        <Link href="/" className="nx-btn-primary mt-4 inline-block px-5 py-2.5 text-sm">
+          Ver produtos
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="dopamine-card rounded-3xl p-8 text-center">
-      <div className="text-6xl">📦</div>
-      <h1 className="mt-3 text-2xl font-black">pedido confirmado!</h1>
-      <p className="mt-1 text-white/60">entrega estimada: 5 segundos (já era agora)</p>
-      <div className="mt-5 rounded-2xl bg-white/5 p-4 text-left text-sm">
+    <div className="nx-card p-8 text-center">
+      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-3xl">
+        ✓
+      </div>
+      <h1 className="mt-3 text-2xl font-extrabold text-slate-900">Pedido confirmado!</h1>
+      <p className="mt-1 text-slate-500">Entrega estimada: 5 segundos (já era agora)</p>
+      <div className="mt-5 rounded-xl bg-slate-50 p-4 text-left text-sm">
         <div className="flex justify-between">
-          <span className="text-white/50">código</span>
-          <strong data-testid="order-code">{order.code}</strong>
+          <span className="text-slate-400">Código</span>
+          <strong className="text-slate-900" data-testid="order-code">{order.code}</strong>
         </div>
         <div className="mt-1 flex justify-between">
-          <span className="text-white/50">total simulado</span>
-          <strong>{brl(order.value)}</strong>
+          <span className="text-slate-400">Total simulado</span>
+          <strong className="text-slate-900">{brl(order.value)}</strong>
         </div>
         <div className="mt-1 flex justify-between">
-          <span className="text-white/50">itens</span>
-          <span>{order.items}</span>
+          <span className="text-slate-400">Itens</span>
+          <span className="text-slate-700">{order.items}</span>
         </div>
         <div className="mt-1 flex justify-between">
-          <span className="text-white/50">para</span>
-          <span className="max-w-[60%] truncate">{order.address}</span>
+          <span className="text-slate-400">Entregar em</span>
+          <span className="max-w-[60%] truncate text-slate-700">{order.address}</span>
         </div>
       </div>
       <Link
         href={`/rastreio/${order.code}`}
-        className="mt-5 inline-block rounded-xl bg-gradient-to-r from-fuchsia-500 to-violet-500 px-6 py-3 font-bold hover:opacity-90"
+        className="nx-btn-primary mt-5 inline-block px-6 py-3 font-bold"
         data-testid="track-link"
       >
-        acompanhar entrega fictícia
+        Acompanhar entrega
       </Link>
-      <p className="mt-4 text-xs text-white/40">nenhum dinheiro mudou de mãos. nenhum pacote existe.</p>
+      <p className="mt-4 text-xs text-slate-400">Nenhum dinheiro mudou de mãos. Nenhum pacote existe.</p>
     </div>
   );
 }

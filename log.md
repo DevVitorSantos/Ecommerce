@@ -85,3 +85,17 @@
 **Testes/print:** saída do build salva em `tests/build-v1-js.txt`.
 
 **Pendências:** GA4_ID (instrumentação real), projeto Supabase + seed, deploy Vercel.
+
+---
+
+## 2026-10-07 — Restyle no layout Nexus Store (Stitch MCP)
+
+**O que foi feito:**
+1. Consultado o Stitch MCP: projeto "Multi-Niche Modern E-Commerce" (Nexus Store, desktop) — decodificado o HTML real da Home e da PDP (base64) + screenshots.
+2. App refeito no **tema claro Nexus**: Plus Jakarta Sans, primária índigo `#4f46e5`, cards brancos com borda slate, pills por departamento (`lib/departments.js`), header com barra utilitária + busca + nav de departamentos, hero índigo, countdown de ofertas, seções por departamento, depoimentos, newsletter, footer completo.
+3. Novas rotas: `/busca` (filtra catálogo) e `/pedidos` (lista pedidos do localStorage). Cupom DOPAMINA10 funcional (-10%, persistido no store e respeitado no checkout). PDP com migalhas, galeria, especificações e combo cross-sell.
+4. `npm run lint` → 0 erros; `npm run build` → 60+ rotas (9 categorias + 40 produtos SSG + dinâmicas). Servidor dev validado no navegador + screenshots reais.
+
+**Testes/print:** `tests/build-v2-nexus.txt`, `tests/home-hero-nexus.png`, `tests/home-grid-nexus.png`. Console do navegador limpo.
+
+**Pendências:** GA4_ID, Supabase + seed, deploy Vercel.

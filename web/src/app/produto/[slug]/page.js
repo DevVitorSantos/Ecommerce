@@ -12,5 +12,8 @@ export default async function ProductPage({ params }) {
   const { slug } = await params;
   const product = await getProduct(slug);
   if (!product) notFound();
-  return <ProductDetail product={product} />;
+  const combo = (await getProducts())
+    .filter((p) => p.category === product.category && p.slug !== product.slug)
+    .slice(0, 2);
+  return <ProductDetail product={product} combo={combo} />;
 }

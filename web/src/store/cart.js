@@ -7,6 +7,8 @@ export const useCart = create()(
   persist(
     (set) => ({
       items: [],
+      coupon: null,
+      setCoupon: (coupon) => set({ coupon }),
       add: (product, qty = 1) =>
         set((state) => {
           const found = state.items.find((i) => i.sku === product.sku);
@@ -34,7 +36,7 @@ export const useCart = create()(
               ? state.items.filter((i) => i.sku !== sku)
               : state.items.map((i) => (i.sku === sku ? { ...i, qty } : i)),
         })),
-      clear: () => set({ items: [] }),
+      clear: () => set({ items: [], coupon: null }),
     }),
     { name: "dopamina-cart" },
   ),

@@ -1,12 +1,12 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import Link from "next/link";
-import { getCategories } from "@/lib/catalog";
+import { getCategories, getProducts } from "@/lib/catalog";
 import CartButton from "@/components/CartButton";
+import SearchBar from "@/components/SearchBar";
 import "./globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
 
 const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID;
 
@@ -18,10 +18,15 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const categories = await getCategories();
+  const products = await getProducts();
+  const counts = {};
+  products.forEach((p) => {
+    counts[p.category] = (counts[p.category] || 0) + 1;
+  });
 
   return (
-    <html lang="pt-BR" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
+    <html lang="pt-BR" className={`${jakarta.variable} h-full antialiased`}>
+      <body className="min-h-full flex flex-col" style={{ fontFamily: "var(--font-jakarta)" }}>
         {GA4_ID && (
           <>
             <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`} strategy="afterInteractive" />
@@ -30,26 +35,103 @@ export default async function RootLayout({ children }) {
             </Script>
           </>
         )}
-        <header className="sticky top-0 z-40 border-b border-white/10 backdrop-blur bg-[#0b0517]/80">
-          <div className="mx-auto flex max-w-6xl items-center gap-6 px-4 py-3">
-            <Link href="/" className="text-xl font-black tracking-tight gradient-text">
-              dopamina.
+
+        {/* barra utilitária */}
+        <div className="nx-topbar text-center text-xs font-medium">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-6 gap-y-1 px-4 py-2">
+            <span>🚚 Entrega simulada acima de R$ 150</span>
+            <span className="hidden sm:inline">🎟️ Cupom DOPAMINA10 = 10% OFF de mentira</span>
+            <span className="hidden md:inline">⚡ Envio em até 5 segundos</span>
+          </div>
+        </div>
+
+        {/* header principal */}
+        <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
+          <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
+            <Link href="/" className="text-2xl font-extrabold tracking-tight text-slate-900">
+              dopamina<span className="text-indigo-600">.</span>
             </Link>
-            <nav className="hidden gap-4 text-sm text-white/70 md:flex">
+            <div className="hidden flex-1 md:block">
+              <SearchBar />
+            </div>
+            <nav className="ml-auto flex items-center gap-4 text-sm">
+              <Link href="/pedidos" className="hidden text-slate-600 hover:text-indigo-600 lg:block">
+                📦 Meus Pedidos
+              </Link>
+              <span className="hidden text-slate-600 lg:block">
+                Olá, <strong>visitante</strong>
+              </span>
+              <CartButton />
+            </nav>
+          </div>
+          <div className="border-t border-slate-100 md:hidden">
+            <div className="mx-auto max-w-6xl px-4 py-2">
+              <SearchBar />
+            </div>
+          </div>
+          {/* navegação por departamentos */}
+          <nav className="border-t border-slate-100">
+            <div className="mx-auto flex max-w-6xl items-center gap-1 overflow-x-auto px-4 text-sm">
+              <span className="whitespace-nowrap px-2 py-2.5 font-bold text-slate-900">☰ Departamentos</span>
               {categories.map((c) => (
-                <Link key={c} href={`/categoria/${encodeURIComponent(c)}`} className="hover:text-white">
+                <Link
+                  key={c}
+                  href={`/categoria/${encodeURIComponent(c)}`}
+                  className="whitespace-nowrap px-2 py-2.5 text-slate-600 hover:text-indigo-600"
+                >
                   {c}
                 </Link>
               ))}
-            </nav>
-            <div className="ml-auto">
-              <CartButton />
+              <Link href="/stats" className="whitespace-nowrap px-2 py-2.5 font-semibold text-indigo-600">
+                📊 Dados
+              </Link>
+            </div>
+          </nav>
+        </header>
+
+        <main className="flex-1">{children}</main>
+
+        {/* rodapé */}
+        <footer className="mt-12 border-t border-slate-200 bg-white">
+          <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm md:grid-cols-4">
+            <div>
+              <div className="text-xl font-extrabold text-slate-900">
+                dopamina<span className="text-indigo-600">.</span>
+              </div>
+              <p className="mt-2 text-slate-500">
+                A loja onde você compra tudo e não gasta nada. Laboratório público de dados de e-commerce.
+              </p>
+            </div>
+            <div>
+              <div className="font-bold text-slate-900">Departamentos</div>
+              <ul className="mt-2 space-y-1.5 text-slate-500">
+                {categories.slice(0, 5).map((c) => (
+                  <li key={c}>
+                    <Link href={`/categoria/${encodeURIComponent(c)}`} className="hover:text-indigo-600">
+                      {c} ({counts[c] || 0})
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <div className="font-bold text-slate-900">Ajuda</div>
+              <ul className="mt-2 space-y-1.5 text-slate-500">
+                <li><Link href="/pedidos" className="hover:text-indigo-600">Meus pedidos</Link></li>
+                <li><Link href="/stats" className="hover:text-indigo-600">Dados da loja</Link></li>
+                <li><Link href="/carrinho" className="hover:text-indigo-600">Carrinho</Link></li>
+              </ul>
+            </div>
+            <div>
+              <div className="font-bold text-slate-900">Aviso honesto</div>
+              <p className="mt-2 text-slate-500">
+                Loja 100% simulada — nenhum produto real, nenhum dinheiro real, nenhum pacote será entregue.
+              </p>
             </div>
           </div>
-        </header>
-        <main className="flex-1">{children}</main>
-        <footer className="border-t border-white/10 px-4 py-6 text-center text-xs text-white/50">
-          loja 100% simulada — nenhum produto real, nenhum dinheiro real. dopamina é um laboratório de dados.
+          <div className="border-t border-slate-100 py-4 text-center text-xs text-slate-400">
+            dopamina. © 2026 — feita para gerar dados, não boletos.
+          </div>
         </footer>
       </body>
     </html>
