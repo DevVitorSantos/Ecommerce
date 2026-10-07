@@ -15,6 +15,8 @@
 | 5 | `c7b7837` | `docs(brainstorm): medallion hibrido bronze BigQuery + silver/gold Databricks Free` | Reestrutura a camada 3 em Medallion (bronze raw no BigQuery, silver/gold no Databricks Free Edition), define dataviz (Databricks SQL/Genie + Looker Studio), atualiza custos, stack, próximos passos, Fases 2/3 e marco M2.5. |
 | 6 | `fb567c9` | `docs(brainstorm): adiciona organograma da arquitetura e Power BI Desktop opcional` | Adiciona o organograma entrada→camadas→consumo no §3.3, registra Power BI Desktop como dataviz pessoal opcional (§3.3.1) e entrada no log. |
 | 7 | `e10887f` | `feat(web): ecommerce V1 em JavaScript` | Constrói o app sem TypeScript: `data/products.csv` (40 produtos) + validador, `web/` (lib, store Zustand, 9 rotas + `/api/orders`), lint 0 erros, build com 58 páginas estáticas. Evidência em `tests/build-v1-js.txt`. |
+| 8 | `b927cc8` | `docs: registra V1 JavaScript no historygit` | Adiciona a linha do commit 7 na tabela. |
+| 9 | `3888f02` | `feat(web): restyle no layout Nexus Store do Stitch` | Refaz o visual no tema claro Nexus (Jakarta, índigo, pills por departamento), novas rotas `/busca` e `/pedidos`, cupom funcional, PDP com combo cross-sell. Build OK + screenshots reais em `tests/`. |
 
 ---
 
