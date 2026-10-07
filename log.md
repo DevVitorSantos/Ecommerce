@@ -42,3 +42,20 @@
 **Testes/print:** nenhuma execução de código (escrita de documentos e git).
 
 **Pendências:** Fase 1 — scaffold do Next.js + `data/products.csv`.
+
+---
+
+## 2026-10-06 — Opção A: Medallion híbrido (bronze BigQuery + silver/gold Databricks)
+
+**O que foi feito:**
+1. Pesquisa sobre Databricks (Free Edition limitations, medallion architecture) antes de decidir.
+2. Decisão **opção A — híbrida**: camada 3 reestruturada em padrão Medallion:
+   - 🥉 **Bronze (raw web+app)** permanece no **BigQuery** (único destino nativo do export do GA4; append-only, auditável).
+   - 🥈🥈 **Silver/Gold** no **Databricks Free Edition** (Delta Lake + Unity Catalog + Lakeflow) — ingestão diária bronze→silver; models silver (limpeza/stitch) e gold (marts de funil, atribuição, produtos, retenção).
+   - Custo total $0 (quotas diárias do Free Edition; sem SLA; uso não-comercial; conta inativa pode ser removida → usar semanalmente).
+3. **Dataviz definida:** primária = **Databricks SQL dashboards + Genie** (nativo na gold); auxiliar = **Looker Studio** (conecta nativamente no BigQuery bronze); público = `/stats` própria.
+4. Atualizações: `BRAINSTORM.md` (diagrama §2, §3.3 Medallion + §3.3.1 dataviz, §5.2 modelos em gold, §7 custos + Databricks Free, §9 stack, §10 próximos passos) e `Linha do tempo.md` (Fase 2 = bronze + Medallion, Fase 3 = dataviz, marco M2.5).
+
+**Testes/print:** nenhuma execução de código (escrita de documentos e git).
+
+**Pendências:** Fase 1 — scaffold do Next.js + `data/products.csv`.

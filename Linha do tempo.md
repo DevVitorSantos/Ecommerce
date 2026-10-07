@@ -25,18 +25,22 @@
 - [ ] Instrumentação GA4 (tabela de eventos da seção 4 do brainstorm).
 - [ ] Deploy na Vercel Hobby + validação em DebugView (prints em `tests/`).
 
-## Fase 2 — Engenharia de dados
-- [ ] Conta GCP (com fatura, dentro do free tier) + link de export GA4 → BigQuery (diário).
+## Fase 2 — Engenharia de dados (bronze + Medallion)
+- [ ] Conta GCP (com fatura, dentro do free tier) + link de export GA4 → BigQuery (dataset **bronze**, raw web+app).
 - [ ] Tabelas `orders`/`order_items` no Supabase + `POST /api/orders`.
-- [ ] Script de export diário → **load job no BigQuery** + `exports/*.csv` no git (backup human-readable).
-- [ ] Views de staging e primeiros marts em SQL (`sql/`, rodam no BigQuery).
+- [ ] Script de export diário → **load job no BigQuery bronze** + `exports/*.csv` no git (backup human-readable).
+- [ ] Conta **Databricks Free Edition** (Unity Catalog + Delta Lake) + verificação das quotas diárias.
+- [ ] Job de ingestão diária **bronze (BigQuery) → silver (Databricks)**: limpeza, dedupe, stitch `user×session×UTM`.
+- [ ] Transformações silver → **gold** (`mart_funnel`, `mart_products`, `mart_retention`) em `sql/`.
 
-## Fase 3 — Análise multi-touch
+## Fase 3 — Análise multi-touch + dataviz
 - [ ] `data/campaigns.csv` + página `/lanca/[campaign_id]` de geração de links UTM.
-- [ ] SQL de caminhos + modelos: first/last/linear/time-decay/position-based + assistências (no BigQuery).
-- [ ] Dashboard Looker Studio conectado ao BigQuery.
-- [ ] Página pública `/stats` ("dinheiro não gasto", top produtos, funil) alimentada pelo BigQuery.
-- [ ] Consultas reproduzíveis versionadas em `sql/` (camadas staging → marts → dashboards).
+- [ ] SQL de caminhos + modelos: first/last/linear/time-decay/position-based + assistências (gold, Databricks).
+- [ ] **`mart_attribution_paths`** publicado na camada gold.
+- [ ] Dataviz primária: **dashboards Databricks SQL (warehouse 2XS) + Genie**.
+- [ ] Dataviz auxiliar: **Looker Studio** conectado ao BigQuery bronze (relatórios didáticos do dado bruto).
+- [ ] Página pública `/stats` ("dinheiro não gasto", top produtos, funil) alimentada pela gold.
+- [ ] Consultas reproduzíveis versionadas em `sql/` (bronze → silver → gold).
 
 ## Fase 4 — App Play Store
 - [ ] PWA (manifest, service worker, ícones, Lighthouse ≥ 80).
@@ -55,6 +59,7 @@
 | Marco | Critério |
 |---|---|
 | M1 | Site no ar com checkout simulado emitindo os 15 eventos do GA4. |
-| M2 | Tabela `orders` recebendo pedidos e exportando CSV diário. |
-| M3 | 1º dashboard de atribuição multi-touch publicado. |
+| M2 | Tabela `orders` recebendo pedidos, bronze no BigQuery e CSV diário. |
+| M2.5 | Camada Medallion rodando: job bronze→silver→gold no Databricks com dados limpos. |
+| M3 | 1º dashboard de atribuição multi-touch publicado (Databricks SQL/Genie + Looker). |
 | M4 | App publicado na Play Store. |
