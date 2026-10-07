@@ -1,54 +1,7 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { PRODUCTS } from "./products.generated.js";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const CSV_PATH = join(process.cwd(), "..", "data", "products.csv");
-
-function splitLine(line) {
-  const out = [];
-  let cur = "";
-  let inQuotes = false;
-  for (let i = 0; i < line.length; i++) {
-    const c = line[i];
-    if (inQuotes) {
-      if (c === '"' && line[i + 1] === '"') { cur += '"'; i++; }
-      else if (c === '"') inQuotes = false;
-      else cur += c;
-    } else if (c === '"') inQuotes = true;
-    else if (c === ",") { out.push(cur); cur = ""; }
-    else cur += c;
-  }
-  out.push(cur);
-  return out;
-}
-
-function parseCsv(text) {
-  const lines = text.trim().split(/\r?\n/);
-  const header = splitLine(lines[0]);
-  return lines.slice(1).map((line) => {
-    const cells = splitLine(line);
-    return Object.fromEntries(header.map((h, i) => [h, cells[i] ?? ""]));
-  });
-}
-
-function toProduct(row) {
-  return {
-    sku: row.sku,
-    slug: row.slug,
-    name: row.name,
-    description: row.description,
-    category: row.category,
-    price: Number(row.price),
-    price_list: Number(row.price_list),
-    rating: Number(row.rating),
-    sold_fake: Number(row.sold_fake),
-    emoji: row.emoji,
-    image_url: row.image_url || null,
-    tags: row.tags ? row.tags.split("|") : [],
-    active: row.active === "1",
-  };
-}
 
 async function fromSupabase() {
   const res = await fetch(
@@ -59,8 +12,8 @@ async function fromSupabase() {
   return res.json();
 }
 
-function fromCsv() {
-  return parseCsv(readFileSync(CSV_PATH, "utf8")).map(toProduct).filter((p) => p.active);
+function fromGenerated() {
+  return PRODUCTS.filter((p) => p.active);
 }
 
 let cache = null;
@@ -72,10 +25,10 @@ export async function getProducts() {
       cache = await fromSupabase();
       return cache;
     } catch {
-      // fallback silencioso para o CSV local (dev / indisponibilidade)
+      // fallback silencioso para os dados gerados no build (dev / indisponibilidade)
     }
   }
-  cache = fromCsv();
+  cache = fromGenerated();
   return cache;
 }
 

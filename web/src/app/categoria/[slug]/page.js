@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getCategories, getProducts } from "@/lib/catalog";
 import { deptStyle } from "@/lib/departments";
 import ProductCard from "@/components/ProductCard";
+import CategoryViewTracker from "@/components/CategoryViewTracker";
 
 export const revalidate = 3600;
 
@@ -19,6 +20,7 @@ export default async function CategoryPage({ params }) {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
+      <CategoryViewTracker key={category} category={category} products={products} />
       <span className={`nx-chip ${dept.badge}`}>Departamento</span>
       <h1 className="mt-2 text-3xl font-extrabold text-slate-900">{category}</h1>
       <p className="mt-1 text-sm text-slate-500">{products.length} produtos prontos para desejar</p>

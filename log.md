@@ -199,3 +199,15 @@
 **Testes/print:** PDP → `view_item: 1`; 3 cliques em Aplicar → `apply_coupon: 1`; lint 0 erros; build OK.
 
 **Pendências:** Preview GTM + DebugView.
+
+---
+
+## 2026-10-07 — view_item_list + pré-deploy Vercel
+
+**O que foi feito:**
+1. `view_item_list` integrado e verificado: `trackViewItemList` + `CategoryViewTracker.jsx` (mesmo padrão anti-duplicidade) → 1 disparo com `item_list_name: "Tech"` e 6 itens.
+2. **Correção pré-deploy:** catálogo via `fs` em runtime quebra na Vercel (file-tracing não inclui `../data`). Novo `scripts/generate_products.mjs` gera `web/src/lib/products.generated.js` no `prebuild`; `catalog.js` usa o bundle (Supabase continua prioritário). Rota dinâmica `/busca` testada em `next start` → 200 com resultados.
+
+**Testes/print:** lint 0 erros; build OK (prebuild gerou 40 produtos); `/busca?q=fone` e `/categoria/Tech` verificados em produção local.
+
+**Pendências:** push + import na Vercel (Root Directory `web/`).

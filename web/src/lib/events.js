@@ -14,6 +14,14 @@ export function trackSelectItem(item) {
   push("select_item", { currency: "BRL", items: [item] });
 }
 
+export function trackViewItemList(category, items) {
+  push("view_item_list", {
+    item_list_name: category,
+    item_list_id: category,
+    items,
+  });
+}
+
 export function trackAddToCart(item) {
   push("add_to_cart", { currency: "BRL", value: item.price * item.quantity, items: [item] });
 }
