@@ -131,6 +131,26 @@ order_items (
 
 **Fluxo:** BigQuery bronze → **job diário lê bronze e grava silver/gold no Databricks** (Spark connector JDBC/BigQuery) → consumo.
 
+**Organograma da estrutura e ferramentas:**
+
+```
+      ENTRADA              CAMADA 1+2 (raw de web+app)         CAMADA 3 (DATABRICKS)            CONSUMO
+ ┌────────────────┐   ┌──────────────────────────────┐   ┌─────────────────────────────┐   ┌──────────────┐
+ │ Next.js +      │   │  BRONZE (raw) — fica no      │   │  Databricks Free Edition    │   │ Databricks   │
+ │ Vercel         ├──►│  BigQuery, onde os dados      ├──►│  Unity Catalog + Delta Lake │   │ SQL WH +     │
+ │                │   │  já nascem:                   │   │                             │   │ dashboards/  │
+ │ GA4 (web) ─────┼──►│  dataset bronze.events_*      │   │  🥈 SILVER                  │   │ Genie        │
+ │ Firebase (app) ─┼──►│  (GA4 export diário)          │   │   limpeza, dedupe, stitch   │   │              │
+ │ Supabase ──────┼──►│  dataset bronze.orders        │   │   por user/session, UTMs    │   │ /stats       │
+ │ (pedidos)      │   │  (load job diário)            │   │                             │   │ (público)    │
+ └────────────────┘   │  + CSV backup no git          │   │  🥇 GOLD                    │   │              │
+                      └──────────────────────────────┘   │   mart_funnel               │   │ BigQuery     │
+                                                         │   mart_attribution_paths ◄───┼──►│ console      │
+                              ▲                          │   mart_products/retention    │   │ (bronze,     │
+                              │                          └─────────────────────────────┘   │  auditoria)   │
+                              └──── leitura diária (Spark connector / job)                 └──────────────┘
+```
+
 > **Decisão (opção A — híbrida):** bronze fica no BigQuery porque é o único destino nativo do export do GA4 e mantém o dado bruto auditável; Databricks Free Edition vira o **coração analítico** (Delta + Unity Catalog + Lakeflow), dando ao projeto um lakehouse de verdade no portfólio. **DuckDB permanece como plano B opcional** (análise local offline).
 
 > ⚠️ **Riscos operacionais:** (1) BigQuery sandbox sem fatura expira tabelas em ~60 dias → usar conta de fatura dentro do free tier; (2) Databricks Free Edition é **serverless com quotas diárias** (compute desliga se estourar a cota), sem SLA, uso não-comercial e pode deletar conta inativa → usar semanalmente; (3) ingestão bronze→Databricks é o elo mais frágil → monitorar com alerta simples e backup CSV no git.

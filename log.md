@@ -59,3 +59,15 @@
 **Testes/print:** nenhuma execução de código (escrita de documentos e git).
 
 **Pendências:** Fase 1 — scaffold do Next.js + `data/products.csv`.
+
+---
+
+## 2026-10-06 — Organograma da arquitetura + Power BI como dataviz pessoal
+
+**O que foi feito:**
+1. Confirmado na documentação oficial: **Power BI Desktop é grátis** e tem conector nativo para Databricks SQL warehouse e BigQuery → serve como **bancada pessoal de análise** ($0). Publicar/compartilhar no Power BI Service exige licença paga (Pro ~US$ 14/mês ou Premium/PPU) → fora da regra de custo do projeto.
+2. Adicionado o **organograma da estrutura e ferramentas** (entrada → camadas 1+2 → camada 3 Databricks → consumo) em `BRAINSTORM.md` §3.3.
+
+**Testes/print:** nenhuma execução de código (escrita de documentos; commit a seguir).
+
+**Pendências:** Fase 1 — scaffold do Next.js + `data/products.csv`.
