@@ -13,6 +13,7 @@
 | 3 | `6439e6d` | `docs(brainstorm): analitica unificada no BigQuery (substitui DuckDB)` | Atualiza `BRAINSTORM.md` (diagrama, §3.2 export com load job, §3.3 camada analítica só BigQuery, §5.2 modelos em SQL, §9 stack), `Linha do tempo.md` (Fases 2 e 3) e `log.md`. DuckDB vira plano B opcional. |
 | 4 | `1229496` | `docs: registra commit 6439e6d no historygit` | Adiciona a linha do commit 3 na tabela. |
 | 5 | `c7b7837` | `docs(brainstorm): medallion hibrido bronze BigQuery + silver/gold Databricks Free` | Reestrutura a camada 3 em Medallion (bronze raw no BigQuery, silver/gold no Databricks Free Edition), define dataviz (Databricks SQL/Genie + Looker Studio), atualiza custos, stack, próximos passos, Fases 2/3 e marco M2.5. |
+| 6 | `fb567c9` | `docs(brainstorm): adiciona organograma da arquitetura e Power BI Desktop opcional` | Adiciona o organograma entrada→camadas→consumo no §3.3, registra Power BI Desktop como dataviz pessoal opcional (§3.3.1) e entrada no log. |
 
 ---
 

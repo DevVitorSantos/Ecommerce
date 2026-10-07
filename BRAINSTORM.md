@@ -162,6 +162,7 @@ order_items (
 | **Databricks SQL dashboards + Genie** (recomendada como primária) | gold (Delta) nativamente, já está lá dentro | dashboards analíticos + consulta em linguagem natural | incluída no Free Edition ($0) |
 | **Looker Studio** | BigQuery (bronze) nativamente | relatórios auxiliares/didáticos mostrando o dado bruto | $0 |
 | **`/stats` público** (própria) | API Databricks SQL (ou export gold) | data-as-content para o público | $0 |
+| **Power BI Desktop** (opcional, pessoal) | Databricks SQL warehouse e BigQuery (conectores nativos) | bancada pessoal de análise — só no seu PC | $0 (publicar/compartilhar no Service exige Pro/Premium → fora do escopo) |
 
 ### 3.4 Gerador de dados sintéticos (para desenvolver dashboard antes de ter tráfego)
 - `scripts/simulate_journeys.py` gera jornadas sintéticas em **CSV local** (nunca dentro do GA4 — inflar dado de propriedade GA4 viola os termos).
