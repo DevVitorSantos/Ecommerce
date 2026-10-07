@@ -20,6 +20,8 @@
 | 10 | `19c01aa` | `feat(web): produtos com fotos do Unsplash + ProductImage com fallback` | 40 fotos verificadas (200 OK) no `image_url`, componente com fallback emoji, fotos em cards/PDP/carrinho. Evidências em `tests/`. |
 | 11 | `949a997` | `docs: registra fotos dos produtos no historygit` | Adiciona a linha do commit 10 na tabela. |
 | 12 | `da44587` | `feat(web): banner de consentimento LGPD com Consent Mode v2` | `CookieConsent.jsx` (aceitar/recusar + `consent update`), `CookieReset.jsx` no rodapé, verificado no navegador. Print em `tests/banner-consent.png`. |
+| 13 | `aea74db` | `docs: registra banner LGPD no historygit` | Adiciona as linhas dos commits 11–12 na tabela. |
+| 14 | `17a487a` | `feat(dados): user_pseudo_id no pedido + export diario` | `lib/identity.js` (client_id via gtag/cookie), checkout envia `analytics`, rota repassa ao Supabase; `scripts/export_orders.mjs` + Action diária (CSV + `bq load` bronze); `sql/supabase_orders.sql`. |
 
 ---
 
