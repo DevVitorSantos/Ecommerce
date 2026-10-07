@@ -28,6 +28,8 @@
 | 18 | `db0fba4` | `refactor(web): remove gtag direto — GA4 via GTM` | Remove `gtag.js`/`gtag config` do layout (GA4 dispara pela tag no GTM, sem duplicar `page_view`); mantém `consent default denied` via shim `beforeInteractive`. Verificado no HTML. |
 | 19 | `9806da2` | `docs: registra remocao do gtag direto no historygit` | Adiciona as linhas dos commits 17–18 na tabela. |
 | 20 | `6f2196b` | `feat(web): Departamentos linka home; evento apply_coupon` | "☰ Departamentos" vira link `/`; novo evento custom `apply_coupon` (+ `coupon` real em begin_checkout/purchase em vez de hardcoded); cupom gravado no pedido. Verificado no dataLayer. |
+| 21 | `c05daf3` | `docs: registra Departamentos e apply_coupon no historygit` | Adiciona as linhas dos commits 19–20 na tabela. |
+| 22 | `aaca583` | `fix(web): elimina eventos duplicados + MEASUREMENT.md` | Guardas síncronos (refs) em view_item, shipping/payment, purchase e apply_coupon; cria `docs/MEASUREMENT.md`. Teste: 3 cliques → 1 evento. |
 
 ---
 
