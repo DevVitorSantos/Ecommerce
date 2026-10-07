@@ -4,6 +4,8 @@ import Link from "next/link";
 import { getCategories, getProducts } from "@/lib/catalog";
 import CartButton from "@/components/CartButton";
 import SearchBar from "@/components/SearchBar";
+import CookieConsent from "@/components/CookieConsent";
+import CookieReset from "@/components/CookieReset";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
@@ -90,6 +92,7 @@ export default async function RootLayout({ children }) {
         </header>
 
         <main className="flex-1">{children}</main>
+        <CookieConsent />
 
         {/* rodapé */}
         <footer className="mt-12 border-t border-slate-200 bg-white">
@@ -120,6 +123,7 @@ export default async function RootLayout({ children }) {
                 <li><Link href="/pedidos" className="hover:text-indigo-600">Meus pedidos</Link></li>
                 <li><Link href="/stats" className="hover:text-indigo-600">Dados da loja</Link></li>
                 <li><Link href="/carrinho" className="hover:text-indigo-600">Carrinho</Link></li>
+                <li><CookieReset /></li>
               </ul>
             </div>
             <div>

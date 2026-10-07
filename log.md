@@ -116,3 +116,16 @@
 **Atenção:** o servidor dev da porta 3000 estava com cache antigo do CSV (mostrava emojis) — **reinicie o `npm run dev`** para ver as fotos.
 
 **Pendências:** GA4_ID, Supabase + seed (agora com `image_url`), deploy Vercel.
+
+---
+
+## 2026-10-07 — Banner de consentimento LGPD/Consent Mode v2
+
+**O que foi feito:**
+1. Novo `CookieConsent.jsx`: banner fixo que só aparece sem escolha salva; "Aceitar medição" grava `granted` e dispara `gtag('consent','update', granted)` (ou evento `consent_update` no dataLayer se o GA4 ainda não carregou); "Recusar" mantém tudo `denied`. O `gtag('consent','default', denied)` já existia no layout — agora há caminho de aceite.
+2. Novo `CookieReset.jsx` no rodapé ("🍪 Preferências de cookies") para reabrir o banner e trocar a escolha.
+3. Verificação no navegador: banner aparece após limpar a chave, aceitar grava `granted` + dataLayer com os 4 `granted`, banner some. Console limpo.
+
+**Testes/print:** `tests/banner-consent.png`. Build OK.
+
+**Pendências:** GA4_ID, Supabase + seed, deploy Vercel.
