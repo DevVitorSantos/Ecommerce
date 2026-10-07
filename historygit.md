@@ -30,6 +30,8 @@
 | 20 | `6f2196b` | `feat(web): Departamentos linka home; evento apply_coupon` | "☰ Departamentos" vira link `/`; novo evento custom `apply_coupon` (+ `coupon` real em begin_checkout/purchase em vez de hardcoded); cupom gravado no pedido. Verificado no dataLayer. |
 | 21 | `c05daf3` | `docs: registra Departamentos e apply_coupon no historygit` | Adiciona as linhas dos commits 19–20 na tabela. |
 | 22 | `aaca583` | `fix(web): elimina eventos duplicados + MEASUREMENT.md` | Guardas síncronos (refs) em view_item, shipping/payment, purchase e apply_coupon; cria `docs/MEASUREMENT.md`. Teste: 3 cliques → 1 evento. |
+| 23 | `afff189` | `docs: registra auditoria anti-duplicidade no historygit` | Adiciona as linhas dos commits 21–22 na tabela. |
+| 24 | `4c18ab6` | `feat(web): view_item_list + catalogo gerado no build` | `view_item_list` nas categorias (1 disparo, padrão anti-dupe); catálogo via `products.generated.js` no `prebuild` (funciona na Vercel); `/busca` validada em produção local. |
 
 ---
 
