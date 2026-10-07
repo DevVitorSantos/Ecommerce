@@ -22,6 +22,8 @@
 | 12 | `da44587` | `feat(web): banner de consentimento LGPD com Consent Mode v2` | `CookieConsent.jsx` (aceitar/recusar + `consent update`), `CookieReset.jsx` no rodapé, verificado no navegador. Print em `tests/banner-consent.png`. |
 | 13 | `aea74db` | `docs: registra banner LGPD no historygit` | Adiciona as linhas dos commits 11–12 na tabela. |
 | 14 | `17a487a` | `feat(dados): user_pseudo_id no pedido + export diario` | `lib/identity.js` (client_id via gtag/cookie), checkout envia `analytics`, rota repassa ao Supabase; `scripts/export_orders.mjs` + Action diária (CSV + `bq load` bronze); `sql/supabase_orders.sql`. |
+| 15 | `ca54db9` | `docs: registra etapas 7 e 8 no historygit` | Adiciona as linhas dos commits 13–14 na tabela. |
+| 16 | `bd4e302` | `feat(web): instala Google Tag Manager GTM-5RLXF4BF` | Snippet GTM no layout raiz (todas as páginas) + noscript, ID via env com fallback, verificado no HTML servido. |
 
 ---
 
