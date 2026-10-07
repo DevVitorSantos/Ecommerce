@@ -9,7 +9,16 @@ async function fromSupabase() {
     { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }, next: { revalidate: 3600 } },
   );
   if (!res.ok) throw new Error(`supabase ${res.status}`);
-  return res.json();
+  const rows = await res.json();
+  // PostgREST devolve tags como array (text[]); normaliza para o formato do app
+  return rows.map((r) => ({
+    ...r,
+    price: Number(r.price),
+    price_list: Number(r.price_list),
+    rating: Number(r.rating),
+    sold_fake: Number(r.sold_fake),
+    tags: Array.isArray(r.tags) ? r.tags : String(r.tags || "").split("|").filter(Boolean),
+  }));
 }
 
 function fromGenerated() {
