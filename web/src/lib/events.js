@@ -26,8 +26,13 @@ export function trackViewCart(items, value) {
   push("view_cart", { currency: "BRL", value, items });
 }
 
-export function trackBeginCheckout(items, value) {
-  push("begin_checkout", { currency: "BRL", value, coupon: "DOPAMINA10", items });
+export function trackBeginCheckout(items, value, coupon) {
+  push("begin_checkout", {
+    currency: "BRL",
+    value,
+    ...(coupon ? { coupon } : {}),
+    items,
+  });
 }
 
 export function trackAddShippingInfo(items, value) {
@@ -38,8 +43,25 @@ export function trackAddPaymentInfo(items, value) {
   push("add_payment_info", { currency: "BRL", value, payment_type: "simulado", items });
 }
 
-export function trackPurchase(orderId, items, value) {
-  push("purchase", { currency: "BRL", value, transaction_id: orderId, coupon: "DOPAMINA10", items });
+export function trackPurchase(orderId, items, value, coupon) {
+  push("purchase", {
+    currency: "BRL",
+    value,
+    transaction_id: orderId,
+    ...(coupon ? { coupon } : {}),
+    items,
+  });
+}
+
+export function trackApplyCoupon(code, discountValue, cartValue) {
+  // GA4 não tem evento padrão para "aplicar cupom" — o padrão é o parâmetro
+  // `coupon` em begin_checkout/purchase (já enviado). Este custom alimenta funil.
+  push("apply_coupon", {
+    currency: "BRL",
+    coupon: code,
+    discount_value: discountValue,
+    value: cartValue,
+  });
 }
 
 export function trackSearch(term) {

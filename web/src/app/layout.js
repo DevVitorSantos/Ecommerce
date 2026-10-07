@@ -83,7 +83,9 @@ export default async function RootLayout({ children }) {
           {/* navegação por departamentos */}
           <nav className="border-t border-slate-100">
             <div className="mx-auto flex max-w-6xl items-center gap-1 overflow-x-auto px-4 text-sm">
-              <span className="whitespace-nowrap px-2 py-2.5 font-bold text-slate-900">☰ Departamentos</span>
+              <Link href="/" className="whitespace-nowrap px-2 py-2.5 font-bold text-slate-900">
+                ☰ Departamentos
+              </Link>
               {categories.map((c) => (
                 <Link
                   key={c}

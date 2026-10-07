@@ -42,6 +42,7 @@ export async function POST(request) {
       created_at: order.createdAt,
       value_simulated: order.value,
       items_count: order.items,
+      coupon: order.coupon ?? null,
       utm_campaign: order.campaign ?? null,
       platform: "web",
       status: "confirmed",

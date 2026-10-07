@@ -170,3 +170,16 @@
 **Testes/print:** `npm run lint` 0 erros; `npm run build` OK; inspeção do HTML.
 
 **Pendências:** validar no Preview do GTM + DebugView do GA4.
+
+---
+
+## 2026-10-07 — Departamentos clicável + evento apply_coupon
+
+**O que foi feito:**
+1. "☰ Departamentos" virou link para `/` (era `<span>` sem ação).
+2. Novo evento customizado `apply_coupon` (`{coupon, discount_value, value}`) ao aplicar cupom válido — o GA4 não tem evento padrão para isso; o padrão (`coupon` em `begin_checkout`/`purchase`) também foi corrigido: antes ia hardcoded `"DOPAMINA10"`, agora vai o cupom real aplicado (ou omitido).
+3. Cupom gravado no pedido (`order.coupon` → coluna `coupon` no Supabase).
+
+**Testes/print:** carrinho com item via navegador → aplicar DOPAMINA10 → `apply_coupon` presente no dataLayer + "Cupom aplicado" visível; `npm run lint` 0 erros; build OK.
+
+**Pendências:** Preview GTM + DebugView.

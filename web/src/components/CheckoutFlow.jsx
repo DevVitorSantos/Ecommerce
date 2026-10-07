@@ -37,9 +37,9 @@ export default function CheckoutFlow() {
   useEffect(() => {
     if (items.length > 0 && !startedRef.current) {
       startedRef.current = true;
-      trackBeginCheckout(items.map(toGaItem), value);
+      trackBeginCheckout(items.map(toGaItem), value, coupon);
     }
-  }, [items, value]);
+  }, [items, value, coupon]);
 
   useEffect(() => {
     if (items.length === 0 && !error) router.replace("/carrinho");
@@ -78,6 +78,7 @@ export default function CheckoutFlow() {
       email: form.email,
       address: `${form.address}, ${form.city || "Cidade Fictícia"}`,
       payment: form.payment,
+      coupon: coupon || undefined,
       campaign: sessionStorage.getItem("dopamina-utm") || undefined,
     };
     try {
@@ -93,7 +94,7 @@ export default function CheckoutFlow() {
     } catch {
       // sem Supabase configurado o pedido segue apenas no cliente
     }
-    trackPurchase(order.code, items.map(toGaItem), subtotal);
+    trackPurchase(order.code, items.map(toGaItem), subtotal, coupon);
     setStoredJson("dopamina-last-order", order);
     setStoredJson(`dopamina-order-${order.code}`, { order, products: items });
     clear();

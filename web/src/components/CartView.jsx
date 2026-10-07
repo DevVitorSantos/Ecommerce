@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart, cartTotal } from "@/store/cart";
 import { brl } from "@/lib/format";
-import { trackRemoveFromCart, trackViewCart, toGaItem } from "@/lib/events";
+import { trackApplyCoupon, trackRemoveFromCart, trackViewCart, toGaItem } from "@/lib/events";
 import ProductImage from "@/components/ProductImage";
 
 const FREE_SHIPPING = 150;
@@ -91,7 +91,11 @@ export default function CartView() {
           <button
             type="button"
             className="nx-btn-ghost whitespace-nowrap px-3 text-sm"
-            onClick={() => setCoupon(couponInput.trim().toUpperCase() === "DOPAMINA10" ? "DOPAMINA10" : null)}
+            onClick={() => {
+              const ok = couponInput.trim().toUpperCase() === "DOPAMINA10";
+              setCoupon(ok ? "DOPAMINA10" : null);
+              if (ok) trackApplyCoupon("DOPAMINA10", value * 0.1, value);
+            }}
           >
             Aplicar
           </button>
