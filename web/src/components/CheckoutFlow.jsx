@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCart, cartTotal } from "@/store/cart";
 import { brl, makeOrderCode } from "@/lib/format";
 import { setStoredJson } from "@/lib/useStored";
+import { getGaClientId, getGaSessionId } from "@/lib/identity";
 import {
   trackAddPaymentInfo,
   trackAddShippingInfo,
@@ -67,6 +68,7 @@ export default function CheckoutFlow() {
   };
 
   const finish = async () => {
+    const [userPseudoId, sessionId] = await Promise.all([getGaClientId(), getGaSessionId()]);
     const order = {
       code: makeOrderCode(),
       value: subtotal,
@@ -82,7 +84,11 @@ export default function CheckoutFlow() {
       await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ order, products: items }),
+        body: JSON.stringify({
+          order,
+          products: items,
+          analytics: { user_pseudo_id: userPseudoId, session_id: sessionId },
+        }),
       });
     } catch {
       // sem Supabase configurado o pedido segue apenas no cliente

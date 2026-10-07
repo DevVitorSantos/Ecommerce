@@ -129,3 +129,16 @@
 **Testes/print:** `tests/banner-consent.png`. Build OK.
 
 **Pendências:** GA4_ID, Supabase + seed, deploy Vercel.
+
+---
+
+## 2026-10-07 — Etapa 8 (user_pseudo_id) + Etapa 7 (export diário)
+
+**O que foi feito:**
+1. **Etapa 8 — `user_pseudo_id` no pedido:** novo `lib/identity.js` lê o `client_id` via `gtag('get')` com fallback para o cookie `_ga` (retorna null sem GA4 ou com cookies recusados); `CheckoutFlow` envia `analytics: {user_pseudo_id, session_id}` no `POST /api/orders`; a rota repassa ao Supabase (colunas já no schema) e ecoa no modo simulado.
+2. **Etapa 7 — export diário:** `scripts/export_orders.mjs` lê `orders`+`order_items` do Supabase, grava snapshot `exports/orders_YYYY-MM-DD.csv` (+ itens) e faz `bq load --replace` no dataset bronze quando há credenciais; sem env, faz SKIP gracioso (testado, exit 0). Workflow `.github/workflows/export-orders.yml` (cron 03h BRT + manual) com autenticação GCP opcional e commit automático dos CSVs. Secrets documentados no workflow.
+3. **Schema Supabase** em `sql/supabase_orders.sql` (tabelas + índices + RLS com insert anônimo) — aplicar via SQL Editor.
+
+**Testes/print:** dry-run do export sem credenciais (SKIP OK); `npm run lint` 0 erros; `npm run build` OK.
+
+**Pendências:** criar GA4/Supabase/GCP de verdade e preencher os secrets (`NEXT_PUBLIC_GA4_ID`, Supabase URL/keys, `BQ_PROJECT`, `GCP_SA_KEY`).

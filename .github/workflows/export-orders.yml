@@ -1,0 +1,47 @@
+# Dopamina Ecommerce — export diário de pedidos (Supabase → BigQuery bronze + CSV no git)
+# Secrets necessários no repo (Settings → Secrets → Actions):
+#   SUPABASE_URL, SUPABASE_SERVICE_KEY, BQ_PROJECT, BQ_DATASET (opcional, default: bronze),
+#   GCP_SA_KEY (service account JSON com BigQuery Data Editor + Job User)
+name: export-orders
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # 03h BRT, todo dia
+  workflow_dispatch: # permite rodar manualmente
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - id: gcp-auth
+        if: ${{ secrets.GCP_SA_KEY != '' }}
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - if: ${{ secrets.GCP_SA_KEY != '' }}
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Exportar pedidos
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          BQ_PROJECT: ${{ secrets.BQ_PROJECT }}
+          BQ_DATASET: ${{ secrets.BQ_DATASET }}
+        run: node scripts/export_orders.mjs
+
+      - name: Commitar CSVs
+        run: |
+          git config user.name "dopamina-bot"
+          git config user.email "dopamina-bot@users.noreply.github.com"
+          git add exports/
+          git diff --cached --quiet || git commit -m "data: export diário de pedidos $(date -u +%F)"
+          git push

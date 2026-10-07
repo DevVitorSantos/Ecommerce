@@ -10,13 +10,17 @@ export async function POST(request) {
   } catch {
     return NextResponse.json({ error: "invalid json" }, { status: 400 });
   }
-  const { order, products } = payload;
+  const { order, products, analytics = {} } = payload;
   if (!order?.code || !Array.isArray(products)) {
     return NextResponse.json({ error: "missing order" }, { status: 400 });
   }
 
   if (!SUPABASE_URL || !SUPABASE_KEY) {
-    return NextResponse.json({ simulated: true, code: order.code });
+    return NextResponse.json({
+      simulated: true,
+      code: order.code,
+      user_pseudo_id: analytics.user_pseudo_id ?? null,
+    });
   }
 
   const headers = {
@@ -33,6 +37,8 @@ export async function POST(request) {
       order_id: order.code,
       code: order.code,
       user_id: order.email || "anon",
+      user_pseudo_id: analytics.user_pseudo_id ?? null,
+      session_id: analytics.session_id ?? null,
       created_at: order.createdAt,
       value_simulated: order.value,
       items_count: order.items,
