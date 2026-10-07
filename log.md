@@ -142,3 +142,18 @@
 **Testes/print:** dry-run do export sem credenciais (SKIP OK); `npm run lint` 0 erros; `npm run build` OK.
 
 **Pendências:** criar GA4/Supabase/GCP de verdade e preencher os secrets (`NEXT_PUBLIC_GA4_ID`, Supabase URL/keys, `BQ_PROJECT`, `GCP_SA_KEY`).
+
+---
+
+## 2026-10-07 — Google Tag Manager instalado (GTM-5RLXF4BF)
+
+**O que foi feito:**
+1. Snippet do GTM no `layout.js` (vale para todas as páginas): `<Script id="gtm-init" strategy="afterInteractive">` com o loader oficial + `<noscript>` com iframe logo após `<body>`. ID via `NEXT_PUBLIC_GTM_ID` com fallback para `GTM-5RLXF4BF`.
+2. Usa o mesmo `dataLayer` dos eventos de ecommerce — tags criadas no GTM enxergam `view_item`, `add_to_cart`, `purchase` etc. sem mudar código.
+3. Verificação no HTML servido (`next start`): iframe `ns.html?id=GTM-5RLXF4BF` renderizado + loader `gtm.js` no payload do Next (o `afterInteractive` executa no cliente; o literal aparece quebrado como `gtm.js?id='+i+dl` — formato oficial do Google).
+
+**Testes/print:** `npm run lint` 0 erros; `npm run build` OK; HTML inspecionado com as 2 ocorrências do container.
+
+**Atenção:** o gtag direto do GA4 continua ativo; quando criar a tag do GA4 **dentro do GTM**, remova o bloco gtag do layout para não duplicar `page_view`.
+
+**Pendências:** criar a tag GA4 dentro do container GTM + DebugView (Tag Assistant).
