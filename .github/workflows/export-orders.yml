@@ -1,7 +1,8 @@
 # Dopamina Ecommerce — export diário de pedidos (Supabase → BigQuery bronze + CSV no git)
 # Secrets necessários no repo (Settings → Secrets → Actions):
-#   SUPABASE_URL, SUPABASE_SERVICE_KEY, BQ_PROJECT, BQ_DATASET (opcional, default: bronze),
+#   SUPABASE_URL, SUPABASE_SERVICE_KEY, BQ_PROJECT,
 #   GCP_SA_KEY (service account JSON com BigQuery Data Editor + Job User)
+#   BQ_DATASET é opcional (default no código: Dopamina_Ecommerce_Bronze)
 name: export-orders
 
 on:
@@ -21,14 +22,11 @@ jobs:
         with:
           node-version: 22
 
-      - id: gcp-auth
-        if: ${{ secrets.GCP_SA_KEY != '' }}
-        uses: google-github-actions/auth@v2
+      - uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - if: ${{ secrets.GCP_SA_KEY != '' }}
-        uses: google-github-actions/setup-gcloud@v2
+      - uses: google-github-actions/setup-gcloud@v2
 
       - name: Exportar pedidos
         env:
