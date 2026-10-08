@@ -40,6 +40,15 @@ os problemas de atribuição → **aí sim** estruturar as tabelas (engenharia) 
 - [x] Fundação de dados: Supabase (`orders`/`order_items`/`products`), BigQuery bronze + loads validados.
 > Validação dos eventos na interface (DebugView) acontece na **Fase 3**, junto com a auditoria de tracking.
 
+## Fase 1b — Desenvolvimento: SEO On-Page (Home, Categorias, PDP)
+> **Otimização guiada por intenção.** Iniciar pelo **Grupo A** (simulador de compras / compras de mentirinha), depois B/C. Foco: páginas estruturais, não blog.
+- [ ] **Home**: `generateMetadata()` + JSON-LD `WebSite` + bloco "Como funciona o simulador de compras" (H2)
+- [ ] **Categorias**: `generateMetadata()` dinâmico + JSON-LD `BreadcrumbList` (+ `ItemList` opcional)
+- [ ] **PDP**: `generateMetadata()` dinâmico + JSON-LD `Product + Offer + BreadcrumbList` + `alt` descritivo
+- [ ] Revisar heading hierarchy (1 H1/página)
+- [ ] Validar títulos/metas (≤60/≤160) + JSON-LD (Rich Results Test)
+- [ ] Evidências em `tests/seo/` + registro no `log.md`
+
 ## Fase 2 — Análise: Perguntas de negócio (com a liderança)
 > **Objetivo: saber o que o ecommerce precisa para crescer, traduzido em perguntas que o dado precisa responder.**
 > Nada é traqueado, atingido ou modelado antes desta conversa estar documentada (`PERGUNTAS.md`).
