@@ -33,6 +33,7 @@ Thumbs.db
 .vercel/
 
 # offline-only: planejamento e evidências ficam só nesta máquina (não vão p/ o GitHub)
+# exports/ NÃO entra aqui: os CSVs são o backup diário versionado (carga BigQuery).
 BRAINSTORM.md
 Linha do tempo.md
 log.md
@@ -41,7 +42,6 @@ config.txt.rtf
 prompt.txt.rtf
 docs/
 tests/
-exports/
 sql/
 scripts/check_images.mjs
 scripts/set_images.mjs
