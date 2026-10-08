@@ -8,7 +8,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const BQ_PROJECT = process.env.BQ_PROJECT;
-const BQ_DATASET = process.env.BQ_DATASET || "bronze";
+const BQ_DATASET = process.env.BQ_DATASET || "Dopamina_Ecommerce_Bronze";
 
 const argDate = process.argv.find((a) => a.startsWith("--date="));
 const day = argDate ? argDate.split("=")[1] : yesterday();
