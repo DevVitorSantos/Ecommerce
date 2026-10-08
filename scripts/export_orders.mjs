@@ -1,7 +1,7 @@
 // Dopamina Ecommerce — export diário Supabase → BigQuery bronze + CSV no git.
 // Uso: node scripts/export_orders.mjs [--date=YYYY-MM-DD]  (padrão: ontem, UTC)
 // Sem credenciais ele só gera os CSVs; com GCP configurado faz também o load no BigQuery.
-// Env: SUPABASE_URL, SUPABASE_SERVICE_KEY (ou anon), BQ_PROJECT, BQ_DATASET (default: bronze).
+// Env: SUPABASE_URL, SUPABASE_SERVICE_KEY (ou anon), BQ_PROJECT, BQ_DATASET (default: Dopamina_Ecommerce_Bronze).
 import { execFileSync } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 
@@ -27,12 +27,12 @@ function toCsv(rows, columns) {
   return [columns.join(","), ...rows.map((r) => columns.map((c) => esc(r[c])).join(","))].join("\n") + "\n";
 }
 
-async function fetchTable(table) {
+async function fetchTable(table, orderCol) {
   const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/${table}?select=*&order=created_at.asc`,
+    `${SUPABASE_URL}/rest/v1/${table}?select=*&order=${orderCol}.asc`,
     { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } },
   );
-  if (!res.ok) throw new Error(`${table}: HTTP ${res.status}`);
+  if (!res.ok) throw new Error(`${table}: HTTP ${res.status} — ${await res.text()}`);
   return res.json();
 }
 
@@ -44,11 +44,21 @@ const ORDER_COLS = [
 ];
 const ITEM_COLS = ["id", "order_id", "sku", "name", "category", "price", "qty"];
 
-function bqLoad(table, file) {
+const ORDER_SCHEMA = [
+  "order_id:STRING,code:STRING,user_id:STRING,user_pseudo_id:STRING,session_id:STRING",
+  "created_at:TIMESTAMP,value_simulated:FLOAT,items_count:INTEGER,coupon:STRING",
+  "utm_source:STRING,utm_medium:STRING,utm_campaign:STRING,utm_content:STRING",
+  "referrer:STRING,landing_page:STRING,platform:STRING,checkout_ms:INTEGER,status:STRING",
+].join(",");
+const ITEM_SCHEMA = "id:INTEGER,order_id:STRING,sku:STRING,name:STRING,category:STRING,price:FLOAT,qty:INTEGER";
+
+function bqLoad(table, file, schema) {
+  // Schema explícito: --autodetect quebra com CSV só-cabeçalho (0 linhas = HTTP 400).
   // bq CLI vem do setup-gcloud na Action; localmente exige `gcloud auth login`.
   execFileSync(
     "bq",
-    ["load", "--source_format=CSV", "--skip_leading_rows=1", "--autodetect", "--replace",
+    ["load", "--source_format=CSV", "--skip_leading_rows=1", "--replace",
+      `--schema=${schema}`,
       `${BQ_PROJECT}:${BQ_DATASET}.${table}`, file],
     { stdio: "inherit" },
   );
@@ -60,8 +70,8 @@ async function main() {
     return;
   }
   mkdirSync("exports", { recursive: true });
-  const orders = await fetchTable("orders");
-  const items = await fetchTable("order_items");
+  const orders = await fetchTable("orders", "created_at");
+  const items = await fetchTable("order_items", "id");
   const ordersFile = `exports/orders_${day}.csv`;
   const itemsFile = `exports/order_items_${day}.csv`;
   writeFileSync(ordersFile, toCsv(orders, ORDER_COLS));
@@ -73,10 +83,14 @@ async function main() {
     return;
   }
   try {
-    bqLoad("orders", ordersFile);
-    bqLoad("order_items", itemsFile);
+    bqLoad("orders", ordersFile, ORDER_SCHEMA);
+    bqLoad("order_items", itemsFile, ITEM_SCHEMA);
     console.log(`BigQuery: ${BQ_PROJECT}.${BQ_DATASET}.orders(.order_items) atualizados (--replace).`);
-  } catch {
+  } catch (e) {
+    if (process.env.CI) {
+      console.error("ERRO BigQuery:", e.message);
+      process.exit(1);
+    }
     console.log("AVISO: `bq` falhou (sem auth/CLI?) — CSVs já salvos, load pendente.");
   }
 }
