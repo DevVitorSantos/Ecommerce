@@ -40,6 +40,7 @@ jobs:
         run: |
           git config user.name "dopamina-bot"
           git config user.email "dopamina-bot@users.noreply.github.com"
+          mkdir -p exports/
           git add exports/
           git diff --cached --quiet || git commit -m "data: export diário de pedidos $(date -u +%F)"
           git push
