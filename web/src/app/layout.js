@@ -6,6 +6,7 @@ import CartButton from "@/components/CartButton";
 import SearchBar from "@/components/SearchBar";
 import CookieConsent from "@/components/CookieConsent";
 import CookieReset from "@/components/CookieReset";
+import { SITE_URL, SITE_NAME, KEYWORDS } from "@/lib/seo";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakarta" });
@@ -13,9 +14,29 @@ const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakart
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-5RLXF4BF";
 
 export const metadata = {
-  title: "dopamina. — loja simulada, dados reais",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Simulador de compras — compre tudo, gaste nada",
+    template: `%s | ${SITE_NAME}`,
+  },
   description:
-    "Um e-commerce onde voce compra sem gastar nada. Chegada instantanea, dopamina garantida — e cada clique vira dado.",
+    "Simulador de compras online para fazer compras de mentirinha: monte o carrinho, faça o checkout e receba uma entrega simulada sem gastar dinheiro.",
+  keywords: KEYWORDS,
+  applicationName: SITE_NAME,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "pt_BR",
+    title: "Simulador de compras — compre tudo, gaste nada",
+    description:
+      "Compras de mentirinha com carrinho, checkout e entrega simulada. Compre tudo e não gaste nada.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Simulador de compras — compre tudo, gaste nada",
+    description: "Compras de mentirinha com carrinho e checkout simulados: compre tudo, gaste nada.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default async function RootLayout({ children }) {

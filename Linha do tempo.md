@@ -40,14 +40,17 @@ os problemas de atribuição → **aí sim** estruturar as tabelas (engenharia) 
 - [x] Fundação de dados: Supabase (`orders`/`order_items`/`products`), BigQuery bronze + loads validados.
 > Validação dos eventos na interface (DebugView) acontece na **Fase 3**, junto com a auditoria de tracking.
 
-## Fase 1b — Desenvolvimento: SEO On-Page (Home, Categorias, PDP)
-> **Otimização guiada por intenção.** Iniciar pelo **Grupo A** (simulador de compras / compras de mentirinha), depois B/C. Foco: páginas estruturais, não blog.
-- [ ] **Home**: `generateMetadata()` + JSON-LD `WebSite` + bloco "Como funciona o simulador de compras" (H2)
-- [ ] **Categorias**: `generateMetadata()` dinâmico + JSON-LD `BreadcrumbList` (+ `ItemList` opcional)
-- [ ] **PDP**: `generateMetadata()` dinâmico + JSON-LD `Product + Offer + BreadcrumbList` + `alt` descritivo
-- [ ] Revisar heading hierarchy (1 H1/página)
-- [ ] Validar títulos/metas (≤60/≤160) + JSON-LD (Rich Results Test)
-- [ ] Evidências em `tests/seo/` + registro no `log.md`
+## Fase 1b — Desenvolvimento: SEO On-Page (Home, Categorias, PDP) ✅
+> **Otimização guiada por intenção.** Iniciar pelo **Grupo A** (simulador de compras / compras de mentirinha), depois B/C. Foco: páginas estruturais, não blog. Plano em `SEO_PLANO4.md`.
+- [x] **Home**: `generateMetadata()` (title/description/canonical) + JSON-LD `WebSite`/`Organization`/`FAQPage` + bloco "Como funciona o simulador de compras" (H2) + FAQ.
+- [x] **Categorias**: `generateMetadata()` dinâmico + JSON-LD `BreadcrumbList`/`ItemList`/`FAQPage` + intro dinâmica + FAQ (9 categorias).
+- [x] **PDP**: `generateMetadata()` dinâmico + JSON-LD `Product+Offer+AggregateRating`/`BreadcrumbList`/`FAQPage` + bloco "Sobre o produto" + FAQ + `alt` descritivo.
+- [x] Heading hierarchy: 1 H1 por página (Home/Categoria/PDP).
+- [x] Sitemap (`/sitemap.xml`, 51 URLs) + `robots.txt` (bloqueia carrinho/checkout/api/busca).
+- [x] Helpers reutilizáveis: `lib/seo.js`, `lib/jsonld.js`, `components/JsonLd.jsx`, `components/FaqSection.jsx`.
+- [x] Validado com `next build` (EXIT 0) + JSON-LD parseável (3 blocos/página, FAQ visível = FAQPage).
+- [ ] Evidências em `tests/seo/` (Rich Results Test da URL de produção) + registro no `log.md`.
+- [ ] Definir `NEXT_PUBLIC_SITE_URL` na Vercel quando o domínio `dopaminaloja.com.br` estiver ativo.
 
 ## Fase 2 — Análise: Perguntas de negócio (com a liderança)
 > **Objetivo: saber o que o ecommerce precisa para crescer, traduzido em perguntas que o dado precisa responder.**

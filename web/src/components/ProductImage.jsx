@@ -18,7 +18,7 @@ export default function ProductImage({ product, className = "", imgClassName = "
     <div className={`overflow-hidden bg-slate-50 ${className}`}>
       <img
         src={product.image_url}
-        alt={product.name}
+        alt={`${product.name} — ${product.category} no simulador de compras dopamina.`}
         loading="lazy"
         onError={() => setFailed(true)}
         className={`h-full w-full object-cover ${imgClassName}`}

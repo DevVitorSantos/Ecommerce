@@ -327,3 +327,31 @@
 - **M4** detalha PWA/TWA/Play e baseline P21.
 
 **Pendências:** M2.1 (24–48h) e o resto do fluxo conforme Fases 2–8.
+
+---
+
+## 2026-10-08 — Fase 1b implementada: SEO On-Page (Home, Categorias, PDP) + conteúdo/FAQ
+
+**O que foi feito (código — frente 🎨 desenvolvimento):**
+1. **Novos artefatos reutilizáveis:**
+   - `web/src/lib/seo.js` — `SITE_URL` (`NEXT_PUBLIC_SITE_URL` com fallback Vercel), `SITE_NAME`, `absUrl`, `clamp`, `KEYWORDS` (Grupo A), conteúdo por categoria (lead + FAQ) e geradores `buildHomeFaqs`, `buildCategoryFaqs`, `buildProductFaqs`.
+   - `web/src/lib/jsonld.js` — construtores `jsonLdWebsite`, `jsonLdOrganization`, `jsonLdBreadcrumb`, `jsonLdItemList`, `jsonLdProduct` (Product+Offer+AggregateRating), `jsonLdFaq`.
+   - `web/src/components/JsonLd.jsx` — `<script type="application/ld+json">` nativo (Server Component), com `replace(/</g,'\\u003c')` (recomendação oficial do Next).
+   - `web/src/components/FaqSection.jsx` — FAQ visível com `<details>` nativo (sem JS de cliente); mesmo conteúdo do JSON-LD `FAQPage`.
+2. **Home** (`app/page.js`): `metadata` (title/description/canonical/OG), JSON-LD `WebSite`+`Organization`+`FAQPage`, seção "Como funciona o simulador de compras" (H2, 3 passos) e bloco de FAQ.
+3. **Categoria** (`app/categoria/[slug]/page.js`): `generateMetadata()` dinâmico (título `[Categoria] — simulador de compras`), JSON-LD `BreadcrumbList`+`ItemList`+`FAQPage`, intro dinâmica por categoria e FAQ (dúvidas específicas + "produtos mais desejados" gerado de `sold_fake` + perguntas universais de negócio).
+4. **PDP** (`app/produto/[slug]/page.js`): `generateMetadata()` dinâmico, JSON-LD `Product+Offer`+`BreadcrumbList`+`FAQPage`, bloco "Sobre o produto" (copy com keywords) e FAQ por produto (preço/parcelamento, promoção, entrega, garantia, segurança, especificações).
+5. **Layout** (`app/layout.js`): `metadataBase`, `title.template` (`%s | dopamina.`), description/keywords/OG/Twitter padrão.
+6. **Técnico**: `app/sitemap.js` (51 URLs: home + stats + 9 categorias + 40 produtos) e `app/robots.js` (allow `/`, disallow carrinho/checkout/confirmacao/rastreio/pedidos/busca/api).
+7. **Acessibilidade/SEO de imagem**: `ProductImage.jsx` passou a usar `alt` descritivo (`[nome] — [categoria] no simulador de compras dopamina.`).
+
+**Conteúdo de negócio:** as FAQ respondem às perguntas do `PERGUNTAS.md` de forma editorial (ex.: cupom DOPAMINA10 → P9; produtos mais desejados por categoria → P12/P13/P15; "comprar de mentirinha ajuda a controlar impulso" → Grupo B; "o que é dopamina shopping" → Grupo C), reforçando o Grupo A (descoberta) nos títulos/metas.
+
+**Validação:**
+- `npm run lint` → 0 erros (1 warning pré-existente de `<img>`).
+- `npm run build` → EXIT 0; 62 páginas geradas (Home, 9 categorias, 40 PDPs, sitemap, robots).
+- HTML pré-renderizado conferido: título/description/canonical corretos; 3 JSON-LD por página parseáveis (`ConvertFrom-Json` OK); FAQ visível (`<details>`) = nº de perguntas do `FAQPage`; 1 H1 por página.
+
+**Arquivos:** `web/src/lib/seo.js`, `web/src/lib/jsonld.js`, `web/src/components/JsonLd.jsx`, `web/src/components/FaqSection.jsx`, `web/src/app/layout.js`, `web/src/app/page.js`, `web/src/app/categoria/[slug]/page.js`, `web/src/app/produto/[slug]/page.js`, `web/src/app/sitemap.js`, `web/src/app/robots.js`, `web/src/components/ProductImage.jsx`.
+
+**Pendências:** rodar o Rich Results Test na URL de produção e salvar prints em `tests/seo/`; configurar `NEXT_PUBLIC_SITE_URL` na Vercel quando `dopaminaloja.com.br` estiver ativo; deploy.

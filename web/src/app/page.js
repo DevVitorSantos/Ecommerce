@@ -4,13 +4,31 @@ import { deptStyle } from "@/lib/departments";
 import ProductCard from "@/components/ProductCard";
 import Countdown from "@/components/Countdown";
 import Newsletter from "@/components/Newsletter";
+import JsonLd from "@/components/JsonLd";
+import FaqSection from "@/components/FaqSection";
+import { jsonLdWebsite, jsonLdOrganization, jsonLdFaq } from "@/lib/jsonld";
+import { buildHomeFaqs } from "@/lib/seo";
 import { discount } from "@/lib/format";
 
 export const revalidate = 3600;
 
+export const metadata = {
+  title: "Simulador de compras — compre tudo, gaste nada",
+  description:
+    "Site para simular compras online (compras de mentirinha): monte o carrinho, faça um checkout simulado e veja a entrega acontecer sem gastar dinheiro.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    url: "/",
+    title: "Simulador de compras — compre tudo, gaste nada",
+    description:
+      "Site para simular compras online (compras de mentirinha): monte o carrinho, faça o checkout e receba uma entrega simulada sem gastar dinheiro.",
+  },
+};
+
 export default async function Home() {
   const products = await getProducts();
   const categories = await getCategories();
+  const faqs = buildHomeFaqs();
 
   const withOff = [...products].sort(
     (a, b) => discount(b.price, b.price_list) - discount(a.price, a.price_list),
@@ -25,6 +43,9 @@ export default async function Home() {
 
   return (
     <div>
+      <JsonLd data={jsonLdWebsite()} />
+      <JsonLd data={jsonLdOrganization()} />
+      <JsonLd data={jsonLdFaq(faqs)} />
       {/* HERO */}
       <section className="nx-hero text-white">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-2 md:items-center md:py-16">
@@ -87,6 +108,32 @@ export default async function Home() {
           </div>
         </section>
 
+        {/* COMO FUNCIONA */}
+        <section aria-labelledby="como-funciona" className="py-10">
+          <h2 id="como-funciona" className="text-2xl font-extrabold text-slate-900">
+            Como funciona o simulador de compras
+          </h2>
+          <p className="mt-1 max-w-2xl text-sm text-slate-500">
+            O dopamina. é um site para simular compras online — as famosas compras de mentirinha.
+            Você experimenta o prazer de comprar sem gastar dinheiro.
+          </p>
+          <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            {[
+              ["1", "Escolha e adicione", "Navegue pelos departamentos e monte um carrinho cheio de desejos. Nada é reservado, nada custa."],
+              ["2", "Finalize de mentirinha", "Passe pelo checkout simulado, aplique o cupom DOPAMINA10 e veja o total cair — sem informar cartão."],
+              ["3", "Receba a entrega simulada", "Em até 5 segundos você acompanha um rastreio fictício. O gasto real é sempre R$ 0."],
+            ].map(([n, title, text]) => (
+              <div key={n} className="nx-card p-5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-sm font-bold text-white">
+                  {n}
+                </div>
+                <h3 className="mt-3 text-sm font-bold text-slate-900">{title}</h3>
+                <p className="mt-1 text-sm text-slate-500">{text}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* OFERTAS RELÂMPAGO */}
         <section id="ofertas" className="py-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -136,6 +183,13 @@ export default async function Home() {
             ))}
           </div>
         </section>
+
+        {/* FAQ */}
+        <FaqSection
+          title="Perguntas frequentes sobre o simulador de compras"
+          intro="Tire suas dúvidas antes de encher o carrinho — tudo aqui é de mentirinha."
+          faqs={faqs}
+        />
 
         {/* NEWSLETTER */}
         <section className="py-10">

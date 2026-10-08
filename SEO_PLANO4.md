@@ -1,5 +1,12 @@
 # 4. SEO — Otimização para Home, Categorias e PDP
 
+> **STATUS: IMPLEMENTADO ✅ (Fase 1b, 2026-10-08).** Tudo abaixo foi executado no código:
+> `lib/seo.js`, `lib/jsonld.js`, `components/JsonLd.jsx`, `components/FaqSection.jsx`,
+> `layout.js`, `page.js` (Home), `categoria/[slug]/page.js`, `produto/[slug]/page.js`,
+> `sitemap.js`, `robots.js`, `ProductImage.jsx`. `build` EXIT 0. Detalhes no `log.md`.
+> Pendente: rodar Rich Results Test na URL de produção (prints em `tests/seo/`) e setar
+> `NEXT_PUBLIC_SITE_URL` na Vercel com o domínio final.
+
 > Documento novo (offline). Baseado nos 3 grupos sugeridos: **Grupo A** (descoberta/funcionalidade) → começar por ele; **Grupo B** (desejo/comportamento); **Grupo C** (tendência emergente). Esta é a **Fase 4a** do desenvolvimento (SEO), separada das análises (Fases 2–6).
 
 ## 4.1 Objetivo
@@ -174,12 +181,20 @@ Adicionar como **Fase 4a — SEO (Otimização On-Page)**, entre Fase 4 (Anális
 Criar **Fase 1b — SEO On-Page (Home/Categorias/PDP)** logo após **Fase 1 — MVP web ✅** (antes de Fase 2 de análise). Motivo: otimizações são de código/markup (desenvolvimento), não dependem de GA4/Databricks.
 
 ### Subtarefas Fase 1b — SEO
-- [ ] **Home**: `generateMetadata()` + WebSite JSON-LD + bloco "Como funciona o simulador de compras" (H2)
-- [ ] **Categorias**: `generateMetadata()` dinâmico + BreadcrumbList (+ ItemList opcional)
-- [ ] **PDP**: `generateMetadata()` + Product+Offer+BreadcrumbList + alt text
-- [ ] Revisar heading hierarchy (1 H1/página, H2/H3 corretos)
-- [ ] Testar títulos/metas (não ultrapassar limites) + validar JSON-LD (Rich Results Test)
-- [ ] Registrar prints/evidências em `tests/seo/` (opcional) + `log.md`
+- [x] **Home**: `generateMetadata()` + WebSite/Organization JSON-LD + bloco "Como funciona o simulador de compras" (H2) + FAQ
+- [x] **Categorias**: `generateMetadata()` dinâmico + BreadcrumbList/ItemList + intro + FAQ (9 categorias)
+- [x] **PDP**: `generateMetadata()` + Product+Offer+BreadcrumbList + bloco "Sobre o produto" + FAQ + alt text
+- [x] Revisar heading hierarchy (1 H1/página, H2/H3 corretos)
+- [x] Testar títulos/metas (≤60/≤160) + validar JSON-LD parseável no HTML pré-renderizado
+- [x] Sitemap.xml (51 URLs) + robots.txt
+- [ ] Registrar prints/evidências em `tests/seo/` (Rich Results Test) + `log.md`
+- [ ] Setar `NEXT_PUBLIC_SITE_URL` na Vercel (domínio final)
+
+## 4.9 Conteúdo + FAQ (implementado)
+- **Fonte de verdade:** `web/src/lib/seo.js` — cada categoria tem `lead` + 2 FAQs específicas; PDP gera 6 FAQs por produto (preço/parcelamento, promoção, entrega, garantia, segurança, especificações).
+- **FAQ visível = FAQPage JSON-LD:** mesmo array alimenta `FaqSection` (com `<details>`) e `jsonLdFaq` — requisito do Google.
+- **FAQ responde perguntas de negócio:** cupom DOPAMINA10 (P9), "produtos mais desejados por categoria" calculado de `sold_fake` (P12/P13/P15), controle de impulso (Grupo B), "o que é dopamine shopping" (Grupo C).
+- **Keywords (Grupo A)** tecidas naturalmente em título, description, H1, intro e FAQ: *simulador de compras*, *simulador de compras online*, *compras de mentirinha*, *comprar sem gastar dinheiro*.
 
 ## 4.7 Direção de palavras-chave (resumo prático)
 1. **Começar Grupo A** (descoberta) — cobre a funcionalidade diretamente.
