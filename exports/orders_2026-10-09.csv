@@ -1,0 +1,3 @@
+order_id,code,user_id,user_pseudo_id,session_id,created_at,value_simulated,items_count,coupon,utm_source,utm_medium,utm_campaign,utm_content,referrer,landing_page,platform,checkout_ms,status
+SIM-20261007-7D8E,SIM-20261007-7D8E,vitao@gmail.com,,,2026-10-08T00:13:50.175+00:00,95.86,2,DOPAMINA10,,,,,,,web,,confirmed
+SIM-20261008-1F88,SIM-20261008-1F88,biel@gmail.com,,,2026-10-09T01:13:18.997+00:00,174.3,3,,,,,,,,web,,confirmed
