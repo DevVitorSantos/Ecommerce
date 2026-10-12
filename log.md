@@ -355,3 +355,19 @@
 **Arquivos:** `web/src/lib/seo.js`, `web/src/lib/jsonld.js`, `web/src/components/JsonLd.jsx`, `web/src/components/FaqSection.jsx`, `web/src/app/layout.js`, `web/src/app/page.js`, `web/src/app/categoria/[slug]/page.js`, `web/src/app/produto/[slug]/page.js`, `web/src/app/sitemap.js`, `web/src/app/robots.js`, `web/src/components/ProductImage.jsx`.
 
 **Pendências:** rodar o Rich Results Test na URL de produção e salvar prints em `tests/seo/`; configurar `NEXT_PUBLIC_SITE_URL` na Vercel quando `dopaminaloja.com.br` estiver ativo; deploy.
+
+---
+
+## 2026-10-08 — Favoritos (wishlist) nos produtos
+
+**O que foi feito (código — frente 🎨 desenvolvimento):**
+- `web/src/store/favorites.js` — store Zustand `persist` (`dopamina-favorites`), guarda **SKUs**; ações `toggle`/`remove`/`clear`/`isFavorite` + helper `favCount`. Guardar só SKU mantém a lista sincronizada com o catálogo ativo.
+- `web/src/components/FavoriteButton.jsx` — coração com 2 variantes (`icon` no card, `button` na PDP); `aria-pressed`/`aria-label`; dispara `add_to_wishlist`/`remove_from_wishlist` via dataLayer.
+- `web/src/components/FavoritesButton.jsx` — atalho ❤️ no header (igual ao `CartButton`) com badge de contagem.
+- `web/src/app/favoritos/page.js` (server; `getProducts`) + `web/src/components/FavoritesView.jsx` (client) — grade de favoritos, estado vazio e "limpar favoritos"; `robots: { index:false }`.
+- Integrações: `ProductCard.jsx` (coração sobreposto, card ganhou `relative`), `ProductDetail.jsx` (botão Favoritar ao lado de "Comprar agora"), `layout.js` (botão no header + link no rodapé), `robots.js` (disallow `/favoritos`).
+- `web/src/lib/events.js` — `trackAddToWishlist` / `trackRemoveFromWishlist`.
+
+**Regra de negócio:** favoritos = sinal de **desejo**; habilita **P22** em `PERGUNTAS.md` (`add_to_wishlist` × pedidos por SKU → gap desejo→compra, Onda 3). Documentado em `docs/MEASUREMENT.md`.
+
+**Pendências:** validar com `next build` + lint; commitar; (opcional) ícone de favorito no GA4/GTM DebugView.

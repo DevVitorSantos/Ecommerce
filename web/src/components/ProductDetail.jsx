@@ -7,6 +7,7 @@ import { deptStyle } from "@/lib/departments";
 import { trackAddToCart, trackViewItem, toGaItem } from "@/lib/events";
 import { useCart } from "@/store/cart";
 import ProductImage from "@/components/ProductImage";
+import FavoriteButton from "@/components/FavoriteButton";
 
 export default function ProductDetail({ product, combo }) {
   const add = useCart((s) => s.add);
@@ -96,6 +97,7 @@ export default function ProductDetail({ product, combo }) {
               >
                 {added ? "✓ Adicionado!" : "Comprar agora"}
               </button>
+              <FavoriteButton product={product} variant="button" />
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs text-slate-500">

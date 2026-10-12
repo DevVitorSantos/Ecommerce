@@ -72,6 +72,14 @@ export function trackApplyCoupon(code, discountValue, cartValue) {
   });
 }
 
+export function trackAddToWishlist(item) {
+  push("add_to_wishlist", { currency: "BRL", value: item.price, items: [item] });
+}
+
+export function trackRemoveFromWishlist(item) {
+  push("remove_from_wishlist", { currency: "BRL", value: item.price, items: [item] });
+}
+
 export function trackSearch(term) {
   push("search", { search_term: term });
 }

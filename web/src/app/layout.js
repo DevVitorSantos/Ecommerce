@@ -3,6 +3,7 @@ import Script from "next/script";
 import Link from "next/link";
 import { getCategories, getProducts } from "@/lib/catalog";
 import CartButton from "@/components/CartButton";
+import FavoritesButton from "@/components/FavoritesButton";
 import SearchBar from "@/components/SearchBar";
 import CookieConsent from "@/components/CookieConsent";
 import CookieReset from "@/components/CookieReset";
@@ -93,6 +94,7 @@ export default async function RootLayout({ children }) {
               <span className="hidden text-slate-600 lg:block">
                 Olá, <strong>visitante</strong>
               </span>
+              <FavoritesButton />
               <CartButton />
             </nav>
           </div>
@@ -153,6 +155,7 @@ export default async function RootLayout({ children }) {
               <div className="font-bold text-slate-900">Ajuda</div>
               <ul className="mt-2 space-y-1.5 text-slate-500">
                 <li><Link href="/pedidos" className="hover:text-indigo-600">Meus pedidos</Link></li>
+                <li><Link href="/favoritos" className="hover:text-indigo-600">Favoritos</Link></li>
                 <li><Link href="/stats" className="hover:text-indigo-600">Dados da loja</Link></li>
                 <li><Link href="/carrinho" className="hover:text-indigo-600">Carrinho</Link></li>
                 <li><CookieReset /></li>

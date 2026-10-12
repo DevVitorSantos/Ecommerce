@@ -40,6 +40,7 @@ Legenda de **Fonte**: `orders` = Supabase (dado já disponível); `events` = exp
 | P13 | Quais categorias convertem melhor? | Pedidos ÷ sessões por categoria | events + orders | ⏳ Onda 3 |
 | P14 | Quais categorias são compradas juntas (cross-sell)? | Co-ocorrência de categorias em `order_items` | **orders (hoje)** | ⏳ Onda 1 |
 | P15 | Faixa de preço mais vendida? | Receita e volume por bucket de `price` | **orders (hoje)** | ⏳ Onda 1 |
+| P22 | Produtos mais favoritados × mais comprados (gap desejo→compra)? | `add_to_wishlist` × pedidos por SKU | events + orders | ⏳ Onda 3 |
 
 ### D. Retenção e coortes
 
@@ -66,7 +67,7 @@ Legenda de **Fonte**: `orders` = Supabase (dado já disponível); `events` = exp
 
 1. **Onda 1 — agora (só Supabase):** P6, P9, P14, P15, P16, P18 → SQL simples em `orders`/`order_items`, pode ser feito já (candidato natural a virar as primeiras linhas da `/stats`).
 2. **Onda 2 — +24–48h (export GA4):** P7, P10, P11, P20 → consultas diretas no BigQuery.
-3. **Onda 3 — Fase 2/3 (silver/gold):** P1–P5, P8, P12, P13, P17, P19 → exigem stitching e marts; **definem quais marts entram na gold**.
+3. **Onda 3 — Fase 2/3 (silver/gold):** P1–P5, P8, P12, P13, P17, P19, P22 → exigem stitching e marts; **definem quais marts entram na gold**.
 4. **Onda 4 — V3 (app):** P21 → baseline para comparação de plataforma.
 
 ---
@@ -75,7 +76,7 @@ Legenda de **Fonte**: `orders` = Supabase (dado já disponível); `events` = exp
 
 - **Dicionário canônico de eventos:** `docs/MEASUREMENT.md` (eventos, parâmetros, regras anti-duplicidade, consent, validação). Este documento é o "como"; as perguntas da Seção 1 são o "porquê".
 - **Checklist de registro no GA4** (obrigatório antes de analisar — senão os dados existem mas não aparecem nas explorations):
-  - [ ] Marcar como **key events**: `purchase`, `begin_checkout`, `fake_delivery_progress` (e revisar se `add_to_cart` deve entrar).
+  - [ ] Marcar como **key events**: `purchase`, `begin_checkout`, `fake_delivery_progress` (e revisar se `add_to_cart` e `add_to_wishlist` devem entrar).
   - [ ] Registrar **dimensões customizadas (event-scoped)**: `simulation_flag`, `platform_shell`, `checkout_ms`, `cart_size_bucket`, `dopamine_level`, `catalog_section`.
   - [ ] Conferir se `coupon`, `transaction_id`, `search_term` (padrão GA4) estão chegando no DebugView.
   - [ ] Validar `user_pseudo_id`/`client_id` presentes nos eventos (teto do stitch → P18/P19).
