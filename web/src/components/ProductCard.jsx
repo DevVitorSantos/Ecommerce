@@ -7,6 +7,7 @@ import { trackAddToCart, trackSelectItem, toGaItem } from "@/lib/events";
 import { useCart } from "@/store/cart";
 import ProductImage from "@/components/ProductImage";
 import FavoriteButton from "@/components/FavoriteButton";
+import ShareButton from "@/components/ShareButton";
 
 export default function ProductCard({ product }) {
   const add = useCart((s) => s.add);
@@ -15,7 +16,10 @@ export default function ProductCard({ product }) {
 
   return (
     <div className="nx-card nx-card-hover group relative flex flex-col overflow-hidden">
-      <FavoriteButton product={product} className="absolute right-3 top-3 z-10" />
+      <div className="absolute right-3 top-3 z-10 flex flex-col gap-2">
+        <FavoriteButton product={product} />
+        <ShareButton product={product} />
+      </div>
       <Link href={`/produto/${product.slug}`} onClick={() => trackSelectItem(toGaItem({ ...product, qty: 1 }))}>
         <ProductImage
           product={product}

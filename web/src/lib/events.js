@@ -80,6 +80,15 @@ export function trackRemoveFromWishlist(item) {
   push("remove_from_wishlist", { currency: "BRL", value: item.price, items: [item] });
 }
 
+export function trackShare(item, method) {
+  push("share", {
+    method,
+    content_type: "product",
+    item_id: item.item_id,
+    item_name: item.item_name,
+  });
+}
+
 export function trackSearch(term) {
   push("search", { search_term: term });
 }

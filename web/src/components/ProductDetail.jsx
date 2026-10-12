@@ -8,6 +8,7 @@ import { trackAddToCart, trackViewItem, toGaItem } from "@/lib/events";
 import { useCart } from "@/store/cart";
 import ProductImage from "@/components/ProductImage";
 import FavoriteButton from "@/components/FavoriteButton";
+import ShareButton from "@/components/ShareButton";
 
 export default function ProductDetail({ product, combo }) {
   const add = useCart((s) => s.add);
@@ -97,7 +98,10 @@ export default function ProductDetail({ product, combo }) {
               >
                 {added ? "✓ Adicionado!" : "Comprar agora"}
               </button>
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2">
               <FavoriteButton product={product} variant="button" />
+              <ShareButton product={product} variant="button" />
             </div>
 
             <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs text-slate-500">

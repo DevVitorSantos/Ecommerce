@@ -371,3 +371,16 @@
 **Regra de negócio:** favoritos = sinal de **desejo**; habilita **P22** em `PERGUNTAS.md` (`add_to_wishlist` × pedidos por SKU → gap desejo→compra, Onda 3). Documentado em `docs/MEASUREMENT.md`.
 
 **Pendências:** validar com `next build` + lint; commitar; (opcional) ícone de favorito no GA4/GTM DebugView.
+
+---
+
+## 2026-10-08 — Compartilhar produto (Web Share + clipboard) + evento `share`
+
+**O que foi feito (código — frente 🎨 desenvolvimento):**
+- `web/src/components/ShareButton.jsx` — usa **Web Share API** (`navigator.share`); fallback para **copiar link** (`navigator.clipboard`). Duas variantes (`icon` no card, `button` na PDP). Mostra `✅ Link copiado` no fallback. URL montada de `window.location.origin` (funciona em dev/preview/prod).
+- `web/src/lib/events.js` — `trackShare(item, method)` → evento GA4 padrão `share` (`content_type:"product"`, `item_id`, `item_name`, `method: webshare|clipboard`).
+- `ProductCard.jsx` — os botões ❤️ e 🔗 ficam em pilha no canto superior direito do card.
+- `ProductDetail.jsx` — linha `grid-cols-2` abaixo de "Comprar agora" com **Favoritar** + **Compartilhar**.
+- `docs/MEASUREMENT.md` — linha do evento `share`. `PERGUNTAS.md` — **P23** (produtos mais compartilhados → alcance/viral, Onda 2).
+
+**Pendências:** `next build` + lint, commit/push, deploy (Vercel).

@@ -41,6 +41,7 @@ Legenda de **Fonte**: `orders` = Supabase (dado já disponível); `events` = exp
 | P14 | Quais categorias são compradas juntas (cross-sell)? | Co-ocorrência de categorias em `order_items` | **orders (hoje)** | ⏳ Onda 1 |
 | P15 | Faixa de preço mais vendida? | Receita e volume por bucket de `price` | **orders (hoje)** | ⏳ Onda 1 |
 | P22 | Produtos mais favoritados × mais comprados (gap desejo→compra)? | `add_to_wishlist` × pedidos por SKU | events + orders | ⏳ Onda 3 |
+| P23 | Quais produtos geram mais compartilhamento (potencial viral/alcance)? | `share` por `item_id` (e `method`) | events | ⏳ Onda 2 |
 
 ### D. Retenção e coortes
 
@@ -66,7 +67,7 @@ Legenda de **Fonte**: `orders` = Supabase (dado já disponível); `events` = exp
 ### Ondas de resposta (prioridade)
 
 1. **Onda 1 — agora (só Supabase):** P6, P9, P14, P15, P16, P18 → SQL simples em `orders`/`order_items`, pode ser feito já (candidato natural a virar as primeiras linhas da `/stats`).
-2. **Onda 2 — +24–48h (export GA4):** P7, P10, P11, P20 → consultas diretas no BigQuery.
+2. **Onda 2 — +24–48h (export GA4):** P7, P10, P11, P20, P23 → consultas diretas no BigQuery.
 3. **Onda 3 — Fase 2/3 (silver/gold):** P1–P5, P8, P12, P13, P17, P19, P22 → exigem stitching e marts; **definem quais marts entram na gold**.
 4. **Onda 4 — V3 (app):** P21 → baseline para comparação de plataforma.
 
