@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { brl, discount } from "@/lib/format";
 import { deptStyle } from "@/lib/departments";
-import { trackAddToCart, trackAddSuggestedItem, trackViewItem, toGaItem } from "@/lib/events";
+import { trackAddToCart, trackViewItem, toGaItem } from "@/lib/events";
 import { useCart } from "@/store/cart";
 import ProductImage from "@/components/ProductImage";
 import FavoriteButton from "@/components/FavoriteButton";
@@ -155,10 +155,8 @@ export default function ProductDetail({ product, combo }) {
                   type="button"
                   className="nx-btn-ghost px-3 py-1.5 text-xs"
                   onClick={() => {
-                    const suggested = { ...c, qty: 1, source: "suggestion", suggested_from: product.sku };
-                    add(suggested);
-                    trackAddToCart(toGaItem(suggested));
-                    trackAddSuggestedItem(toGaItem(suggested), product.sku);
+                    add(c);
+                    trackAddToCart(toGaItem({ ...c, qty: 1 }));
                   }}
                 >
                   + Adicionar

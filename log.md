@@ -387,14 +387,9 @@
 
 ---
 
-## 2026-10-08 — Evento `add_suggested_item` (atribuição de itens sugeridos na PDP)
+## 2026-10-08 — Rollback do evento `add_suggested_item`
 
-**O que foi feito (código — frente 🎨 desenvolvimento):**
-- `web/src/lib/events.js` — novo `trackAddSuggestedItem(item, suggestedFrom)` → evento **`add_suggested_item`** no dataLayer (`currency`, `value`, `suggestion_source:"pdp_combo"`, `suggested_from`, `items[]`). `toGaItem()` agora propaga `item_source` e `suggested_from` quando o item os tem.
-- `web/src/store/cart.js` — a linha do carrinho guarda `source` e `suggested_from`, então os itens sugeridos seguem marcados em `begin_checkout`/`add_payment_info`/`purchase` (atribuição de **receita**, não só de cliques).
-- `web/src/components/ProductDetail.jsx` — no "+ Adicionar" do bloco de sugestões (combo): marca `source:"suggestion"`/`suggested_from:<sku da PDP>`, dispara `add_to_cart` (padrão) **e** `add_suggested_item` (custom).
-- `docs/MEASUREMENT.md` — linha do evento + nota de `item_source` item-scoped. `PERGUNTAS.md` — **P24** (receita vinda de sugestões, Onda 3).
+- Revertido o `add_suggested_item` (commit `87a52c5`): gerava **duplicidade** de adição/carrinho; dava para resolver a leitura de itens sugeridos sem evento extra.
+- Removidos: `trackAddSuggestedItem` e os campos `item_source`/`suggested_from` de `toGaItem` (`events.js`); os campos `source`/`suggested_from` da linha do carrinho (`cart.js`); o disparo no combo da PDP (`ProductDetail.jsx`). A pergunta **P24** e a linha do evento em `MEASUREMENT.md` também foram removidas.
+- `add_to_cart` volta a ser o único evento de adição (item sugerido entra pelo fluxo normal).
 
-**Para o GTM/GA4:** trigger de Custom Event = `add_suggested_item`. Registrar `item_source` como dimensão customizada **item-scoped** para fatiar a receita de `purchase`.
-
-**Pendências:** `next build` + lint, commit/push, deploy.
