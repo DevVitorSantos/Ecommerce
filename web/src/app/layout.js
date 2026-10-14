@@ -38,6 +38,9 @@ export const metadata = {
     description: "Compras de mentirinha com carrinho e checkout simulados: compre tudo, gaste nada.",
   },
   robots: { index: true, follow: true },
+  verification: {
+    google: "xHiKXiFveB0Ga6oHsAZ_iMVt8le1qMLip8fVAFCNQEg",
+  },
 };
 
 export default async function RootLayout({ children }) {
