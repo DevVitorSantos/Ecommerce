@@ -96,6 +96,43 @@ export function jsonLdProduct(product) {
   };
 }
 
+export function jsonLdArticle(post) {
+  const url = absUrl(`/blog/${post.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    inLanguage: "pt-BR",
+    mainEntityOfPage: url,
+    url,
+    datePublished: post.date,
+    dateModified: post.date,
+    articleSection: post.section || undefined,
+    keywords: Array.isArray(post.keywords) ? post.keywords.join(", ") : post.keywords,
+    author: { "@type": "Organization", name: SITE_NAME, url: absUrl("/") },
+    publisher: { "@type": "Organization", name: SITE_NAME, url: absUrl("/") },
+  };
+}
+
+export function jsonLdBlog(posts) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: `${SITE_NAME} blog`,
+    url: absUrl("/blog"),
+    description:
+      "Artigos sobre simulador de compras, compras de mentirinha e consumo consciente.",
+    inLanguage: "pt-BR",
+    blogPost: posts.map((p) => ({
+      "@type": "BlogPosting",
+      headline: p.title,
+      url: absUrl(`/blog/${p.slug}`),
+      datePublished: p.date,
+    })),
+  };
+}
+
 export function jsonLdFaq(faqs) {
   return {
     "@context": "https://schema.org",

@@ -121,6 +121,9 @@ export default async function RootLayout({ children }) {
               <Link href="/stats" className="whitespace-nowrap px-2 py-2.5 font-semibold text-indigo-600">
                 📊 Dados
               </Link>
+              <Link href="/blog" className="whitespace-nowrap px-2 py-2.5 font-semibold text-indigo-600">
+                📝 Blog
+              </Link>
             </div>
           </nav>
         </header>
@@ -157,6 +160,7 @@ export default async function RootLayout({ children }) {
                 <li><Link href="/pedidos" className="hover:text-indigo-600">Meus pedidos</Link></li>
                 <li><Link href="/favoritos" className="hover:text-indigo-600">Favoritos</Link></li>
                 <li><Link href="/stats" className="hover:text-indigo-600">Dados da loja</Link></li>
+                <li><Link href="/blog" className="hover:text-indigo-600">Blog</Link></li>
                 <li><Link href="/carrinho" className="hover:text-indigo-600">Carrinho</Link></li>
                 <li><CookieReset /></li>
               </ul>
