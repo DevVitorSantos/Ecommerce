@@ -25,6 +25,8 @@ export const useCart = create()(
                   image_url: product.image_url || null,
                   category: product.category,
                   qty,
+                  source: product.source || null,
+                  suggested_from: product.suggested_from || null,
                 },
               ];
           return { items };

@@ -89,6 +89,16 @@ export function trackShare(item, method) {
   });
 }
 
+export function trackAddSuggestedItem(item, suggestedFrom) {
+  push("add_suggested_item", {
+    currency: "BRL",
+    value: item.price * (item.quantity || 1),
+    suggestion_source: "pdp_combo",
+    suggested_from: suggestedFrom,
+    items: [{ ...item, item_source: "suggestion" }],
+  });
+}
+
 export function trackSearch(term) {
   push("search", { search_term: term });
 }
@@ -98,11 +108,15 @@ export function trackPromotion(id, name) {
 }
 
 export function toGaItem(i) {
-  return {
+  const item = {
     item_id: i.sku,
     item_name: i.name,
     item_category: i.category,
     price: i.price,
     quantity: i.qty,
   };
+  // itens sugeridos na PDP carregam a origem para atribuir receita à sugestão
+  if (i.source) item.item_source = i.source;
+  if (i.suggested_from) item.suggested_from = i.suggested_from;
+  return item;
 }
