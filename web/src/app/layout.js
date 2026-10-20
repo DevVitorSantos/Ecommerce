@@ -7,6 +7,7 @@ import FavoritesButton from "@/components/FavoritesButton";
 import SearchBar from "@/components/SearchBar";
 import CookieConsent from "@/components/CookieConsent";
 import CookieReset from "@/components/CookieReset";
+import AttributionTracker from "@/components/AttributionTracker";
 import { SITE_URL, SITE_NAME, KEYWORDS } from "@/lib/seo";
 import "./globals.css";
 
@@ -133,6 +134,7 @@ export default async function RootLayout({ children }) {
 
         <main className="flex-1">{children}</main>
         <CookieConsent />
+        <AttributionTracker />
 
         {/* rodapé */}
         <footer className="mt-12 border-t border-slate-200 bg-white">

@@ -15,6 +15,8 @@ export async function POST(request) {
     return NextResponse.json({ error: "missing order" }, { status: 400 });
   }
 
+  const attr = order.attribution || {};
+
   if (!SUPABASE_URL || !SUPABASE_KEY) {
     return NextResponse.json({
       simulated: true,
@@ -43,7 +45,12 @@ export async function POST(request) {
       value_simulated: order.value,
       items_count: order.items,
       coupon: order.coupon ?? null,
-      utm_campaign: order.campaign ?? null,
+      utm_source: attr.utm_source ?? null,
+      utm_medium: attr.utm_medium ?? null,
+      utm_campaign: attr.utm_campaign ?? order.campaign ?? null,
+      utm_content: attr.utm_content ?? null,
+      referrer: attr.referrer ?? null,
+      landing_page: attr.landing_page ?? null,
       platform: "web",
       status: "confirmed",
     }),

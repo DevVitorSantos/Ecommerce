@@ -6,6 +6,7 @@ import { useCart, cartTotal } from "@/store/cart";
 import { brl, makeOrderCode } from "@/lib/format";
 import { setStoredJson } from "@/lib/useStored";
 import { getGaClientId, getGaSessionId } from "@/lib/identity";
+import { getAttribution } from "@/lib/attribution";
 import {
   trackAddPaymentInfo,
   trackAddShippingInfo,
@@ -82,6 +83,7 @@ export default function CheckoutFlow() {
     placingRef.current = true;
     setPlacing(true);
     const [userPseudoId, sessionId] = await Promise.all([getGaClientId(), getGaSessionId()]);
+    const attribution = getAttribution();
     const order = {
       code: makeOrderCode(),
       value: subtotal,
@@ -92,7 +94,8 @@ export default function CheckoutFlow() {
       address: `${form.address}, ${form.city || "Cidade Fictícia"}`,
       payment: form.payment,
       coupon: coupon || undefined,
-      campaign: sessionStorage.getItem("dopamina-utm") || undefined,
+      campaign: attribution.utm_campaign || undefined,
+      attribution,
     };
     try {
       await fetch("/api/orders", {
