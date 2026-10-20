@@ -1,0 +1,68 @@
+# Dopamina Ecommerce — gerador diário de tráfego simulado (GA4 de produção).
+#
+# Roda o bot headless (scripts/generate_traffic.mjs) contra o site publicado várias
+# vezes por dia, criando sessões multi-toque reais (/lanca/<campanha> → funil → purchase)
+# que entram no GA4 de produção via GTM.
+#
+# Configuração no repo (Settings → Secrets and variables → Actions):
+#   - Variable SITE_URL  = https://www.dopaminaloja.com.br   (opcional; há default no workflow)
+#   - Secret/Variable SESSIONS = nº de sessões por execução (opcional; default 10)
+#   - Secret/Variable CONVERSION_RATE = 0..1 (opcional; default 0.7)
+#
+# Nada é cobrado e nenhum dado real é enviado (nome/email/endereço são fictícios).
+name: generate-traffic
+
+on:
+  schedule:
+    # Várias execuções/dia (UTC). BRT = UTC-3.
+    - cron: "20 11 * * *" # 08:20 BRT
+    - cron: "20 16 * * *" # 13:20 BRT
+    - cron: "20 22 * * *" # 19:20 BRT
+  workflow_dispatch:
+    inputs:
+      sessions:
+        description: "Nº de sessões nesta execução"
+        required: false
+        default: "10"
+      conversion:
+        description: "Taxa de conversão 0..1 (fração que finaliza compra)"
+        required: false
+        default: "0.7"
+      site:
+        description: "URL alvo (default: Variable SITE_URL ou produção)"
+        required: false
+        default: ""
+
+jobs:
+  traffic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Instalar dependências
+        working-directory: web
+        run: npm ci
+
+      - name: Instalar Chromium (Playwright)
+        working-directory: web
+        run: npx playwright install --with-deps chromium
+
+      - name: Gerar tráfego simulado
+        working-directory: web
+        env:
+          SITE_URL: ${{ github.event.inputs.site || vars.SITE_URL || 'https://www.dopaminaloja.com.br' }}
+          SESSIONS: ${{ github.event.inputs.sessions || vars.SESSIONS || '10' }}
+          CONVERSION_RATE: ${{ github.event.inputs.conversion || vars.CONVERSION_RATE || '0.7' }}
+          SEED: ${{ github.run_id }}
+        run: node ../scripts/generate_traffic.mjs
+
+      - name: Resumo
+        if: always()
+        run: echo "Tráfego simulado executado contra ${{ github.event.inputs.site || vars.SITE_URL || 'https://www.dopaminaloja.com.br' }}"

@@ -1,0 +1,24 @@
+campaign_id,destino_tipo,destino,source,medium,content,utm_term,label,hipotese,pergunta
+ig_reels_dopamina,home,,instagram,social,reels-01,,Reels dopamina,Reels abre topo de funil e o usuário volta por search de marca,P1
+tt_madrugada,home,,tiktok,social,video-01,,TikTok madrugada,Tráfego noturno de TikTok tem ticket maior que a média,P10
+meta_feed_loja,home,,meta,paid_social,feed-01,,Meta feed (ads simulado),Ads de feed geram volume de sessões baratas simuladas,P1
+gsearch_marca,home,,google,cpc,marca-dopamina,,Search marca,Quem busca a marca converte mais que genérico,P5
+gsearch_generico,home,,google,cpc,generico-simulado,comprar+de+mentirinha,Search genérico,Termo genérico traz visitante frio mas alimenta retarget simulado,P5
+email_blackout,home,,newsletter,email,blackout-friday,,Newsletter blackout,E-mail para base própria é o canal com maior taxa de compra,P6
+wa_meme,home,,whatsapp,referral,meme-01,,Meme no zap,Indicação em grupo de WhatsApp tem alto engajamento e baixo custo,P11
+yt_shorts_fake,home,,youtube,video,shorts-01,,Shorts fake,Shorts gera alcance amplo com pouco intenção de compra imediata,P1
+reddit_br,home,,reddit,referral,r/brasil,,Post no Reddit,Reddit traz público cético que pesquisa antes de comprar,P11
+gsearch_tech,categoria,Tech,google,cpc,tech-intencao,fone+bluetooth,Search Tech categoria,Search com termo de produto leva direto à categoria de maior ticket,P5
+ig_beleza_reels,categoria,Beleza,instagram,social,beleza-reels-01,,Reels Beleza,Reels de beleza tem CTR alto e leva a categoria quente,P1
+tt_fitness,categoria,Fitness,tiktok,social,fitness-01,,TikTok Fitness,TikTok movimenta categoria de fitness com público jovem,P10
+email_bebidas,categoria,Bebidas,newsletter,email,bebidas-news,,Newsletter Bebidas,E-mail segmentado por categoria aumenta visitas a listas,P6
+wa_pets,categoria,Pets,whatsapp,referral,pets-grupo,,Zap Pets,Grupo de tutores é comunidade fiel para categoria pets,P11
+meta_casa_feed,categoria,Casa,meta,paid_social,casa-feed-01,,Meta Casa,Feed de anúncio simulado leva a categoria casa (alto volume),P1
+gsearch_snacks,categoria,Snacks,google,cpc,snacks-intencao,comprar+snacks,Search Snacks,Termo de compra impulsiva leva direto a snacks,P5
+ig_brinquedos,categoria,Brinquedos,instagram,social,brinquedos-01,,Reels Brinquedos,Conteúdo visual de brinquedos performa em feed,P1
+email_bemstar,categoria,Bem-estar,newsletter,email,bemstar-news,,Newsletter Bem-estar,Base receptiva a conteúdo de bem-estar visita a categoria,P6
+gsearch_fone_vazio,produto,fone-do-vazio,google,cpc,fone-anc,fone+bluetooth,Search Fone do Vazio,Quem já sabe o produto vai direto à PDP e compra mais,P5
+ig_serum_glow,produto,serum-do-glow,instagram,social,serum-glow-01,,Reels Serum Glow,Criativo de beleza com produto específico gera conversão direta na PDP,P3
+tt_tonico_foco,produto,tonico-do-foco,tiktok,social,tonico-01,,TikTok Tonico,Viral de madrugada leva ao best-seller de bebidas,P10
+wa_haltera,produto,haltera-do-ego,whatsapp,referral,haltera-01,,Zap Haltera,Indicação direta de produto em grupo de academia converte,P11
+email_cafe,produto,cafe-da-madrugada,newsletter,email,cafe-news,,Newsletter Café,E-mail matinal leva ao produto de rotina (café),P6

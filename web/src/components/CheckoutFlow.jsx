@@ -24,6 +24,7 @@ export default function CheckoutFlow() {
   const value = cartTotal(items);
   const [step, setStep] = useState(0);
   const startedRef = useRef(false);
+  const doneRef = useRef(false); // compra finalizada → não redireciona de volta pro carrinho
   const firedStepsRef = useRef(new Set()); // add_shipping/add_payment disparam 1x (voltar+continuar não repete)
   const [placing, setPlacing] = useState(false); // anti-duplo-clique no finalizar
   const placingRef = useRef(false); // guarda síncrona (state atrasa 1 tick)
@@ -45,7 +46,7 @@ export default function CheckoutFlow() {
   }, [items, value, coupon]);
 
   useEffect(() => {
-    if (items.length === 0 && !error) router.replace("/carrinho");
+    if (items.length === 0 && !error && !doneRef.current) router.replace("/carrinho");
   }, [items, error, router]);
 
   if (items.length === 0) return null;
@@ -109,6 +110,7 @@ export default function CheckoutFlow() {
     trackPurchase(order.code, items.map(toGaItem), subtotal, coupon);
     setStoredJson("dopamina-last-order", order);
     setStoredJson(`dopamina-order-${order.code}`, { order, products: items });
+    doneRef.current = true;
     clear();
     router.push("/confirmacao");
   };

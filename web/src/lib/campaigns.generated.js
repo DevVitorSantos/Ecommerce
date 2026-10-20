@@ -1,0 +1,256 @@
+// GERADO por scripts/generate_campaigns.mjs — não editar à mão.
+export const CAMPAIGNS = {
+  "ig_reels_dopamina": {
+    "destino_tipo": "home",
+    "destino": null,
+    "source": "instagram",
+    "medium": "social",
+    "content": "reels-01",
+    "utm_term": null,
+    "label": "Reels dopamina",
+    "hipotese": "Reels abre topo de funil e o usuário volta por search de marca",
+    "pergunta": "P1"
+  },
+  "tt_madrugada": {
+    "destino_tipo": "home",
+    "destino": null,
+    "source": "tiktok",
+    "medium": "social",
+    "content": "video-01",
+    "utm_term": null,
+    "label": "TikTok madrugada",
+    "hipotese": "Tráfego noturno de TikTok tem ticket maior que a média",
+    "pergunta": "P10"
+  },
+  "meta_feed_loja": {
+    "destino_tipo": "home",
+    "destino": null,
+    "source": "meta",
+    "medium": "paid_social",
+    "content": "feed-01",
+    "utm_term": null,
+    "label": "Meta feed (ads simulado)",
+    "hipotese": "Ads de feed geram volume de sessões baratas simuladas",
+    "pergunta": "P1"
+  },
+  "gsearch_marca": {
+    "destino_tipo": "home",
+    "destino": null,
+    "source": "google",
+    "medium": "cpc",
+    "content": "marca-dopamina",
+    "utm_term": null,
+    "label": "Search marca",
+    "hipotese": "Quem busca a marca converte mais que genérico",
+    "pergunta": "P5"
+  },
+  "gsearch_generico": {
+    "destino_tipo": "home",
+    "destino": null,
+    "source": "google",
+    "medium": "cpc",
+    "content": "generico-simulado",
+    "utm_term": "comprar+de+mentirinha",
+    "label": "Search genérico",
+    "hipotese": "Termo genérico traz visitante frio mas alimenta retarget simulado",
+    "pergunta": "P5"
+  },
+  "email_blackout": {
+    "destino_tipo": "home",
+    "destino": null,
+    "source": "newsletter",
+    "medium": "email",
+    "content": "blackout-friday",
+    "utm_term": null,
+    "label": "Newsletter blackout",
+    "hipotese": "E-mail para base própria é o canal com maior taxa de compra",
+    "pergunta": "P6"
+  },
+  "wa_meme": {
+    "destino_tipo": "home",
+    "destino": null,
+    "source": "whatsapp",
+    "medium": "referral",
+    "content": "meme-01",
+    "utm_term": null,
+    "label": "Meme no zap",
+    "hipotese": "Indicação em grupo de WhatsApp tem alto engajamento e baixo custo",
+    "pergunta": "P11"
+  },
+  "yt_shorts_fake": {
+    "destino_tipo": "home",
+    "destino": null,
+    "source": "youtube",
+    "medium": "video",
+    "content": "shorts-01",
+    "utm_term": null,
+    "label": "Shorts fake",
+    "hipotese": "Shorts gera alcance amplo com pouco intenção de compra imediata",
+    "pergunta": "P1"
+  },
+  "reddit_br": {
+    "destino_tipo": "home",
+    "destino": null,
+    "source": "reddit",
+    "medium": "referral",
+    "content": "r/brasil",
+    "utm_term": null,
+    "label": "Post no Reddit",
+    "hipotese": "Reddit traz público cético que pesquisa antes de comprar",
+    "pergunta": "P11"
+  },
+  "gsearch_tech": {
+    "destino_tipo": "categoria",
+    "destino": "Tech",
+    "source": "google",
+    "medium": "cpc",
+    "content": "tech-intencao",
+    "utm_term": "fone+bluetooth",
+    "label": "Search Tech categoria",
+    "hipotese": "Search com termo de produto leva direto à categoria de maior ticket",
+    "pergunta": "P5"
+  },
+  "ig_beleza_reels": {
+    "destino_tipo": "categoria",
+    "destino": "Beleza",
+    "source": "instagram",
+    "medium": "social",
+    "content": "beleza-reels-01",
+    "utm_term": null,
+    "label": "Reels Beleza",
+    "hipotese": "Reels de beleza tem CTR alto e leva a categoria quente",
+    "pergunta": "P1"
+  },
+  "tt_fitness": {
+    "destino_tipo": "categoria",
+    "destino": "Fitness",
+    "source": "tiktok",
+    "medium": "social",
+    "content": "fitness-01",
+    "utm_term": null,
+    "label": "TikTok Fitness",
+    "hipotese": "TikTok movimenta categoria de fitness com público jovem",
+    "pergunta": "P10"
+  },
+  "email_bebidas": {
+    "destino_tipo": "categoria",
+    "destino": "Bebidas",
+    "source": "newsletter",
+    "medium": "email",
+    "content": "bebidas-news",
+    "utm_term": null,
+    "label": "Newsletter Bebidas",
+    "hipotese": "E-mail segmentado por categoria aumenta visitas a listas",
+    "pergunta": "P6"
+  },
+  "wa_pets": {
+    "destino_tipo": "categoria",
+    "destino": "Pets",
+    "source": "whatsapp",
+    "medium": "referral",
+    "content": "pets-grupo",
+    "utm_term": null,
+    "label": "Zap Pets",
+    "hipotese": "Grupo de tutores é comunidade fiel para categoria pets",
+    "pergunta": "P11"
+  },
+  "meta_casa_feed": {
+    "destino_tipo": "categoria",
+    "destino": "Casa",
+    "source": "meta",
+    "medium": "paid_social",
+    "content": "casa-feed-01",
+    "utm_term": null,
+    "label": "Meta Casa",
+    "hipotese": "Feed de anúncio simulado leva a categoria casa (alto volume)",
+    "pergunta": "P1"
+  },
+  "gsearch_snacks": {
+    "destino_tipo": "categoria",
+    "destino": "Snacks",
+    "source": "google",
+    "medium": "cpc",
+    "content": "snacks-intencao",
+    "utm_term": "comprar+snacks",
+    "label": "Search Snacks",
+    "hipotese": "Termo de compra impulsiva leva direto a snacks",
+    "pergunta": "P5"
+  },
+  "ig_brinquedos": {
+    "destino_tipo": "categoria",
+    "destino": "Brinquedos",
+    "source": "instagram",
+    "medium": "social",
+    "content": "brinquedos-01",
+    "utm_term": null,
+    "label": "Reels Brinquedos",
+    "hipotese": "Conteúdo visual de brinquedos performa em feed",
+    "pergunta": "P1"
+  },
+  "email_bemstar": {
+    "destino_tipo": "categoria",
+    "destino": "Bem-estar",
+    "source": "newsletter",
+    "medium": "email",
+    "content": "bemstar-news",
+    "utm_term": null,
+    "label": "Newsletter Bem-estar",
+    "hipotese": "Base receptiva a conteúdo de bem-estar visita a categoria",
+    "pergunta": "P6"
+  },
+  "gsearch_fone_vazio": {
+    "destino_tipo": "produto",
+    "destino": "fone-do-vazio",
+    "source": "google",
+    "medium": "cpc",
+    "content": "fone-anc",
+    "utm_term": "fone+bluetooth",
+    "label": "Search Fone do Vazio",
+    "hipotese": "Quem já sabe o produto vai direto à PDP e compra mais",
+    "pergunta": "P5"
+  },
+  "ig_serum_glow": {
+    "destino_tipo": "produto",
+    "destino": "serum-do-glow",
+    "source": "instagram",
+    "medium": "social",
+    "content": "serum-glow-01",
+    "utm_term": null,
+    "label": "Reels Serum Glow",
+    "hipotese": "Criativo de beleza com produto específico gera conversão direta na PDP",
+    "pergunta": "P3"
+  },
+  "tt_tonico_foco": {
+    "destino_tipo": "produto",
+    "destino": "tonico-do-foco",
+    "source": "tiktok",
+    "medium": "social",
+    "content": "tonico-01",
+    "utm_term": null,
+    "label": "TikTok Tonico",
+    "hipotese": "Viral de madrugada leva ao best-seller de bebidas",
+    "pergunta": "P10"
+  },
+  "wa_haltera": {
+    "destino_tipo": "produto",
+    "destino": "haltera-do-ego",
+    "source": "whatsapp",
+    "medium": "referral",
+    "content": "haltera-01",
+    "utm_term": null,
+    "label": "Zap Haltera",
+    "hipotese": "Indicação direta de produto em grupo de academia converte",
+    "pergunta": "P11"
+  },
+  "email_cafe": {
+    "destino_tipo": "produto",
+    "destino": "cafe-da-madrugada",
+    "source": "newsletter",
+    "medium": "email",
+    "content": "cafe-news",
+    "utm_term": null,
+    "label": "Newsletter Café",
+    "hipotese": "E-mail matinal leva ao produto de rotina (café)",
+    "pergunta": "P6"
+  }
+};
