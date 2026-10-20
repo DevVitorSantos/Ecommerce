@@ -1,0 +1,11 @@
+order_id,code,user_id,user_pseudo_id,session_id,created_at,value_simulated,items_count,coupon,utm_source,utm_medium,utm_campaign,utm_content,referrer,landing_page,platform,checkout_ms,status
+SIM-20261007-7D8E,SIM-20261007-7D8E,vitao@gmail.com,,,2026-10-08T00:13:50.175+00:00,95.86,2,DOPAMINA10,,,,,,,web,,confirmed
+SIM-20261008-1F88,SIM-20261008-1F88,biel@gmail.com,,,2026-10-09T01:13:18.997+00:00,174.3,3,,,,,,,,web,,confirmed
+SIM-20261014-3955,SIM-20261014-3955,vitor@gmail.com,751292555.1791963347,,2026-10-14T07:38:01.824+00:00,310.05,5,DOPAMINA10,,,,,,,web,,confirmed
+SIM-20261014-0A53,SIM-20261014-0A53,vih.santoss@gmail.com,,,2026-10-14T08:19:37.184+00:00,252.7,3,,,,,,,,web,,confirmed
+SIM-20261014-DF29,SIM-20261014-DF29,Andrei.jota@gmail.com,751292555.1791963347,,2026-10-14T09:48:44.038+00:00,4396.86,16,DOPAMINA10,,,,,,,web,,confirmed
+SIM-20261019-95E3,SIM-20261019-95E3,bot1.1792460397308@dopamina.test,,,2026-10-20T01:40:28.027+00:00,109.8,1,,,,,,,,web,,confirmed
+SIM-20261019-18B4,SIM-20261019-18B4,bot3.1792460465577@dopamina.test,,,2026-10-20T01:41:36.207+00:00,109.8,1,,,,,,,,web,,confirmed
+SIM-20261019-248E,SIM-20261019-248E,bot1.1792461813043@dopamina.test,,,2026-10-20T02:04:03.677+00:00,229.4,2,,,,,,,,web,,confirmed
+SIM-20261019-65A3,SIM-20261019-65A3,bot2.1792461850933@dopamina.test,,,2026-10-20T02:04:41.525+00:00,239.4,2,,,,,,,,web,,confirmed
+SIM-20261019-2291,SIM-20261019-2291,qa@dopamina.test,989871336.1792462694,,2026-10-20T02:18:15.877+00:00,199.9,1,,google,cpc,gsearch_fone_vazio,fone-anc,,/,web,,confirmed
