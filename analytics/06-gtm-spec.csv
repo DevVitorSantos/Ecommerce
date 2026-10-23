@@ -1,0 +1,39 @@
+categoria,nome,tipo,id_ou_funcao,dispara_quando,config_principal,status,observacao
+destino,GA4 web stream,Destino,Measurement ID (NEXT_PUBLIC_GA4_ID),-,property GA4 web,A VALIDAR,confirmar se o ID esta setado na Vercel (env)
+destino,Consent Mode v2 (built-in),Destino,-,sempre,ad_storage/analytics_storage/ad_user_data/ad_personalization,OK,default denied no layout.js
+tag,Google tag (GA4 Config),Tag,GA4 config,Initialization - All Pages,Measurement ID + consent checks,A VALIDAR,nome real do container a confirmar
+trigger,Init - All Pages,Trigger,Initialization,todas as paginas,-,A VALIDAR,
+variavel,DLV - currency,Variable,dataLayer: currency,evento ecommerce,-,A VALIDAR,
+variavel,DLV - value,Variable,dataLayer: value,evento ecommerce,-,A VALIDAR,
+variavel,DLV - transaction_id,Variable,dataLayer: transaction_id,purchase,-,A VALIDAR,
+variavel,DLV - coupon,Variable,dataLayer: coupon,checkout/purchase,-,A VALIDAR,
+variavel,DLV - discount_value,Variable,dataLayer: discount_value,apply_coupon,-,A VALIDAR,
+variavel,DLV - shipping_tier,Variable,dataLayer: shipping_tier,add_shipping_info,-,A VALIDAR,
+variavel,DLV - payment_type,Variable,dataLayer: payment_type,add_payment_info,-,A VALIDAR,
+variavel,DLV - search_term,Variable,dataLayer: search_term,search,-,A VALIDAR,
+variavel,DLV - method,Variable,dataLayer: method,share,-,A VALIDAR,
+variavel,DLV - content_type,Variable,dataLayer: content_type,share,-,A VALIDAR,
+variavel,DLV - item_id,Variable,dataLayer: item_id,share,-,A VALIDAR,
+variavel,DLV - item_name,Variable,dataLayer: item_name,share,-,A VALIDAR,
+variavel,DLV - item_list_name,Variable,dataLayer: item_list_name,view_item_list,-,A VALIDAR,
+variavel,DLV - item_list_id,Variable,dataLayer: item_list_id,view_item_list,-,A VALIDAR,
+variavel,DLV - items,Variable,dataLayer: items,todos ecommerce,-,A VALIDAR,array de itens
+trigger,CE - view_item_list,Trigger,Custom Event = view_item_list,evento view_item_list,-,A VALIDAR,
+trigger,CE - select_item,Trigger,Custom Event = select_item,evento select_item,-,A VALIDAR,
+trigger,CE - view_item,Trigger,Custom Event = view_item,evento view_item,-,A VALIDAR,
+trigger,CE - add_to_cart,Trigger,Custom Event = add_to_cart,evento add_to_cart,-,A VALIDAR,
+trigger,CE - remove_from_cart,Trigger,Custom Event = remove_from_cart,evento remove_from_cart,-,A VALIDAR,
+trigger,CE - view_cart,Trigger,Custom Event = view_cart,evento view_cart,-,A VALIDAR,
+trigger,CE - begin_checkout,Trigger,Custom Event = begin_checkout,evento begin_checkout,-,A VALIDAR,
+trigger,CE - add_shipping_info,Trigger,Custom Event = add_shipping_info,evento add_shipping_info,-,A VALIDAR,
+trigger,CE - add_payment_info,Trigger,Custom Event = add_payment_info,evento add_payment_info,-,A VALIDAR,
+trigger,CE - purchase,Trigger,Custom Event = purchase,evento purchase,-,A VALIDAR,
+trigger,CE - apply_coupon,Trigger,Custom Event = apply_coupon,evento apply_coupon,-,A VALIDAR,
+trigger,CE - add_to_wishlist,Trigger,Custom Event = add_to_wishlist,evento add_to_wishlist,-,A VALIDAR,
+trigger,CE - remove_from_wishlist,Trigger,Custom Event = remove_from_wishlist,evento remove_from_wishlist,-,A VALIDAR,
+trigger,CE - share,Trigger,Custom Event = share,evento share,-,A VALIDAR,
+trigger,CE - search,Trigger,Custom Event = search,evento search,-,A VALIDAR,
+trigger,CE - consent_update,Trigger,Custom Event = consent_update,evento consent_update,-,A VALIDAR,custom
+tag,GA4 - Ecommerce (event tag),Tag,GA4 Event,"triggers CE - <ecommerce>","event name + items + params + consent",A VALIDAR,uma tag por evento (padrao)
+tag,GA4 - View Promotion,Tag,GA4 Event,CE - view_promotion,"promotion_id,promotion_name,items",GAP,evento nao emitido
+tag,GA4 - Fake Delivery Progress,Tag,GA4 Event,CE - fake_delivery_progress,-,GAP,evento nao existe

@@ -86,7 +86,7 @@ Legenda de **Fonte**: `orders` = Supabase (dado já disponível); `events` = exp
 
 ## 3. Tagging plan (UTM e convenções de campanha)
 
-Toda campanha simulada nasce em `/lanca/[campaign_id]` e usa `data/campaigns.csv`.
+Toda campanha simulada nasce em `/lanca/[campaign_id]` e usa `data/campaigns.csv` (✅ criado — 23 campanhas: 9 home, 9 categoria, 5 produto; gerado para `web/src/lib/campaigns.generated.js` no prebuild; roteiros multi-touch em `docs/campanhas.md`).
 
 **Taxonomia UTM (alinhada ao channel grouping padrão do GA4):**
 

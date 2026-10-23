@@ -1,0 +1,31 @@
+campo,escopo,tipo,obrigatorio,valores_permitidos_exemplo,descricao,origem
+event,raiz,string,sim,hview_item|add_to_cart|... etc,nome do evento dataLayer,events.js push()
+currency,evento,string,condicional,BRL,moeda (sempre BRL),events.js (constante)
+value,evento,number,quando ecommerce,"ex: 399.8",valor monetario simulado (BRL),calculado (price*qty ou subtotal)
+transaction_id,evento (purchase),string,sim,SIM-XXXXXX,id do pedido simulado,orders API (order.code)
+coupon,evento (begin_checkout/purchase),string,nao,DOPAMINA10,cupom aplicado,store/cart
+coupon(apply_coupon),apply_coupon,string,sim,DOPAMINA10,codigo do cupom,CartView
+discount_value,apply_coupon,number,sim,39.98,valor do desconto (10% do carrinho),CartView (value*0.1)
+shipping_tier,add_shipping_info,string,sim,simulado,tipo de frete (sempre simulado),CheckoutFlow
+payment_type,add_payment_info,string,sim,simulado,forma de pagamento (sempre simulada),CheckoutFlow
+search_term,search,string,sim,"fone bluetooth",termo buscado,SearchBar
+method,share,string,sim,"webshare|clipboard",canal de compartilhamento,ShareButton
+content_type,share,string,sim,product,tipo de conteudo,ShareButton
+item_id,share+items,string,sim,sku,id do item (sku),catalog
+item_name,share+items,string,sim,"nome do produto",nome do item,catalog
+item_category,items,string,sim,"Tech|Casa|...",departamento do item,catalog
+price,items,number,sim,199.9,preco unitario simulado,catalog
+quantity,items,number,sim,1..n,quantidade do item,store/cart
+item_list_name,view_item_list,string,sim,"Tech|Casa|...",nome da lista/departamento,categoria
+item_list_id,view_item_list,string,sim,"Tech|Casa|...",id da lista (mesmo valor),categoria
+promotion_id,view_promotion,string,sim,-,id da promocao (evento nao usado),-
+promotion_name,view_promotion,string,sim,-,nome da promocao (evento nao usado),-
+consent,consent_update,object,sim,"{ad_storage,ad_user_data,ad_personalization,analytics_storage}",flags do Consent Mode v2,CookieConsent
+simulation_flag,dimensao custom,boolean,nao,true,marca dado simulado (nao implementado),GAP
+platform_shell,dimensao custom,string,nao,"web|twa|android",plataforma (V3/app) (nao implementado),GAP
+checkout_ms,dimensao custom,number,nao,-,tempo de checkout em ms (nao implementado),GAP
+cart_size_bucket,dimensao custom,string,nao,-,faixa de tamanho do carrinho (nao implementado),GAP
+dopamine_level,dimensao custom,string,nao,-,nivel de impulso (nao implementado),GAP
+catalog_section,dimensao custom,string,nao,-,secao do catalogo (nao implementado),GAP
+items[],items,array,sim (ecommerce),"[{item_id,item_name,item_category,price,quantity}]",array de itens schema GA4,toGaItem()
+currency(BRL),global,string,sim,BRL,moeda fixa do projeto,events.js

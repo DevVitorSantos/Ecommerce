@@ -1,0 +1,19 @@
+id,cenario,passos,evento_esperado,ferramenta,resultado_esperado,status,evidencia_esperada
+QA-01,Selecionar produto,"Home -> clicar num ProductCard",select_item,GTM Preview + DebugView,"1 evento, com items[] correto",A EXECUTAR,tests/qa-01.png
+QA-02,Lista de categoria,"Abrir /categoria/[slug]",view_item_list,GTM Preview,"1 evento por montagem (remontar nao duplica)",A EXECUTAR,tests/qa-02.png
+QA-03,Ver produto,"Abrir /produto/[slug] (e remontar)",view_item,GTM Preview,"1 evento por produto (viewedRef)",A EXECUTAR,tests/qa-03.png
+QA-04,Adicionar ao carrinho,"PDP -> Adicionar (qty>1)",add_to_cart,GTM Preview,"value = price*qty; items com quantity",A EXECUTAR,tests/qa-04.png
+QA-05,Ver carrinho + remover,"/carrinho -> remover item","view_cart, remove_from_cart",GTM Preview,"view_cart 1x por montagem; remove com item",A EXECUTAR,tests/qa-05.png
+QA-06,Aplicar cupom,"/carrinho -> DOPAMINA10",apply_coupon,GTM Preview + DebugView,"discount_value=10% do total; custom registrado no GA4",A EXECUTAR,tests/qa-06.png
+QA-07,Iniciar checkout,"Ir para /checkout",begin_checkout,GTM Preview,"1x por montagem; coupon presente se aplicado",A EXECUTAR,tests/qa-07.png
+QA-08,Passo entrega,"Avancar no checkout (e voltar+avancar)",add_shipping_info,GTM Preview,"1x apenas (firedStepsRef); shipping_tier=simulado",A EXECUTAR,tests/qa-08.png
+QA-09,Passo pagamento,"Avancar no checkout",add_payment_info,GTM Preview,"1x apenas; payment_type=simulado",A EXECUTAR,tests/qa-09.png
+QA-10,Confirmar pedido,"Finalizar o checkout",purchase,GTM Preview + DebugView + Supabase,"1x (botao trava); transaction_id SIM-; order gravado",A EXECUTAR,tests/qa-10.png
+QA-11,Favoritos,"Favoritar e desfavoritar em card/PDP","add_to_wishlist, remove_from_wishlist",DebugView,"ambos os eventos; remove custom visivel",A EXECUTAR,tests/qa-11.png
+QA-12,Compartilhar,"Compartilhar via share nativo e via clipboard",share,GTM Preview,"method = webshare|clipboard; content_type=product",A EXECUTAR,tests/qa-12.png
+QA-13,Busca,"Buscar termo no header",search,DebugView,"search_term preenchido (e conferir registro da dimensao)",A EXECUTAR,tests/qa-13.png
+QA-14,Consentimento,"Recusar -> aceitar no banner",consent_update,GTM Preview,"antes do aceite: tags Google 'Denied'; depois 'Granted'",A EXECUTAR,tests/qa-14.png
+QA-15,Funil completo,"view_item -> add_to_cart -> begin_checkout -> purchase",funil,DebugView,"4 etapas em sequencia, sem buraco",A EXECUTAR,tests/qa-15.png
+QA-16,Volumetria (P20),"Navegar um fluxo longo",-,"BigQuery (events_*)","contagem por event_name sem duplicatas/perda",A EXECUTAR,tests/qa-16.png
+QA-17,Landing de campanha,"Abrir /lanca/ig-reels-dopamina",-,"DebugView (source/medium/campaign)",UTMs aplicados na sessao, A EXECUTAR,tests/qa-17.png
+QA-18,Stitch (P18/P19),"Fazer pedido logado no GA4",-,"Supabase + BigQuery","user_pseudo_id/session_id presentes no pedido",A EXECUTAR,tests/qa-18.png

@@ -1,0 +1,8 @@
+dashboard,objetivo,publico,visao,kpi,fonte,dimensaos,granularidade,mart_precisa,filtro,prioridade,status,observacao
+DASH-01,Aquisicao + atribuicao,Produto/Data,Performance por canal,"Pedidos, Receita, CVR por canal (last/assist)",orders + events (gold),"utm_source,utm_medium,utm_campaign,device_category",dia,P1,P3,P4,alta,A VALIDAR,"depende mart_attribution_paths; ondas 1-3"
+DASH-02,Funil de conversao,Produto,Sanidade funil,"view_item->cart->checkout->purchase (taxa etapa)",events,dispositivo (mobile/desktop),dia,P7,P11,nao,alta,OK (bruto),"so events_*; esperar 24-48h"
+DASH-03,Gap desejo->compra,Catalogo,"Visualizacoes x compras; favoritos x compras","top view_item sem pedido; P12; P22",events + orders,SKU/categoria,dia,P12,P22,nao,alta,A VALIDAR,
+DASH-04,Retencao/coortes,Retail,"2a compra; coorte por mes","repeat rate; P16; P17","orders + events",coorte mes,de mes,P16,P17,sim (coorte),media,A VALIDAR,
+DASH-05,Qualidade de dado,Analytics,"Cobertura stitch + volumetria","% match P18/P19; duplicatas P20",events + orders,"dia,event_name,match",dia,P18,P19,P20,nao,crítica,A VALIDAR,"gate antes de fechar mart_attribution_paths"
+DASH-06,Campanhas simuladas,Analytics,"Performance por campanha_id","pedidos, receita, CVR por campaign",orders + events,campaign_id,dia,P6,P9,nao,media,A VALIDAR,"join /lanca/campaigns.csv"
+DASH-07,Ticket e cupom,Produto,"Efeito DOPAMINA10","ticket medio com/sem cupom; P9",orders,"cupom,dia",dia,P9,nao,media,OK (bruto),"Onda 1 (orders)"

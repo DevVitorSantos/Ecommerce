@@ -1,0 +1,10 @@
+item,tipo_flag,default,apos_aceite,base_legal,implementado_em,status
+Consent Mode v2 - ad_storage,ad_storage,denied,granted,consentimento (LGPD art.7 I),web/src/app/layout.js,OK
+Consent Mode v2 - ad_user_data,ad_user_data,denied,granted,consentimento,web/src/app/layout.js,OK
+Consent Mode v2 - ad_personalization,ad_personalization,denied,granted,consentimento,web/src/app/layout.js,OK
+Consent Mode v2 - analytics_storage,analytics_storage,denied,granted,consentimento,web/src/app/layout.js,OK
+Banner de cookies,UI,banner exibido,escolha salva,transparencia + consentimento,web/src/components/CookieConsent.jsx,OK
+consent_update (evento),dataLayer,-,emitido no aceite/recusa,registro da escolha,web/src/components/CookieConsent.jsx,OK
+Reset de consentimento,UI,-,revoga e reabre banner,revogacao do consentimento,web/src/components/CookieReset.jsx,OK
+GA4 (destino),analytics_storage,denied,granted apos aceite,consentimento,via GTM (built-in consent),A VALIDAR (conferir no container)
+Google Ads (destino),ad_storage + ad_user_data + ad_personalization,denied,granted apos aceite,consentimento,via GTM (built-in consent),N/A (sem Ads ativo)

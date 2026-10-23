@@ -38,7 +38,7 @@ os problemas de atribuição → **aí sim** estruturar as tabelas (engenharia) 
 - [x] Instrumentação de eventos (14 pushes no dataLayer, `docs/MEASUREMENT.md`, anti-duplicidade) + GTM instalado (GTM-5RLXF4BF) + banner LGPD/Consent Mode v2.
 - [x] Deploy na Vercel (URL temporária no ar) + catálogo validado vindo do Supabase.
 - [x] Fundação de dados: Supabase (`orders`/`order_items`/`products`), BigQuery bronze + loads validados.
-> Validação dos eventos na interface (DebugView) acontece na **Fase 3**, junto com a auditoria de tracking.
+> Validação dos eventos na interface (DebugView) acontece na **Fase 3**, junto com a auditoria de tracking (✅ concluída — Fase 3 fechada).
 
 ## Fase 1b — Desenvolvimento: SEO On-Page (Home, Categorias, PDP) ✅
 > **Otimização guiada por intenção.** Iniciar pelo **Grupo A** (simulador de compras / compras de mentirinha), depois B/C. Foco: páginas estruturais, não blog. Plano em `SEO_PLANO4.md`.
@@ -60,22 +60,22 @@ os problemas de atribuição → **aí sim** estruturar as tabelas (engenharia) 
 - [ ] Catalogar as perguntas (P1–P21 em `PERGUNTAS.md`) com métrica, fonte e status — ajustar ao que a liderança disser.
 - [ ] Validar: **toda decisão de medição/tabela daqui em diante tem que responder uma P#** (sem pergunta → sem mart).
 
-## Fase 3 — Análise: Tracking & tagging (auditoria na interface)
+## Fase 3 — Análise: Tracking & tagging (auditoria na interface) ✅
 > **Objetivo: verificar se os dados para responder as perguntas da Fase 2 já estão sendo traqueados, tagueados e enviados ao GA4.**
 > Se sim → checklist de eventos base de ecommerce funcionando. Se não → traquear.
-- [ ] Auditoria na interface: percorrer home → categoria → PDP → carrinho → checkout → confirmação e conferir dataLayer/GTM/GA4 (DebugView + Preview).
-- [ ] **Checklist de eventos base de ecommerce funcionando** (prints em `tests/`): `view_item_list`, `view_item`, `add_to_cart`, `view_cart`, `begin_checkout`, `add_shipping_info`, `add_payment_info`, `purchase` + consent LGPD.
-- [ ] Traquear o que faltar (gatilhos/dataLayer no GTM) até o checklist passar 100%.
-- [ ] Registrar **key events** + **dimensões customizadas** no GA4 (checklist `PERGUNTAS.md` §2) → fecha **M1**.
-- [ ] **Tagging plan:** taxonomia UTM (`PERGUNTAS.md` §3) + `data/campaigns.csv` + `/lanca/[campaign_id]`.
+- [x] Auditoria na interface: percorrer home → categoria → PDP → carrinho → checkout → confirmação e conferir dataLayer/GTM/GA4 (DebugView + Preview).
+- [x] **Checklist de eventos base de ecommerce funcionando** (prints em `tests/`): `view_item_list`, `view_item`, `add_to_cart`, `view_cart`, `begin_checkout`, `add_shipping_info`, `add_payment_info`, `purchase` + consent LGPD.
+- [x] Traquear o que faltar (gatilhos/dataLayer no GTM) até o checklist passar 100%.
+- [x] Registrar **key events** + **dimensões customizadas** no GA4 (checklist `PERGUNTAS.md` §2) → fecha **M1**.
+- [x] **Tagging plan:** taxonomia UTM (`PERGUNTAS.md` §3) + `data/campaigns.csv` (✅ 2026-10-19: 23 campanhas fictícias — 9 home, 9 categoria, 5 produto — com `hipotese`/`pergunta`; `/lanca/[campaign]` agora redireciona para home/categoria/produto; roteiros multi-touch em `docs/campanhas.md`).
 
-## Fase 4 — Análise: Entender os dados + diagnóstico de atribuição
+## Fase 4 — Análise: Entender os dados + diagnóstico de atribuição ✅
 > **Objetivo: saber quais dados temos, se há problema de atribuição, e deixar especificada a estrutura de tabelas para a engenharia (Fase 5).**
-- [ ] Assegurar a **fundação**: confirmar 1ª tabela `events_*` do export GA4 no BigQuery (**M2.1**; `orders` no bronze já validado — M2 ✓).
-- [ ] Sanidade/volumetria: contagem por `event_name`, pedidos Supabase × CSV × bronze (batem?), atraso do export, cobertura `user_pseudo_id`/`session_id` (P18).
-- [ ] **Diagnóstico de atribuição:** primeiras queries no bronze (source/medium/campaign × purchase, funil básico, cupom × canal); identificar o que exige stitching/coorte vs. o que já dá para responder (Ondas 1–2).
-- [ ] **Especificação das tabelas para engenharia:** rascunho do schema silver/gold no `PERGUNTAS.md`/`sql/` (o que esticar, o que agregar) — entrega para a Fase 5.
-- [ ] Atualizar status das perguntas P1–P21 com o que a Fase 4 descobriu.
+- [x] Assegurar a **fundação**: confirmar 1ª tabela `events_*` do export GA4 no BigQuery (**M2.1**; `orders` no bronze já validado — M2 ✓).
+- [x] Sanidade/volumetria: contagem por `event_name`, pedidos Supabase × CSV × bronze (batem?), atraso do export, cobertura `user_pseudo_id`/`session_id` (P18).
+- [x] **Diagnóstico de atribuição:** primeiras queries no bronze (source/medium/campaign × purchase, funil básico, cupom × canal); identificar o que exige stitching/coorte vs. o que já dá para responder (Ondas 1–2).
+- [x] **Especificação das tabelas para engenharia:** rascunho do schema silver/gold no `PERGUNTAS.md`/`sql/` (o que esticar, o que agregar) — entrega para a Fase 5.
+- [x] Atualizar status das perguntas P1–P21 com o que a Fase 4 descobriu.
 
 ## Fase 5 — Engenharia de dados: estruturar as tabelas (Medallion)
 > **Objetivo: transformar bronze → silver → gold conforme a especificação da Fase 4.**
@@ -109,9 +109,9 @@ os problemas de atribuição → **aí sim** estruturar as tabelas (engenharia) 
 
 | Marco | Critério | Onde fecha |
 |---|---|---|
-| M1 | Site no ar com checkout simulado emitindo os 15 eventos do GA4 **validado em DebugView** (checklist de eventos base ok). | Fase 3 |
-| M2 | `orders` recebendo pedidos, bronze no BigQuery e CSV diário (✅ já validado — hoje as três frentes dependem disso). | Fase 1 |
-| M2.1 | **1ª tabela `events_*` do export GA4 confirmada no BigQuery** (fundação da Fase 4). | Fase 4 |
+| M1 | Site no ar com checkout simulado emitindo os 15 eventos do GA4 **validado em DebugView** (checklist de eventos base ok). | Fase 3 ✅ |
+| M2 | `orders` recebendo pedidos, bronze no BigQuery e CSV diário (✅ já validado — hoje as três frentes dependem disso). | Fase 1 ✅ |
+| M2.1 | **1ª tabela `events_*` do export GA4 confirmada no BigQuery** (fundação da Fase 4). | Fase 4 ✅ |
 | M2.5 | Camada Medallion rodando: job bronze→silver→gold no Databricks com dados limpos. | Fase 5 |
 | M3 | 1º dashboard de atribuição multi-touch publicado (Databricks SQL/Genie + Looker) **e perguntas P3, P4, P7 respondidas** com query/print salvo. | Fase 6 |
 | M4 | App publicado na Play Store. | Fase 7 |
@@ -131,24 +131,24 @@ os problemas de atribuição → **aí sim** estruturar as tabelas (engenharia) 
 - [x] CSVs de backup versionados no git (`exports/`).
 - [x] **Dado conferido na tabela pelo usuário no console do BigQuery.**
 
-### Nível M1 — Eventos base de ecommerce validados (Fase 3)
-- [ ] **GTM Preview** ativo e carregando o container na URL de produção.
-- [ ] **DebugView** captando os eventos em tempo real na mesma sessão.
-- [ ] Checklist dos **15 eventos** presentes (1 print de cada): `view_item_list`, `select_item`, `view_item`, `add_to_cart`, `remove_from_cart`, `view_cart`, `begin_checkout`, `add_shipping_info`, `add_payment_info`, `purchase`, `refund`, `view_promotion`/`select_promotion`, `search`, `fake_delivery_progress`, `share`.
-- [ ] `purchase` completo: `transaction_id`, `items[]`, `value`, `coupon`, `currency=BRL`.
-- [ ] **Consent LGPD:** aceitar → `consent update` granted; recusar → denied (sem disparos).
-- [ ] Anti-duplicidade: 3 cliques = 1 evento (PDP/categoria/checkout).
-- [ ] Key events marcados no GA4 (`purchase`, `begin_checkout`, `fake_delivery_progress`).
-- [ ] Dimensões customizadas registradas no GA4 (checklist `PERGUNTAS.md` §2).
-- [ ] Prints salvos em `tests/` + registro no `log.md`.
+### Nível M1 — Eventos base de ecommerce validados (Fase 3) ・ **status: ✅ FECHADO**
+- [x] **GTM Preview** ativo e carregando o container na URL de produção.
+- [x] **DebugView** captando os eventos em tempo real na mesma sessão.
+- [x] Checklist dos **15 eventos** presentes (1 print de cada): `view_item_list`, `select_item`, `view_item`, `add_to_cart`, `remove_from_cart`, `view_cart`, `begin_checkout`, `add_shipping_info`, `add_payment_info`, `purchase`, `refund`, `view_promotion`/`select_promotion`, `search`, `fake_delivery_progress`, `share`.
+- [x] `purchase` completo: `transaction_id`, `items[]`, `value`, `coupon`, `currency=BRL`.
+- [x] **Consent LGPD:** aceitar → `consent update` granted; recusar → denied (sem disparos).
+- [x] Anti-duplicidade: 3 cliques = 1 evento (PDP/categoria/checkout).
+- [x] Key events marcados no GA4 (`purchase`, `begin_checkout`, `fake_delivery_progress`).
+- [x] Dimensões customizadas registradas no GA4 (checklist `PERGUNTAS.md` §2).
+- [x] Prints salvos em `tests/` + registro no `log.md`.
 
-### Nível M2.1 — Export GA4 confirmado no BigQuery (Fase 4)
-- [ ] 1ª tabela `analytics_<id>.events_*` aparecer no dataset do GA4 (24–48h do link).
-- [ ] Query de validação: `event_name × COUNT(*)` para o 1º dia (contagem > 0 e coerente).
-- [ ] Conferir no schema: `user_pseudo_id`, `session_id`, `event_params`, `traffic_source` presentes.
-- [ ] Conferir que os 15 eventos aparecem com os parâmetros esperados.
-- [ ] Medir **atraso** do export (data de eventos × data de carga).
-- [ ] Query salva em `sql/` + print em `tests/`.
+### Nível M2.1 — Export GA4 confirmado no BigQuery (Fase 4) ・ **status: ✅ FECHADO**
+- [x] 1ª tabela `analytics_<id>.events_*` aparecer no dataset do GA4 (24–48h do link).
+- [x] Query de validação: `event_name × COUNT(*)` para o 1º dia (contagem > 0 e coerente).
+- [x] Conferir no schema: `user_pseudo_id`, `session_id`, `event_params`, `traffic_source` presentes.
+- [x] Conferir que os 15 eventos aparecem com os parâmetros esperados.
+- [x] Medir **atraso** do export (data de eventos × data de carga).
+- [x] Query salva em `sql/` + print em `tests/`.
 
 ### Nível M2.5 — Medallion rodando (Fase 5)
 - [ ] Conta **Databricks Free Edition** criada (Unity Catalog + Delta Lake) + quotas conferidas.

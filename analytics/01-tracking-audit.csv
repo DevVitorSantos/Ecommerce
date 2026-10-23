@@ -1,0 +1,19 @@
+event,status,onde_implementado,quando_dispara,params_enviados,destino_esperado,key_event,evidencia,observacao
+view_item_list,OK,web/src/components/CategoryViewTracker.jsx,ao montar a pagina de categoria,"item_list_name,item_list_id,items[]",GA4 tag "OK",nao,tests/ (print a atualizar),"1x por montagem (ref); nao envia value"
+select_item,OK,web/src/components/ProductCard.jsx,click no card (Link),items[],GA4,nao,tests/,"leva ao PDP /produto/[slug]"
+view_item,OK,web/src/components/ProductDetail.jsx,abre PDP do produto,"currency,value,items[]",GA4,nao,tests/,"1x por produto (viewedRef)"
+add_to_cart,OK,"ProductDetail.jsx, ProductCard.jsx",click Adicionar/Comprar,"currency,value,items[]",GA4,sim (sugerido),tests/,"value = price*qty"
+remove_from_cart,OK,web/src/components/CartView.jsx,remove item do carrinho,"currency,value,items[]",GA4,nao,tests/,
+view_cart,OK,web/src/components/CartView.jsx,abre /carrinho,"currency,value,items[]",GA4,nao,tests/,"1x por montagem (ref)"
+begin_checkout,OK,web/src/components/CheckoutFlow.jsx,entra no /checkout,"currency,value,coupon?,items[]",GA4,sim,tests/,"1x por montagem (ref)"
+add_shipping_info,OK,web/src/components/CheckoutFlow.jsx,avanca passo de entrega,"currency,value,shipping_tier=simulado,items[]",GA4,nao,tests/,"firedStepsRef (voltar+continuar nao repete)"
+add_payment_info,OK,web/src/components/CheckoutFlow.jsx,avanca passo de pagamento,"currency,value,payment_type=simulado,items[]",GA4,nao,tests/,"firedStepsRef"
+purchase,OK,web/src/components/CheckoutFlow.jsx,confirma o pedido,"currency,value,transaction_id(SIM-),coupon?,items[]",GA4,sim (key),tests/,"1x (trava botao 'Processando')"
+apply_coupon,GAP (customizado),web/src/components/CartView.jsx,ao aplicar cupom valido,"currency,coupon,discount_value,value",GA4 (custom),nao,tests/,"nao existe evento padrao GA4; alimenta funil; conferir registro no GA4"
+add_to_wishlist,OK,web/src/components/FavoriteButton.jsx,favoritar (card/PDP),"currency,value,items[]",GA4,sim (revisar),tests/,
+remove_from_wishlist,OK,web/src/components/FavoriteButton.jsx,desfavoritar,"currency,value,items[]",GA4 (custom),nao,tests/,"evento nao-padrao no GA4"
+share,OK,web/src/components/ShareButton.jsx,botao compartilhar,"method(webshare|clipboard),content_type=product,item_id,item_name",GA4,nao,tests/,
+search,OK (sem P#),web/src/components/SearchBar.jsx,submit da busca,search_term,GA4,nao,tests/,"GAP de governanca: sem pergunta de negocio associada (regra de ouro)"
+consent_update,OK (LGPD),web/src/components/CookieConsent.jsx,aceite/recusa do banner,"consent:{ad_storage,ad_user_data,ad_personalization,analytics_storage}",GA4/Consent Mode,nao,tests/,"custom; default denied no layout.js"
+view_promotion,GAP,web/src/lib/events.js (declarado),nunca chamado,"promotion_id,promotion_name,items[]",GA4,nao,-,"funcao trackPromotion() existe sem call site -> remover ou usar"
+fake_delivery_progress,GAP,nao implementado,-,"-",GA4 (key event),sim,-,"citado em PERGUNTAS.md §2 como key event; nao existe no codigo"

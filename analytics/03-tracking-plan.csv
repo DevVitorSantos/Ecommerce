@@ -1,0 +1,19 @@
+event,tipo_ga4,pergunta_negocio_P,tela_fluxo,gatilho,key_event,parametros_principais,destino,status
+view_item_list,padrao,"P5,P13",/categoria/[slug],monta a lista de produtos,nao,"item_list_name,item_list_id,items[]",GA4,OK
+select_item,padrao,P13,"/ (home), /categoria",clica no card do produto,nao,items[],GA4,OK
+view_item,padrao,"P7,P12",/produto/[slug],abre o PDP,nao,"currency,value,items[]",GA4,OK
+add_to_cart,padrao,"P7,P12",PDP + card,adiciona ao carrinho,sim (revisar),"currency,value,items[]",GA4,OK
+remove_from_cart,padrao,P7,/carrinho,remove item,nao,"currency,value,items[]",GA4,OK
+view_cart,padrao,P7,/carrinho,abre o carrinho,nao,"currency,value,items[]",GA4,OK
+begin_checkout,padrao,"P7,P20",/checkout,entra no checkout,sim,"currency,value,coupon?,items[]",GA4,OK
+add_shipping_info,padrao,"P7,P11",/checkout,avanca passo entrega,nao,"currency,value,shipping_tier,items[]",GA4,OK
+add_payment_info,padrao,"P7,P11",/checkout,avanca passo pagamento,nao,"currency,value,payment_type,items[]",GA4,OK
+purchase,padrao,"P1,P7,P16,P20",/checkout,confirma o pedido,sim (key),"currency,value,transaction_id,coupon?,items[]",GA4,OK
+apply_coupon,custom,"P6,P9",/carrinho,aplica cupom valido,nao,"currency,coupon,discount_value,value",GA4,OK
+add_to_wishlist,padrao,P22,card + PDP,favorita,sim (revisar),"currency,value,items[]",GA4,OK
+remove_from_wishlist,custom,P22,card + PDP,desfavorita,nao,"currency,value,items[]",GA4,OK
+share,padrao,P23,card + PDP,compartilha,"nao","method,content_type,item_id,item_name",GA4,OK
+search,padrao,GAP (sem P#),header (busca),submete a busca,nao,search_term,GA4,RISCO
+consent_update,custom,LGPD (nao P#),banner de cookies,aceite/recusa,nao,"consent:{4 flags}",GA4/Consent Mode,OK
+view_promotion,padrao,"P23 (potencial)",banner/promo,nunca chamado,nao,"promotion_id,promotion_name,items[]",GA4,GAP
+fake_delivery_progress,padrao,P7,/rastreio (pos-compra),progresso da entrega simulada,sim (key),"-",GA4,GAP

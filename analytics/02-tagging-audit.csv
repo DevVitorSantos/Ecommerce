@@ -1,0 +1,12 @@
+item,tipo,regra_definida (PERGUNTAS §3),implementado_em,status,observacao
+utm_source,parametro,"google,meta,instagram,tiktok,youtube,newsletter,whatsapp,parceiro-* (minusculas, sem espaco)","web/src/lib/campaigns.js (+ /lanca/[campaign])",PARCIAL,"campaigns.js tem 'reddit' e 'direto', fora da lista de valores permitidos"
+utm_medium,PARCIAL,"cpc,paid_social,social,email,referral,video","campaigns.js",GAP,"campaigns.js usa medium '(none)' no id direto-colaborador -> invalido"
+utm_campaign,PARCIAL,"snake_case do campaign_id, sem data dentro","/lanca/[campaign]/page.js",GAP,"ids em campaigns.js usam hifens (ex: ig-reels-dopamina), nao snake_case"
+utm_content,PARCIAL,"variante criativa A/B ou slug do criativo","campaigns.js",GAP,"valores como 'reels-01', 'r/brasil' (com barra) fogem da convencao de slug"
+utm_term,OK (nao usado),keyword (so search ads simulados),-,"N/A","sem campanha de search term real ainda"
+link_canonico,REGRA,URL absoluta + UTMs completos; direto = sem UTM (baseline),"/lanca faz redirect com URLSearchParams",OK,"redirect para /?utm_*=... (perde pathname) - conferir se GA4 registra landing correta"
+campaigns_csv,PARCIAL,"data/campaigns.csv com coluna hipotese","campaigns.js (objeto JS) substitui o CSV",GAP,"criar analytics/campaigns.csv (ou data/campaigns.csv) com coluna hipotese"
+teste_link_novo,PARCIAL,"todo link novo testado 1x + conferido no DebugView antes de virar campanha","docs/MEASUREMENT.md (processo)",A VALIDAR,"evidencia por campanha em tests/"
+convencao_params,OK,"parametros snake_case, currency BRL, value numerico e simulado","web/src/lib/events.js",PARCIAL,"currency BRL OK em todos; falta simulation_flag:true"
+simulation_flag,GAP,"value sempre simulado (simulation_flag: true)","-",GAP,"flag citada em PERGUNTAS.md §2/§3, ausente no codigo"
+link_canonico_url,OK,URL absoluta via SITE_URL,"web/src/lib/seo.js (absUrl)",OK,"base: https://ecommerce-ruby-delta-12.vercel.app"

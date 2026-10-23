@@ -5,8 +5,6 @@ import { getCategories, getProducts } from "@/lib/catalog";
 import CartButton from "@/components/CartButton";
 import FavoritesButton from "@/components/FavoritesButton";
 import SearchBar from "@/components/SearchBar";
-import CookieConsent from "@/components/CookieConsent";
-import CookieReset from "@/components/CookieReset";
 import AttributionTracker from "@/components/AttributionTracker";
 import { SITE_URL, SITE_NAME, KEYWORDS } from "@/lib/seo";
 import "./globals.css";
@@ -55,10 +53,6 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="pt-BR" className={`${jakarta.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col" style={{ fontFamily: "var(--font-jakarta)" }}>
-        {/* Consent Mode: default negado (LGPD) — o aceite via banner faz 'consent update' */}
-        <Script id="consent-default" strategy="beforeInteractive">
-          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'});`}
-        </Script>
         {/* Google Tag Manager (noscript) */}
         <noscript>
           <iframe
@@ -133,7 +127,6 @@ export default async function RootLayout({ children }) {
         </header>
 
         <main className="flex-1">{children}</main>
-        <CookieConsent />
         <AttributionTracker />
 
         {/* rodapé */}
@@ -167,7 +160,6 @@ export default async function RootLayout({ children }) {
                 <li><Link href="/stats" className="hover:text-indigo-600">Dados da loja</Link></li>
                 <li><Link href="/blog" className="hover:text-indigo-600">Blog</Link></li>
                 <li><Link href="/carrinho" className="hover:text-indigo-600">Carrinho</Link></li>
-                <li><CookieReset /></li>
               </ul>
             </div>
             <div>

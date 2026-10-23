@@ -1,0 +1,11 @@
+data,area,mudanca,motivo,tipo,pergunta_relacionada,commit,observacao
+2026-10-14,seo,"meta google-site-verification no <head>",verificacao do Search Console,adicao,-,e1b45ba,nao-tracking (SEO)
+2026-10-13,blog,"21 artigos pilar-cluster + sitemap/JSON-LD","conteudo SEO",adicao,-,16199e7,nao-tracking (SEO)
+(data anterior),tracking,"rollback do evento add_suggested_item",evitava duplicidade de add_to_cart,correcao,P7,9894f5b,revert
+(data anterior),tracking,"add_suggested_item (origem do item sugerido no funil)",medir cross-sell na PDP,adicao,P14,87a52c5,revertido em 9894f5b
+(data anterior),tracking,"evento share (Web Share + clipboard)",medir potencial viral,adicao,P23,4b73d06,
+(data anterior),tracking,"favoritos (add/remove_to_wishlist + /favoritos)",gap desejo->compra,adicao,P22,a65b265,
+(data anterior),tracking,"dicionario canonico docs/MEASUREMENT.md",unificar contrato de eventos,adicao,-,-,
+(data anterior),consent,Consent Mode v2 default denied + banner,conformidade LGPD,adicao,-,-,layout.js + CookieConsent.jsx
+(data anterior),campaign,landing /lanca/[campaign] + campaigns.js,teste de canais simulados,adicao,P6,P9,-,
+(data anterior),gtm,"container GTM-5RLXF4BF publicado",destino GA4,adicao,-,-,export a anexar em analytics/gtm/

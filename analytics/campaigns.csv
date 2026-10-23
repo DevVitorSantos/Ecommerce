@@ -1,0 +1,10 @@
+campaign_id,utm_source,utm_medium,utm_content,label,hipotese,status
+ig-reels-dopamina,instagram,social,reels-01,Reels de dopamina,,OK
+tiktok-da-madrugada,tiktok,social,video-01,TikTok madrugada,,OK
+gsearch-marca,google,cpc,marca-dopamina,Search marca,,OK
+gsearch-generico,google,cpc,generico-simulado,Search generico,,OK
+email-blackout,newsletter,email,blackout-friday,Newsletter blackout,,OK
+whatsapp-meme,whatsapp,referral,meme-01,Meme no zap,,OK
+yt-shorts-fake,youtube,social,shorts-01,Shorts fake,,OK
+reddit-br,reddit,referral,r-brasil,Post no Reddit,,revisar source (fora da lista permitida)
+direto-colaborador,direto,-,colaborador,Trafego direto,,revisar medium ((none) invalido)

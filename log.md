@@ -393,3 +393,84 @@
 - Removidos: `trackAddSuggestedItem` e os campos `item_source`/`suggested_from` de `toGaItem` (`events.js`); os campos `source`/`suggested_from` da linha do carrinho (`cart.js`); o disparo no combo da PDP (`ProductDetail.jsx`). A pergunta **P24** e a linha do evento em `MEASUREMENT.md` também foram removidas.
 - `add_to_cart` volta a ser o único evento de adição (item sugerido entra pelo fluxo normal).
 
+---
+
+## 2026-10-19 — Timeline: Fases 3 e 4 fechadas (M1 + M2.1)
+
+**O que foi feito (pedido do usuário — frente 🔎 análise):**
+- Confirmado pelo usuário que a **Fase 3** (Tracking & tagging — auditoria, checklist de eventos, key events/dimensões, tagging plan) e a **Fase 4** (Entender o dado + diagnóstico de atribuição — export `events_*` no BigQuery, sanidade/volumetria, primeiras queries, especificação silver/gold) estão **concluídas**.
+- `Linha do tempo.md` atualizado: Fases 3 ✅ e 4 ✅; níveis **M1** e **M2.1** marcados como **FECHADOS**; tabela de marcos atualizada.
+
+**Posição atual:** próximos passos = **Fase 5** (Engenharia de dados Medallion — Databricks, bronze→silver, marts gold) e **Fase 6** (Atribuição multi-touch + dashboards, fecha M3). Observação: a Fase 2 (diálogo formal com a liderança → `PERGUNTAS.md`) segue com checklist aberto na timeline, embora o `PERGUNTAS.md` já esteja catalogado (P1–P23).
+
+---
+
+## 2026-10-19 — Campanhas fictícias: CSV + landing com destino (home/categoria/produto)
+
+**O que foi feito (frente 🔎 análise + 🎨 dev):**
+1. **`data/campaigns.csv`** — catálogo canônico com **23 campanhas**: 9 home (awareness: reels/tikTok/meta/search/e-mail/zap/yt/reddit), 9 categoria (1 por departamento, com canais rotacionados; search com `utm_term`), 5 produto (best-sellers: fone-do-vazio, serum-do-glow, tonico-do-foco, haltera-do-ego, cafe-da-madrugada). Colunas `hipotese` + `pergunta` (P#) conforme `PERGUNTAS.md` §3 → fecha lacuna **G6**.
+2. **`scripts/generate_campaigns.mjs`** — valida o CSV (id único, `destino_tipo` válido, slug exigido p/ categoria/produto) e gera `web/src/lib/campaigns.generated.js` no `prebuild` (mesmo padrão dos produtos; `web/package.json` atualizado).
+3. **`/lanca/[campaign]/page.js`** — redireciona conforme `destino_tipo` (home `/`, categoria `/categoria/{slug}`, produto `/produto/{slug}`) anexando `utm_source/medium/campaign/content/term`. **`LEGACY_CAMPAIGN_SLUGS`** em `campaigns.js` redireciona os ids antigos com hífen → novos ids snake_case.
+4. Migração para `snake_case` + remoção de `direto-colaborador` (baseline = direto sem UTM) → fecha lacuna **G8**.
+5. **`docs/campanhas.md`** — matriz + 4 rotas multi-touch determinísticas (A assistido, B funil completo, C search+produto, D e-mail conversor) com as perguntas que cada uma responde.
+6. Docs: `PERGUNTAS.md` §3, `analytics/README.md` (G6/G8 fechados), `Linha do tempo.md` (tagging plan com nota).
+
+**Validação:** gerador OK (23 campanhas); lint + build (prebuild roda os 2 geradores). **Percurso executado** (Playwright × `next start`): 24/25 OK — 9 home com UTM completo, 9 categorias com `view_item_list` correto, 5 produtos com `view_item`+SKU certo, legado e fallback OK (evidência em `tests/campanhas-percurso-2026-10-19.md`).
+
+**Pendências:** conferir 1x as campanhas na **GA4 DebugView** de produção (etapa manual com acesso do usuário); rotas multi-touch A–D conforme uso real (toques individuais já validados).
+
+---
+
+## 2026-10-20 — 10 rodadas de funil completo + fix de corrida no checkout
+
+**O que foi feito (pedido do usuário — "quero mais eventos para analisar"):**
+1. **Automação de volume:** 10 rodadas Playwright, cada uma em **contexto novo** (novo `client_id`),
+   com consent aceito e funil completo por campanha: `/lanca/{home}` → `/lanca/{categoria}` →
+   card → PDP → add_to_cart → `/lanca/{produto}` → add_to_cart → `/carrinho` → `/checkout` →
+   `/confirmacao`. Ciclo cobre 9 campanhas de home + 9 de categoria + 5 de produto do
+   `data/campaigns.csv`.
+2. **Fix de bug real (corrida no checkout):** `finish()` chamava `clear()` e o effect
+   `items.length === 0` disparava `router.replace("/carrinho")`, competindo com o
+   `router.push("/confirmacao")` → o usuário terminava o checkout de volta no carrinho
+   (URL final `/carrinho` em vez de `/confirmacao`). Corrigido com `doneRef` em
+   `CheckoutFlow.jsx` (guard no redirect de carrinho vazio); `npm run build` + `next start` refeitos.
+
+**Resultado:** 10/10 rodadas com funil completo e `purchase` disparado (2 rodadas iniciais
+evidenciaram o bug, 8 pós-fix fecharam em `/confirmacao`). Volume (8 rodadas limpas): 8
+`view_item_list`, 8 `select_item`, 16 `view_item`, 16 `add_to_cart`, 8 `view_cart`, 8
+`begin_checkout`, 8 `add_shipping_info`, 8 `add_payment_info`, **8 `purchase`** — 24 sessões
+multi-toque de landing (3 campanhas × 8). Anti-duplicidade (`firedStepsRef`, `placingRef`,
+`startedRef`) confirmada sob automação (tudo 1×/rodada). Evidência em
+`tests/percurso-10x-funil-2026-10-20.md`.
+
+**Pendências:** conferir 1x na **GA4 DebugView** de produção (etapa manual com acesso do usuário).
+
+---
+
+## 2026-10-20 — +20 rodadas de funil completo (total 30)
+
+**O que foi feito (pedido do usuário — "mais 20"):**
+- Rodadas **11 a 30** da mesma automação Playwright (contexto novo = `client_id` novo por rodada,
+  consent aceito, funil completo `/lanca` home → categoria → PDP → add_to_cart → `/lanca` produto →
+  add_to_cart → carrinho → checkout → `/confirmacao`).
+- O retorno do `run_code_unsafe` estourava o timeout do MCP (~2 min) em lotes grandes → execução
+  fatiada em sub-lotes de 2 rodadas com pausa curta; conclusão confirmada por URL final +
+  `sessionStorage`.
+
+**Resultado:** 20/20 rodadas OK (todas em `/confirmacao` com `purchase`). Volume: 20
+`view_item_list`, 20 `select_item`, 40 `view_item`, 40 `add_to_cart`, 20 `view_cart`, 20
+`begin_checkout`, 20 `add_shipping_info`, 20 `add_payment_info`, **20 `purchase`** — 60 sessões
+multi-toque de landing. **Acumulado: 30 rodadas (28 limpas pós-fix)** → 28 `purchase` e 84 sessões
+multi-toque sobre as 23 campanhas. Evidência atualizada em `tests/percurso-10x-funil-2026-10-20.md`.
+
+**Pendências:** conferir na **GA4 DebugView** de produção (etapa manual com acesso do usuário).
+
+---
+
+## Bug corrigido — corrida no redirect do checkout (2026-10-20)
+
+`web/src/components/CheckoutFlow.jsx`: `finish()` chamava `clear()` e o effect
+`items.length === 0` disparava `router.replace("/carrinho")` competindo com o
+`router.push("/confirmacao")` → o checkout terminava voltando no carrinho. Corrigido com
+`doneRef` (guard no redirect de carrinho vazio). Detectado pela automação das 10 primeiras rodadas.
+

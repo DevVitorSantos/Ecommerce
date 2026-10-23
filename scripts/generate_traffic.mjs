@@ -126,13 +126,25 @@ async function gaGet(page, field) {
 }
 
 async function acceptConsent(page) {
-  try {
-    const btn = await page.$('[data-testid="cookie-accept"]');
-    if (btn) {
-      await btn.click();
-      await page.waitForTimeout(250);
-    }
-  } catch {}
+  const selectors = [
+    '[data-testid="cookie-accept"]',
+    '#cookie-accept',
+    '[data-cy="cookie-accept"]',
+    '#onetrust-accept-btn-handler',
+    'button:has-text("Aceitar todos")',
+    'button:has-text("Aceitar")',
+    'button:has-text("Aceito")',
+  ];
+  for (const sel of selectors) {
+    try {
+      const btn = await page.$(sel);
+      if (btn && (await btn.isVisible())) {
+        await btn.click();
+        await page.waitForTimeout(250);
+        return;
+      }
+    } catch {}
+  }
 }
 
 async function oneSession(context, seq) {

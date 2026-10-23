@@ -1,0 +1,17 @@
+event,formato_push,ordem_keys,payload_exemplo,ecommerce_reset,observacao
+view_item_list,"{event, item_list_name, item_list_id, items[]}","event,item_list_name,item_list_id,items","{event:'view_item_list',item_list_name:'Tech',item_list_id:'Tech',items:[{item_id,item_name,item_category,price,quantity}]}",nao,nao envia currency/value
+select_item,"{event, currency, items[]}","event,currency,items","{event:'select_item',currency:'BRL',items:[...]}",nao,
+view_item,"{event, currency, value, items[]}","event,currency,value,items","{event:'view_item',currency:'BRL',value:199.9,items:[...]}",nao,
+add_to_cart,"{event, currency, value, items[]}","event,currency,value,items","{event:'add_to_cart',currency:'BRL',value:399.8,items:[...]}",nao,value=price*qty
+remove_from_cart,"{event, currency, value, items[]}","event,currency,value,items","{event:'remove_from_cart',currency:'BRL',value:199.9,items:[...]}",nao,
+view_cart,"{event, currency, value, items[]}","event,currency,value,items","{event:'view_cart',currency:'BRL',value:399.8,items:[...]}",nao,
+begin_checkout,"{event, currency, value, coupon?, items[]}","event,currency,value,coupon?,items","{event:'begin_checkout',currency:'BRL',value:359.82,coupon:'DOPAMINA10',items:[...]}",nao,coupon so se aplicado
+add_shipping_info,"{event, currency, value, shipping_tier, items[]}","event,currency,value,shipping_tier,items","{event:'add_shipping_info',currency:'BRL',value:359.82,shipping_tier:'simulado',items:[...]}",nao,
+add_payment_info,"{event, currency, value, payment_type, items[]}","event,currency,value,payment_type,items","{event:'add_payment_info',currency:'BRL',value:359.82,payment_type:'simulado',items:[...]}",nao,
+purchase,"{event, currency, value, transaction_id, coupon?, items[]}","event,currency,value,transaction_id,coupon?,items","{event:'purchase',currency:'BRL',value:359.82,transaction_id:'SIM-XXXX',items:[...]}",nao,transaction_id sempre prefixo SIM-
+apply_coupon,"{event, currency, coupon, discount_value, value}","event,currency,coupon,discount_value,value","{event:'apply_coupon',currency:'BRL',coupon:'DOPAMINA10',discount_value:39.98,value:399.8}",nao,evento custom
+add_to_wishlist,"{event, currency, value, items[]}","event,currency,value,items","{event:'add_to_wishlist',currency:'BRL',value:199.9,items:[...]}",nao,
+remove_from_wishlist,"{event, currency, value, items[]}","event,currency,value,items","{event:'remove_from_wishlist',currency:'BRL',value:199.9,items:[...]}",nao,evento custom
+share,"{event, method, content_type, item_id, item_name}","event,method,content_type,item_id,item_name","{event:'share',method:'clipboard',content_type:'product',item_id:'SKU',item_name:'...'}",nao,
+search,"{event, search_term}","event,search_term","{event:'search',search_term:'fone bluetooth'}",nao,
+consent_update,"{event, consent:{4 flags}}","event,consent","{event:'consent_update',consent:{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'}}",nao,gtag('consent','update') quando GA4 ativo; fallback dataLayer
