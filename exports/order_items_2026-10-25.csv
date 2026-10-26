@@ -1,0 +1,54 @@
+id,order_id,sku,name,category,price,qty
+1,SIM-20261007-7D8E,DOP-001,Tonico do Foco 500ml,Bebidas,39.5,1
+2,SIM-20261007-7D8E,DOP-033,Corda de Pular Ropider 3m,Fitness,44.9,1
+3,SIM-20261008-1F88,DOP-033,Corda de Pular Ropider 3m,Fitness,44.9,1
+4,SIM-20261008-1F88,DOP-001,Tonico do Foco 500ml,Bebidas,39.5,1
+5,SIM-20261008-1F88,DOP-016,Lampada da Vibe RGB,Casa,89.9,1
+6,SIM-20261014-3955,DOP-033,Corda de Pular Ropider 3m,Fitness,44.9,3
+7,SIM-20261014-3955,DOP-029,Mascara Facial Noturna 60g,Beleza,59.9,1
+8,SIM-20261014-3955,DOP-028,Perfume Soco Online 100ml,Beleza,149.9,1
+9,SIM-20261014-0A53,DOP-040,Kit Sobrevivencia Mental x5,Bem-estar,129.9,1
+10,SIM-20261014-0A53,DOP-002,Vinho do Caos Reserva 2019,Bebidas,89.9,1
+11,SIM-20261014-0A53,DOP-003,Cafe da Madrugada 250g,Bebidas,32.9,1
+12,SIM-20261014-DF29,DOP-005,Chips do Scroll 120g,Snacks,14.9,1
+13,SIM-20261014-DF29,DOP-010,Ramen do Crunch 90g,Snacks,11.9,1
+14,SIM-20261014-DF29,DOP-031,Haltera Ajustavel 10kg,Fitness,149.9,4
+15,SIM-20261014-DF29,DOP-033,Corda de Pular Ropider 3m,Fitness,44.9,6
+16,SIM-20261014-DF29,DOP-032,Esteira de Caminhada Baixa,Fitness,1299.9,3
+17,SIM-20261014-DF29,DOP-016,Lampada da Vibe RGB,Casa,89.9,1
+18,SIM-20261019-95E3,DOP-016,Lampada da Vibe RGB,Casa,89.9,1
+19,SIM-20261019-18B4,DOP-016,Lampada da Vibe RGB,Casa,89.9,1
+20,SIM-20261019-248E,DOP-035,Kit Blocos Caos 520 pcs,Brinquedos,189.9,1
+21,SIM-20261019-248E,DOP-001,Tonico do Foco 500ml,Bebidas,39.5,1
+22,SIM-20261019-65A3,DOP-001,Tonico do Foco 500ml,Bebidas,39.5,1
+23,SIM-20261019-65A3,DOP-021,Fone do Vazio ANC 40h,Tech,199.9,1
+24,SIM-20261019-2291,DOP-021,Fone do Vazio ANC 40h,Tech,199.9,1
+25,SIM-20261023-4D93,DOP-040,Kit Sobrevivencia Mental x5,Bem-estar,129.9,1
+26,SIM-20261023-4D93,DOP-001,Tonico do Foco 500ml,Bebidas,39.5,1
+27,SIM-20261023-FDB5,DOP-021,Fone do Vazio ANC 40h,Tech,199.9,1
+28,SIM-20261023-FDB5,DOP-031,Haltera Ajustavel 10kg,Fitness,149.9,1
+29,SIM-20261023-A80B,DOP-040,Kit Sobrevivencia Mental x5,Bem-estar,129.9,1
+30,SIM-20261023-A80B,DOP-021,Fone do Vazio ANC 40h,Tech,199.9,1
+31,SIM-20261023-A52A,DOP-035,Kit Blocos Caos 520 pcs,Brinquedos,189.9,1
+32,SIM-20261023-A52A,DOP-021,Fone do Vazio ANC 40h,Tech,199.9,1
+33,SIM-20261023-3381,DOP-027,Serum do Glow 30ml,Beleza,89.9,1
+34,SIM-20261023-3381,DOP-021,Fone do Vazio ANC 40h,Tech,199.9,1
+35,SIM-20261023-C266,DOP-001,Tonico do Foco 500ml,Bebidas,39.5,1
+36,SIM-20261023-C266,DOP-031,Haltera Ajustavel 10kg,Fitness,149.9,1
+37,SIM-20261023-14CE,DOP-001,Tonico do Foco 500ml,Bebidas,39.5,2
+38,SIM-20261023-E4F1,DOP-011,Rato de Pelucia Ansioso 30cm,Pets,49.9,1
+39,SIM-20261023-E4F1,DOP-003,Cafe da Madrugada 250g,Bebidas,32.9,1
+40,SIM-20261023-0338,DOP-027,Serum do Glow 30ml,Beleza,89.9,1
+41,SIM-20261023-0338,DOP-031,Haltera Ajustavel 10kg,Fitness,149.9,1
+42,SIM-20261023-65DD,DOP-021,Fone do Vazio ANC 40h,Tech,199.9,1
+43,SIM-20261023-65DD,DOP-031,Haltera Ajustavel 10kg,Fitness,149.9,1
+44,SIM-20261023-F1CF,DOP-001,Tonico do Foco 500ml,Bebidas,39.5,1
+45,SIM-20261023-F1CF,DOP-003,Cafe da Madrugada 250g,Bebidas,32.9,1
+46,SIM-20261023-D286,DOP-027,Serum do Glow 30ml,Beleza,89.9,2
+47,SIM-20261023-E8D6,DOP-005,Chips do Scroll 120g,Snacks,14.9,1
+48,SIM-20261023-E8D6,DOP-003,Cafe da Madrugada 250g,Bebidas,32.9,1
+49,SIM-20261023-B6BC,DOP-001,Tonico do Foco 500ml,Bebidas,39.5,1
+50,SIM-20261023-B6BC,DOP-027,Serum do Glow 30ml,Beleza,89.9,1
+51,SIM-20261023-41ED,DOP-035,Kit Blocos Caos 520 pcs,Brinquedos,189.9,1
+52,SIM-20261023-41ED,DOP-003,Cafe da Madrugada 250g,Bebidas,32.9,1
+53,SIM-20261023-F688,DOP-040,Kit Sobrevivencia Mental x5,Bem-estar,129.9,1
